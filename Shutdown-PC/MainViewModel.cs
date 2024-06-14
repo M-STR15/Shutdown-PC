@@ -46,7 +46,7 @@ namespace Shutdown_PC
             SleepModeCommand = new Helpers.RelayCommand(sleepMode);
             StartCommand = new Helpers.RelayCommand(start);
 
-            pcAction = new PcActionService(Message);
+            pcAction = new PcActionService();
 
             t_CountdownTimer = new DispatcherTimer();
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 1);
@@ -61,25 +61,25 @@ namespace Shutdown_PC
         private void shutdown(object parameter)
         {
             pcAction.Shutdown();
-            Message=pcAction.Message;
+            //Message=pcAction.Message;
         }
 
         private void restart(object parameter)
         {
             pcAction.Reboot();
-            Message = pcAction.Message;
+            //Message = pcAction.Message;
         }
 
         private void logTheUserOut(object parameter)
         {
             pcAction.LogOff();
-            Message = pcAction.Message;
+            //Message = pcAction.Message;
         }
 
         private void sleepMode(object parameter)
         {
-            pcAction.SleepMode();
-            Message = pcAction.Message;
+            //pcAction.SleepMode();
+            //Message = pcAction.Message;
         }
 
         private void start(object parameter)
