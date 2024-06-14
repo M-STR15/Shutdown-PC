@@ -7,6 +7,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <PackageIcon>power_128x128.png</PackageIcon>
+    <ApplicationIcon>Resources\Icons\ICO\power_128x128.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +33,10 @@
     <None Remove="Resources\Icons\SVG\play.svg" />
     <None Remove="Resources\Icons\SVG\power.svg" />
     <None Remove="Resources\Icons\SVG\restart.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Icons\ICO\power_128x128.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,6 +75,17 @@
     <Resource Include="Resources\Icons\SVG\play.svg" />
     <Resource Include="Resources\Icons\SVG\power.svg" />
     <Resource Include="Resources\Icons\SVG\restart.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Icons\PNG\power_128x128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Resources\Icons\PNG\power_256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
