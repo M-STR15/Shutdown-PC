@@ -12,8 +12,9 @@
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     Title="Shutdown-PC"
     Width="400"
-   
-    mc:Ignorable="d" Height="540">
+    ResizeMode="NoResize"
+    Height="470"
+    mc:Ignorable="d">
     <Window.Resources>
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
@@ -146,6 +147,9 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <TextBlock Grid.Row="6" Text="{Binding Message}" VerticalAlignment="Center" />
+        <TextBlock
+            Grid.Row="6"
+            VerticalAlignment="Center"
+            Text="{Binding Message}" />
     </Grid>
 </Window>
