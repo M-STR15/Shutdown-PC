@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Shutdown_PC.Models.Enums;
 using Shutdown_PC.Services;
+using Shutdown_PC.Stores;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -23,7 +24,9 @@ namespace Shutdown_PC
         private eTypeModification _typeModification;
         private PcActionService pcAction;
         private DispatcherTimer t_CountdownTimer;
-        public MainViewModel()
+
+        private readonly WindowStore _windowStore;
+        public MainViewModel(WindowStore windowsStore)
         {
             TypeModification = eTypeModification.InTime;
             ShutdownCommand = new Helpers.RelayCommand(shutdown);
@@ -31,6 +34,9 @@ namespace Shutdown_PC
             LogTheUserOutCommnad = new Helpers.RelayCommand(logTheUserOut);
             SleepModeCommand = new Helpers.RelayCommand(sleepMode);
             StartCommand = new Helpers.RelayCommand(changeStatus);
+            ShowSettingCommand = new Helpers.RelayCommand(showSetting);
+
+            _windowStore = windowsStore;
 
             pcAction = new PcActionService();
 
@@ -52,10 +58,11 @@ namespace Shutdown_PC
             }
         }
 
-        public ICommand RestartCommand { get; set; }
-        public ICommand ShutdownCommand { get; set; }
-        public ICommand SleepModeCommand { get; set; }
-        public ICommand StartCommand { get; set; }
+        public ICommand RestartCommand { get; private set; }
+        public ICommand ShutdownCommand { get; private set; }
+        public ICommand SleepModeCommand { get; private set; }
+        public ICommand StartCommand { get; private set; }
+        public ICommand ShowSettingCommand { get; private set; }
         private void logTheUserOut(object parameter)
         {
             pcAction.LogOff();
@@ -79,6 +86,13 @@ namespace Shutdown_PC
         }
         private void sleepMode(object parameter)
         {
+            //pcAction.SleepMode();
+            //Message = pcAction.Message;
+        }
+
+        private void showSetting(object parameter)
+        {
+            _windowStore.ShowSettigWindow();
             //pcAction.SleepMode();
             //Message = pcAction.Message;
         }

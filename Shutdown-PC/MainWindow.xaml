@@ -30,7 +30,7 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Nastavení">
+            <MenuItem Header="Nastavení" Command="{Binding ShowSettingCommand}">
                 <MenuItem.Icon>
                     <Image
                         Width="12"

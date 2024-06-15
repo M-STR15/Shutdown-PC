@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <Style x:Key="AppWindow" TargetType="Window">
+            <Style x:Key="AppWindowStyle" TargetType="Window">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="ResizeMode" Value="NoResize" />
                 <Setter Property="SizeToContent" Value="WidthAndHeight" />
@@ -16,7 +16,7 @@
 
             <Style
                 x:Key="AppWindowWithOkStorno"
-                BasedOn="{StaticResource AppWindow}"
+                BasedOn="{StaticResource AppWindowStyle}"
                 TargetType="Window">
                 <Setter Property="Template">
                     <Setter.Value>
