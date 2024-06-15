@@ -33,6 +33,7 @@
     <None Remove="Resources\Icons\SVG\play.svg" />
     <None Remove="Resources\Icons\SVG\power.svg" />
     <None Remove="Resources\Icons\SVG\restart.svg" />
+    <None Remove="Resources\Icons\SVG\setting.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,7 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Windows\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
@@ -75,6 +75,7 @@
     <Resource Include="Resources\Icons\SVG\play.svg" />
     <Resource Include="Resources\Icons\SVG\power.svg" />
     <Resource Include="Resources\Icons\SVG\restart.svg" />
+    <Resource Include="Resources\Icons\SVG\setting.svg" />
   </ItemGroup>
 
   <ItemGroup>

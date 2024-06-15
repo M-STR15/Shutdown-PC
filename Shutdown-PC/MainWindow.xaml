@@ -12,14 +12,13 @@
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     Title="Shutdown-PC"
     Width="400"
+    Height="420"
     ResizeMode="NoResize"
-    Height="470"
     mc:Ignorable="d">
     <Window.Resources>
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -29,28 +28,28 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid>
+        <Menu>
+            <MenuItem Header="Nastavení">
+                <MenuItem.Icon>
+                    <Image
+                        Width="12"
+                        Height="12"
+                        Source="{svgc:SvgImage Source=/Resources/Icons/SVG/setting.svg}" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*" />
             </Grid.ColumnDefinitions>
-            <control:ActionsControl />
-            <control:ComputerActionsControl Grid.Column="1" />
+            <control:ActionsControl Grid.ColumnSpan="2" />
+            <control:ComputerActionsControl Grid.Column="2" />
         </Grid>
-        <Border
-            Grid.Row="1"
-            Margin="5"
-            BorderBrush="Gray"
-            BorderThickness="2">
-            <StackPanel>
-                <TextBlock Margin="5" Text="Nastavení" />
-                <CheckBox
-                    Margin="5"
-                    Content="Zobrazit v posledních 30s výstrahu."
-                    IsChecked="True" />
-            </StackPanel>
-        </Border>
+
         <StackPanel Grid.Row="2">
             <TextBlock Margin="5" Text="Aktuální čas" />
             <clock:ClockView />
@@ -73,77 +72,18 @@
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.AfterTime}">
-                            <Setter Property="Visibility" Value="Collapsed" />
+                        <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
+                            <Setter Property="Visibility" Value="Visible" />
                         </DataTrigger>
                     </Style.Triggers>
+
+                    <Setter Property="Visibility" Value="Collapsed" />
                 </Style>
             </StackPanel.Style>
             <TextBlock Margin="5" Text="Vypnout v" />
             <clock:ClockView />
         </StackPanel>
-        <Grid Grid.Row="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding ShutdownCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Width="24px"
-                            Height="24px"
-                            Source="{svgc:SvgImage Source=/Resources/Icons/SVG/power.svg}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding RestartCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Width="24px"
-                            Height="24px"
-                            Source="{svgc:SvgImage Source=/Resources/Icons/SVG/restart.svg}" />
-                    </StackPanel>
-                </Button>
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding LogTheUserOutCommnad}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Width="24px"
-                            Height="24px"
-                            Source="{svgc:SvgImage Source=/Resources/Icons/SVG/hiking-round.svg}" />
-                    </StackPanel>
-                </Button>
-
-            </StackPanel>
-            <StackPanel
-                Grid.Column="1"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <Button
-                    Width="35"
-                    Height="35"
-                    Margin="5"
-                    Command="{Binding StartCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <Image
-                            Width="24px"
-                            Height="24px"
-                            Source="{svgc:SvgImage Source=/Resources/Icons/SVG/play.svg}" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-        </Grid>
+        <control:ButtongControl Grid.Row="5" />
         <TextBlock
             Grid.Row="6"
             VerticalAlignment="Center"

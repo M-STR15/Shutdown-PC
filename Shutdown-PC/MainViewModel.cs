@@ -13,14 +13,14 @@ namespace Shutdown_PC
 
         [ObservableProperty]
         private eTypeAction _typeAction;
-
         public ICommand ShutdownCommand { get; set; }
         public ICommand RestartCommand { get; set; }
         public ICommand LogTheUserOutCommnad { get; set; }
         public ICommand SleepModeCommand { get; set; }
         public ICommand StartCommand { get; set; }
-
-        public int Countdown { get; set; }
+        [ObservableProperty]
+        private DateTime _endDateTime;
+        public int Countdown { get; private set; }
 
         private DispatcherTimer t_CountdownTimer;
 
