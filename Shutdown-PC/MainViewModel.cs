@@ -30,7 +30,7 @@ namespace Shutdown_PC
             RestartCommand = new Helpers.RelayCommand(restart);
             LogTheUserOutCommnad = new Helpers.RelayCommand(logTheUserOut);
             SleepModeCommand = new Helpers.RelayCommand(sleepMode);
-            StartCommand = new Helpers.RelayCommand(start);
+            StartCommand = new Helpers.RelayCommand(changeStatus);
 
             pcAction = new PcActionService();
 
@@ -83,7 +83,7 @@ namespace Shutdown_PC
             //Message = pcAction.Message;
         }
 
-        private void start(object parameter)
+        private void changeStatus(object parameter)
         {
             if (Status == eStatus.Run)
                 Status = eStatus.Stop;
