@@ -18,9 +18,6 @@
     <Window.Resources>
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
-
-
-        <!--<FontFamily x:Key="LCD">Resources/Fonts/Lcd Lcd Mono.zip#LCDMonoWinTT</FontFamily>-->
     </Window.Resources>
 
     <Grid>
