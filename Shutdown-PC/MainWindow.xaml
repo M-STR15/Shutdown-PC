@@ -28,7 +28,6 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="Nastavení">
@@ -42,11 +41,20 @@
         </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <control:ActionsControl Grid.ColumnSpan="2" />
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            
+            <control:ActionsControl/>
             <control:ComputerActionsControl Grid.Column="2" />
         </Grid>
 
@@ -55,37 +63,24 @@
             <clock:ClockView />
         </StackPanel>
         <StackPanel Grid.Row="3">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-
-            <TextBlock Margin="5" Text="Vypnout za" />
-            <clock:ClockView />
+            <TextBlock Margin="5">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
+                                <Setter Property="Text" Value="Vypnout za" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Text" Value="Vypnout v" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <control:TimerControl />
         </StackPanel>
-        <StackPanel Grid.Row="4">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
 
-                    <Setter Property="Visibility" Value="Collapsed" />
-                </Style>
-            </StackPanel.Style>
-            <TextBlock Margin="5" Text="Vypnout v" />
-            <clock:ClockView />
-        </StackPanel>
-        <control:ButtongControl Grid.Row="5" />
+        <control:ButtongControl Grid.Row="4" />
         <TextBlock
-            Grid.Row="6"
+            Grid.Row="5"
             VerticalAlignment="Center"
             Text="{Binding Message}" />
     </Grid>

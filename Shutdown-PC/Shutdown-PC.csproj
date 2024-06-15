@@ -30,10 +30,13 @@
     <None Remove="Resources\Fonts\LCDWinTT\LCD2U.TTF" />
     <None Remove="Resources\Icons\SVG\hiking-round.svg" />
     <None Remove="Resources\Icons\SVG\moon-sleep.svg" />
+    <None Remove="Resources\Icons\SVG\pause-circle.svg" />
+    <None Remove="Resources\Icons\SVG\play-circle.svg" />
     <None Remove="Resources\Icons\SVG\play.svg" />
     <None Remove="Resources\Icons\SVG\power.svg" />
     <None Remove="Resources\Icons\SVG\restart.svg" />
     <None Remove="Resources\Icons\SVG\setting.svg" />
+    <None Remove="Resources\Icons\SVG\stop-circle.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -72,10 +75,13 @@
     <Resource Include="Resources\Fonts\LCDWinTT\LCD2U.TTF" />
     <Resource Include="Resources\Icons\SVG\hiking-round.svg" />
     <Resource Include="Resources\Icons\SVG\moon-sleep.svg" />
+    <Resource Include="Resources\Icons\SVG\pause-circle.svg" />
+    <Resource Include="Resources\Icons\SVG\play-circle.svg" />
     <Resource Include="Resources\Icons\SVG\play.svg" />
     <Resource Include="Resources\Icons\SVG\power.svg" />
     <Resource Include="Resources\Icons\SVG\restart.svg" />
     <Resource Include="Resources\Icons\SVG\setting.svg" />
+    <Resource Include="Resources\Icons\SVG\stop-circle.svg" />
   </ItemGroup>
 
   <ItemGroup>
