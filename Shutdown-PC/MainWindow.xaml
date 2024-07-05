@@ -11,8 +11,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
     Title="Shutdown-PC"
-    Width="400"
-    Height="420"
+    Width="500"
+    Height="470"
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <Window.Resources>
@@ -26,11 +26,12 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Nastavení" Command="{Binding ShowSettingCommand}">
+            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
                 <MenuItem.Icon>
                     <Image
                         Width="12"
@@ -53,8 +54,8 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            
-            <control:ActionsControl/>
+
+            <control:ActionsControl />
             <control:ComputerActionsControl Grid.Column="2" />
         </Grid>
 
@@ -75,12 +76,37 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <control:TimerControl />
+
+            <control:TimerControl>
+                <control:TimerControl.Style>
+                    <Style TargetType="control:TimerControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </Style>
+                </control:TimerControl.Style>
+            </control:TimerControl>
+            
+            <control:SetTimerControl>
+                <control:SetTimerControl.Style>
+                    <Style TargetType="control:SetTimerControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                        <Setter Property="Visibility" Value="Visible" />
+                    </Style>
+                </control:SetTimerControl.Style>
+            </control:SetTimerControl>
         </StackPanel>
 
-        <control:ButtonsControl Grid.Row="4" />
+        <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />
         <TextBlock
-            Grid.Row="5"
+            Grid.Row="6"
             VerticalAlignment="Center"
             Text="{Binding Message}" />
     </Grid>

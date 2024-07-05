@@ -12,11 +12,11 @@
     </UserControl.Resources>
 
     <Label
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Content="{Binding ClockString, FallbackValue=00:00:00}"
-            FontFamily="{StaticResource LCD}"
-            FontSize="60"
-            Foreground="#1C274C" />
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Content="{Binding ClockString, FallbackValue=00:00:00}"
+        FontFamily="{StaticResource LCD}"
+        FontSize="60"
+        Foreground="#1C274C" />
 
 </UserControl>
