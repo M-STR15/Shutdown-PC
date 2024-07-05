@@ -18,6 +18,7 @@
                 Width="35"
                 Height="35"
                 Margin="5"
+                ToolTip="Vypnutí PC"
                 Command="{Binding ShutdownCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image
@@ -30,6 +31,7 @@
                 Width="35"
                 Height="35"
                 Margin="5"
+                ToolTip="Restart PC"
                 Command="{Binding RestartCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Image
@@ -42,6 +44,7 @@
                 Width="35"
                 Height="35"
                 Margin="5"
+                ToolTip="Odhlášení uživatele"
                 Command="{Binding LogTheUserOutCommnad}">
                 <StackPanel Orientation="Horizontal">
                     <Image
@@ -68,12 +71,11 @@
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
                                         <Setter Property="Source" Value="{svgc:SvgImage Source=/Resources/Icons/SVG/stop-circle.svg}" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Pause}">
-                                        <Setter Property="Source" Value="{svgc:SvgImage Source=/Resources/Icons/SVG/play-circle.svg}" />
+                                        <Setter Property="ToolTip" Value="Zastavení odpočtu" />
                                     </DataTrigger>
                                 </Style.Triggers>
                                 <Setter Property="Source" Value="{svgc:SvgImage Source=/Resources/Icons/SVG/play-circle.svg}" />
+                                <Setter Property="ToolTip" Value="Spuštění odpočtu" />
                             </Style>
                         </Image.Style>
                     </Image>
