@@ -1,0 +1,70 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="AppWindow" TargetType="Window">
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="ResizeMode" Value="NoResize" />
+        <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        <Setter Property="WindowStyle" Value="None" />
+    </Style>
+
+    <Style
+        x:Key="AppWindowWithOkStorno"
+        BasedOn="{StaticResource AppWindowStyle}"
+        TargetType="{x:Type Window}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Window">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Margin="20"
+                                    Content="{Binding Title, FallbackValue=TITULEK}"
+                                    FontSize="26" />
+
+
+                                <!--  Zde můžete definovat obsah vašeho okna  -->
+
+                                <ContentPresenter
+                                    Grid.Row="1"
+                                    Margin="20,0,20,20"
+                                    Content="{TemplateBinding Content}" />
+
+                                <StackPanel
+                                    Grid.Row="2"
+                                    HorizontalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <Button
+                                        x:Name="SaveButton"
+                                        Width="150"
+                                        Height="50"
+                                        Margin="20,0,20,10"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{Binding SaveAndCloseCommand}"
+                                        Content="Save" />
+                                    <Button
+                                        x:Name="CancelButton"
+                                        Grid.Column="1"
+                                        Width="150"
+                                        Height="50"
+                                        Margin="20,0,20,10"
+                                        HorizontalAlignment="Stretch"
+                                        Command="{Binding CloseWindowCommand}"
+                                        Content="Cancel" />
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

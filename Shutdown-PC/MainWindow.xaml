@@ -78,7 +78,7 @@
             <control:TimerControl />
         </StackPanel>
 
-        <control:ButtongControl Grid.Row="4" />
+        <control:ButtonsControl Grid.Row="4" />
         <TextBlock
             Grid.Row="5"
             VerticalAlignment="Center"
