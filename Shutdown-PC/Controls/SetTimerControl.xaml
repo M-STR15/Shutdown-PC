@@ -5,12 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Shutdown_PC.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="SetTimeUC"
     MinWidth="320"
     mc:Ignorable="d">
     <UserControl.Resources>
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
 
-        <Style x:Key="aaa" TargetType="Label">
+        <Style x:Key="appLabel" TargetType="Label">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="60" />
@@ -20,18 +21,18 @@
     </UserControl.Resources>
     <StackPanel
         HorizontalAlignment="Center"
-        VerticalAlignment="Center"  
+        VerticalAlignment="Center"
         Orientation="Horizontal">
-        <local:NumericControl />
+        <local:NumericControl MaxTimeValue="99" TimeValue="{Binding Path=HoursValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
         <Label
             VerticalAlignment="Top"
             Content=":"
-            Style="{StaticResource aaa}" />
-        <local:NumericControl />
+            Style="{StaticResource appLabel}" />
+        <local:NumericControl PreviousValue="{Binding Path=HoursValue, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" TimeValue="{Binding Path=MinutesValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
         <Label
             VerticalAlignment="Top"
             Content=":"
-            Style="{StaticResource aaa}" />
-        <local:NumericControl />
+            Style="{StaticResource appLabel}" />
+        <local:NumericControl PreviousValue="{Binding Path=MinutesValue, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" TimeValue="{Binding Path=SecondsValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
     </StackPanel>
 </UserControl>
