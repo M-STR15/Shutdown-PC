@@ -1,5 +1,6 @@
 ﻿using Shutdown_PC.Helpers;
 using System.ComponentModel;
+using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,7 +10,7 @@ namespace Shutdown_PC.Controls
     /// <summary>
     /// Interaction logic for NumericControl.xaml
     /// </summary>
-    public partial class NumericControl : UserControl, INotifyPropertyChanged
+    public partial class NumericControl : UserControl
     {
         public static readonly DependencyProperty MaxTimeValueProperty =
             DependencyProperty.Register
@@ -36,12 +37,7 @@ namespace Shutdown_PC.Controls
             InitializeComponent();
 
             MaxTimeValue = 60;
-            PlusCommand = new RelayCommand(plus, canPlus);
-            MinusCommand = new RelayCommand(minus, canMinus);
-            DataContext = this;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public int MaxTimeValue
         {
@@ -55,34 +51,30 @@ namespace Shutdown_PC.Controls
             set => SetValue(PreviousValueProperty, value);
         }
 
-        public ICommand MinusCommand { get; }
-
-        public ICommand PlusCommand { get; }
-
         public int TimeValue
         {
             get => (int)GetValue(TimeValueProperty);
-            set => SetValue(TimeValueProperty, value);
+            set
+            {
+                SetValue(TimeValueProperty, value);
+                onTimeValueChanged();
+            }
         }
+
+        public event EventHandler TimeValueChanged;
+
+        private void onTimeValueChanged()=>TimeValueChanged?.Invoke(this, EventArgs.Empty);
+        
         public bool canMinus() => TimeValue > -1 && (PreviousValue != 0 || TimeValue > 0);
 
         public bool canPlus() => TimeValue < MaxTimeValue;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         private static void onTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as NumericControl;
             uc.onTimeValuePropertyChanged(e);
-
-            if (uc != null)
-            {
-                uc.OnPropertyChanged(nameof(TimeValue));
-            }
         }
-        private void minus(object paramter)
+        private void minus()
         {
             if (canMinus())
                 TimeValue -= 1;
@@ -102,7 +94,7 @@ namespace Shutdown_PC.Controls
 
         }
 
-        private void plus(object parameter)
+        private void plus()
         {
             if (canPlus())
                 TimeValue += 1;
@@ -112,6 +104,25 @@ namespace Shutdown_PC.Controls
                 PreviousValue++;
                 TimeValue = 0;
             }
+        }
+
+        private void btnMinus_Click(object sender, RoutedEventArgs e)
+        {
+            minus();
+            btnMinus.IsEnabled = canMinus();
+            setLbl();
+        }
+
+        private void btnPlus_Click(object sender, RoutedEventArgs e)
+        {
+            plus();
+            btnPlus.IsEnabled = canPlus();
+            setLbl();
+        }
+
+        private void setLbl()
+        {
+            lblTimeValue.Content = (TimeValue < 10 ? "0" : "") + TimeValue.ToString();
         }
     }
 }

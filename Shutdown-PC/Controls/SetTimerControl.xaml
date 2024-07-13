@@ -23,16 +23,18 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Orientation="Horizontal">
-        <local:NumericControl MaxTimeValue="99" TimeValue="{Binding Path=HoursValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+        <local:NumericControl
+            x:Name="HourUC"
+            MaxTimeValue="99" />
         <Label
             VerticalAlignment="Top"
             Content=":"
             Style="{StaticResource appLabel}" />
-        <local:NumericControl PreviousValue="{Binding Path=HoursValue, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" TimeValue="{Binding Path=MinutesValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+        <local:NumericControl x:Name="MinuteUC" />
         <Label
             VerticalAlignment="Top"
             Content=":"
             Style="{StaticResource appLabel}" />
-        <local:NumericControl PreviousValue="{Binding Path=MinutesValue, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" TimeValue="{Binding Path=SecondsValue, Mode=TwoWay, FallbackValue=0, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" />
+        <local:NumericControl x:Name="SecondsUC"/>
     </StackPanel>
 </UserControl>

@@ -1,13 +1,16 @@
-﻿using Shutdown_PC.ViewModels.Windows;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Shutdown_PC.ViewModels.Windows;
 using Shutdown_PC.Windows;
 using System.Windows;
 
 namespace Shutdown_PC.Stores
 {
-    public class WindowStore
+    public partial class WindowStore : ObservableObject
     {
         private readonly ClasesStore _clasesStore;
         private readonly MainWindow _mainWindow;
+        [ObservableProperty]
+        private TimeSpan _setTimeValueProperty;
         public WindowStore(ClasesStore clasesStore, MainWindow mainWindow)
         {
             _clasesStore = clasesStore;

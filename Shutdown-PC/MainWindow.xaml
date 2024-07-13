@@ -10,6 +10,7 @@
     xmlns:local="clr-namespace:Shutdown_PC"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+    Name="MainWin"
     Title="Shutdown-PC"
     Width="500"
     Height="470"
@@ -19,6 +20,7 @@
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -48,7 +50,7 @@
             <Grid.Style>
                 <Style TargetType="Grid">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                        <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
                             <Setter Property="IsEnabled" Value="False" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -79,9 +81,9 @@
 
             <control:TimerControl>
                 <control:TimerControl.Style>
-                    <Style TargetType="control:TimerControl">
+                    <Style TargetType="{x:Type control:TimerControl}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -89,12 +91,12 @@
                     </Style>
                 </control:TimerControl.Style>
             </control:TimerControl>
-            
-            <control:SetTimerControl>
+
+            <control:SetTimerControl SetTimeValue="{Binding SetTimeValueProperty, Mode=TwoWay}">
                 <control:SetTimerControl.Style>
-                    <Style TargetType="control:SetTimerControl">
+                    <Style TargetType="{x:Type control:SetTimerControl}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>

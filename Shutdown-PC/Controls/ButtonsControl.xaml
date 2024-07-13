@@ -69,7 +69,7 @@
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Status}" Value="{x:Static enum:eStatus.Run}">
+                                    <DataTrigger Binding="{Binding EStatus}" Value="{x:Static enum:eStatus.Run}">
                                         <Setter Property="Source" Value="{svgc:SvgImage Source=/Resources/Icons/SVG/stop-circle.svg}" />
                                         <Setter Property="ToolTip" Value="Zastavení odpočtu" />
                                     </DataTrigger>

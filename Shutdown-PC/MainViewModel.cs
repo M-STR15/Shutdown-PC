@@ -25,6 +25,19 @@ namespace Shutdown_PC
         private PcActionService pcAction;
         private DispatcherTimer t_CountdownTimer;
 
+        //[ObservableProperty]
+        private TimeSpan _setTimeValueProperty;
+
+        public TimeSpan SetTimeValueProperty
+        {
+            get => _setTimeValueProperty;
+            set
+            {
+                _setTimeValueProperty = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly WindowStore _windowStore;
         public MainViewModel(WindowStore windowsStore)
         {
