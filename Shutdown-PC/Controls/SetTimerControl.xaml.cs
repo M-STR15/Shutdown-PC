@@ -132,15 +132,9 @@ namespace Shutdown_PC.Controls
             }
         }
 
-        private void hourUC_TimeValueChanged(object? sender, EventArgs e)
-        {
-            HoursValue = HourUC.TimeValue;
-        }
+        private void hourUC_TimeValueChanged(object? sender, EventArgs e) => HoursValue = HourUC.TimeValue;
 
-        private void minuteUC_TimeValueChanged(object? sender, EventArgs e)
-        {
-            MinutesValue = MinuteUC.TimeValue;
-        }
+        private void minuteUC_TimeValueChanged(object? sender, EventArgs e) => MinutesValue = MinuteUC.TimeValue;
 
         private void onHorsValuePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
@@ -149,7 +143,7 @@ namespace Shutdown_PC.Controls
         }
 
         private void onMinutesValueChangedChanged(DependencyPropertyChangedEventArgs e)
-        {
+        { 
             MinuteUC.PreviousValue = HoursValue;
             MinuteUC.TimeValue = MinutesValue;
             controValuelMinutes();
@@ -164,10 +158,8 @@ namespace Shutdown_PC.Controls
             setTime();
         }
 
-        private void secondsUC_TimeValueChanged(object? sender, EventArgs e)
-        {
-            SecondsValue = SecondsUC.TimeValue;
-        }
+        private void secondsUC_TimeValueChanged(object? sender, EventArgs e) => SecondsValue = SecondsUC.TimeValue;
+
         private void setTime()
         {
             if (MinutesValue != 60 && MinutesValue != -1 && SecondsValue != 60 && SecondsValue != -1)
