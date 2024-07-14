@@ -100,34 +100,35 @@ namespace Shutdown_PC.Controls
 
         private void controValuelMinutes()
         {
-            if (MinutesValue == 60)
-            {
-                HoursValue++;
-                HourUC.TimeValue = HoursValue;
-                MinutesValue = 0;
-            }
-
-            if (MinutesValue == -1 && HoursValue != 0)
-            {
-                HoursValue--;
-                HourUC.TimeValue = HoursValue;
-                MinutesValue = 59;
-            }
+            var timeValue = MinutesValue;
+            var secondTimeValue = HoursValue;
+            changeValues(ref timeValue, ref secondTimeValue, ref HourUC);
+            MinutesValue = timeValue;
+            HoursValue = secondTimeValue;
         }
         private void controValuelSeconds()
         {
-            if (SecondsValue == 60)
+            var timeValue = SecondsValue;
+            var secondTimeValue = MinutesValue;
+            changeValues(ref timeValue, ref secondTimeValue, ref MinuteUC);
+            SecondsValue = timeValue;
+            MinutesValue = secondTimeValue;
+        }
+
+        private void changeValues(ref int timeValue, ref int secondTimeValue, ref NumericControl objNumCon)
+        {
+            if (timeValue == 60)
             {
-                MinutesValue++;
-                MinuteUC.TimeValue = MinutesValue;
-                SecondsValue = 0;
+                secondTimeValue++;
+                objNumCon.TimeValue = secondTimeValue;
+                timeValue = 0;
             }
 
-            if (SecondsValue == -1 && MinutesValue != 0)
+            if (timeValue == -1 && secondTimeValue != 0)
             {
-                MinutesValue--;
-                MinuteUC.TimeValue = MinutesValue;
-                SecondsValue = 59;
+                secondTimeValue--;
+                objNumCon.TimeValue = secondTimeValue;
+                timeValue = 59;
             }
         }
 
