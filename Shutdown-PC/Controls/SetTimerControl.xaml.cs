@@ -75,19 +75,6 @@ namespace Shutdown_PC.Controls
             set => SetValue(SecondsValueProperty, value);
         }
 
-        public int SecondsValue2
-        {
-            get => _secondsValue2;
-            set
-            {
-                if (_secondsValue2 != value)
-                {
-                    _secondsValue2 = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
         public TimeSpan SetTimeValue
         {
             get => (TimeSpan)GetValue(SetTimeValueProperty);
@@ -112,12 +99,36 @@ namespace Shutdown_PC.Controls
             uc.onSecondValueChanged(e);
         }
 
+        private void controValuelMinutes()
+        {
+            if (MinutesValue == 60)
+            {
+                HoursValue++;
+                HourUC.TimeValue = HoursValue;
+                MinutesValue = 0;
+            }
+
+            if (MinutesValue == -1 && HoursValue != 0)
+            {
+                HoursValue--;
+                HourUC.TimeValue = HoursValue;
+                MinutesValue = 59;
+            }
+        }
         private void controValuelSeconds()
         {
             if (SecondsValue == 60)
             {
                 MinutesValue++;
+                MinuteUC.TimeValue = MinutesValue;
                 SecondsValue = 0;
+            }
+
+            if (SecondsValue == -1 && MinutesValue != 0)
+            {
+                MinutesValue--;
+                MinuteUC.TimeValue = MinutesValue;
+                SecondsValue = 59;
             }
         }
 
@@ -133,7 +144,7 @@ namespace Shutdown_PC.Controls
 
         private void onHorsValuePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            HourUC.TimeValue = MinutesValue;
+            HourUC.TimeValue = HoursValue;
             setTime();
         }
 
@@ -141,6 +152,7 @@ namespace Shutdown_PC.Controls
         {
             MinuteUC.PreviousValue = HoursValue;
             MinuteUC.TimeValue = MinutesValue;
+            controValuelMinutes();
             setTime();
         }
 
@@ -148,6 +160,7 @@ namespace Shutdown_PC.Controls
         {
             SecondsUC.PreviousValue = MinutesValue;
             SecondsUC.TimeValue = SecondsValue;
+            controValuelSeconds();
             setTime();
         }
 

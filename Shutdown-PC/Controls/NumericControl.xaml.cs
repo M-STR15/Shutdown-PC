@@ -1,9 +1,5 @@
-﻿using Shutdown_PC.Helpers;
-using System.ComponentModel;
-using System.Reflection.Metadata;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace Shutdown_PC.Controls
 {
@@ -58,13 +54,14 @@ namespace Shutdown_PC.Controls
             {
                 SetValue(TimeValueProperty, value);
                 onTimeValueChanged();
+                setLbl();
             }
         }
 
         public event EventHandler TimeValueChanged;
 
-        private void onTimeValueChanged()=>TimeValueChanged?.Invoke(this, EventArgs.Empty);
-        
+        private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
+
         public bool canMinus() => TimeValue > -1 && (PreviousValue != 0 || TimeValue > 0);
 
         public bool canPlus() => TimeValue < MaxTimeValue;
@@ -79,14 +76,14 @@ namespace Shutdown_PC.Controls
             if (canMinus())
                 TimeValue -= 1;
 
-            if (TimeValue == -1)
-            {
-                if (PreviousValue != 0)
-                {
-                    PreviousValue--;
-                    TimeValue = 59;
-                }
-            }
+            //if (TimeValue == -1)
+            //{
+            //    if (PreviousValue != 0)
+            //    {
+            //        PreviousValue--;
+            //        TimeValue = 59;
+            //    }
+            //}
         }
 
         private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -99,11 +96,11 @@ namespace Shutdown_PC.Controls
             if (canPlus())
                 TimeValue += 1;
 
-            if (TimeValue == 60)
-            {
-                PreviousValue++;
-                TimeValue = 0;
-            }
+            //if (TimeValue == 60)
+            //{
+            //    PreviousValue++;
+            //    TimeValue = 0;
+            //}
         }
 
         private void btnMinus_Click(object sender, RoutedEventArgs e)

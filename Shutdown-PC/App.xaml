@@ -11,14 +11,14 @@
                 <ResourceDictionary Source="/Shutdown_PC;component/Styles/WindowDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-            <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
+        <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
 
-            <Style x:Key="labelTimerStyle" TargetType="Label">
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="FontSize" Value="60" />
-                <Setter Property="Foreground" Value="#1C274C" />
-                <Setter Property="FontFamily" Value="{StaticResource LCD}" />
-            </Style>
+        <Style x:Key="labelTimerStyle" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="60" />
+            <Setter Property="Foreground" Value="#1C274C" />
+            <Setter Property="FontFamily" Value="{StaticResource LCD}" />
+        </Style>
     </Application.Resources>
 </Application>
