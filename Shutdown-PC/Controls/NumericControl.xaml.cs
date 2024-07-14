@@ -75,15 +75,6 @@ namespace Shutdown_PC.Controls
         {
             if (canMinus())
                 TimeValue -= 1;
-
-            //if (TimeValue == -1)
-            //{
-            //    if (PreviousValue != 0)
-            //    {
-            //        PreviousValue--;
-            //        TimeValue = 59;
-            //    }
-            //}
         }
 
         private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -95,12 +86,6 @@ namespace Shutdown_PC.Controls
         {
             if (canPlus())
                 TimeValue += 1;
-
-            //if (TimeValue == 60)
-            //{
-            //    PreviousValue++;
-            //    TimeValue = 0;
-            //}
         }
 
         private void btnMinus_Click(object sender, RoutedEventArgs e)
