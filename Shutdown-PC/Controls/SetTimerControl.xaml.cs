@@ -20,17 +20,20 @@ namespace Shutdown_PC.Controls
             new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public static readonly DependencyProperty SetTimeValueProperty =
-                   DependencyProperty.Register
+           DependencyProperty.Register
            (nameof(SetTimeValue),
-            typeof(TimeSpan),
+            typeof(DateTime),
             typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+             new FrameworkPropertyMetadata(DateTime.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
         public static readonly DependencyProperty TypeModificationProperty =
            DependencyProperty.Register
            (nameof(TypeModification),
             typeof(eTypeModification),
             typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPPropertyChanged)));
+             new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
+
+
 
         private int _hoursValue;
 
@@ -50,6 +53,12 @@ namespace Shutdown_PC.Controls
             HourUC.TimeValueChanged += hourUC_TimeValueChanged;
             MinuteUC.TimeValueChanged += minuteUC_TimeValueChanged;
             SecondsUC.TimeValueChanged += secondsUC_TimeValueChanged;
+
+            _editDatetime = DateTime.Now;
+
+            setHoursUC();
+            setMinutesUC();
+            setSeconcsUC();
         }
 
         public TimeSpan SetTimerValue
@@ -65,9 +74,9 @@ namespace Shutdown_PC.Controls
             }
         }
 
-        public TimeSpan SetTimeValue
+        public DateTime SetTimeValue
         {
-            get => (TimeSpan)GetValue(SetTimeValueProperty);
+            get => (DateTime)GetValue(SetTimeValueProperty);
             set
             {
                 if (SetTimeValue != value)
@@ -84,6 +93,8 @@ namespace Shutdown_PC.Controls
             set => SetValue(TypeModificationProperty, value);
         }
 
+        private DateTime _editDatetime;
+
         private int hoursValue
         {
             get => _hoursValue;
@@ -92,7 +103,7 @@ namespace Shutdown_PC.Controls
                 if (_hoursValue != value)
                 {
                     _hoursValue = value;
-                    onHorsValuePropertyChanged();
+                    onHoursValuePropertyChanged();
                 }
             }
         }
@@ -121,7 +132,7 @@ namespace Shutdown_PC.Controls
                 }
             }
         }
-        private static void onTypeModificationPPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void onTypeModificationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
             uc.onTypeModificationPropertyChanged(e);
@@ -147,9 +158,9 @@ namespace Shutdown_PC.Controls
 
         private void distiobutionTimeValue()
         {
-            hoursValue = SetTimeValue.Hours;
-            minutesValue = SetTimeValue.Minutes;
-            secondsValue = SetTimeValue.Seconds;
+            //hoursValue = SetTimeValue.Hour;
+            //minutesValue = SetTimeValue.Minute;
+            //secondsValue = SetTimeValue.Second;
         }
         private void hourUC_TimeValueChanged(object? sender, EventArgs e) => hoursValue = HourUC.TimeValue;
 
@@ -172,31 +183,74 @@ namespace Shutdown_PC.Controls
         private void minuteUC_TimeValueChanged(object? sender, EventArgs e) => minutesValue = MinuteUC.TimeValue;
 
 
-        private void onHorsValuePropertyChanged()
+        private void onHoursValuePropertyChanged()
         {
-            HourUC.TimeValue = hoursValue;
+            setHoursUC();
             setTime();
+            setTimer();
         }
 
         private void onMinutesValueChanged()
         {
-            MinuteUC.PreviousValue = hoursValue;
-            MinuteUC.TimeValue = minutesValue;
+            setMinutesUC();
             controValuelMinutes();
             setTime();
+            setTimer();
         }
 
         private void onSecondValueChanged()
         {
-            SecondsUC.PreviousValue = minutesValue;
-            SecondsUC.TimeValue = secondsValue;
+            setSeconcsUC();
             controValuelSeconds();
             setTime();
+            setTimer();
+        }
+
+        private void setHoursUC()
+        {
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    HourUC.TimeValue = SetTimeValue.Hour;
+                    break;
+                case eTypeModification.AfterTime:
+                    HourUC.TimeValue = hoursValue;
+                    break;
+            }
+        }
+        private void setMinutesUC()
+        {
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    MinuteUC.PreviousValue = SetTimeValue.Hour;
+                    MinuteUC.TimeValue = SetTimeValue.Minute;
+                    break;
+                case eTypeModification.AfterTime:
+                    MinuteUC.PreviousValue = hoursValue;
+                    MinuteUC.TimeValue = minutesValue;
+                    break;
+            }
+        }
+        private void setSeconcsUC()
+        {
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    SecondsUC.PreviousValue = SetTimeValue.Minute;
+                    SecondsUC.TimeValue = SetTimeValue.Second;
+                    break;
+                case eTypeModification.AfterTime:
+                    SecondsUC.PreviousValue = minutesValue;
+                    SecondsUC.TimeValue = secondsValue;
+                    break;
+            }
         }
 
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             setTime();
+            setTimer();
         }
         private void secondsUC_TimeValueChanged(object? sender, EventArgs e) => secondsValue = SecondsUC.TimeValue;
 
@@ -204,14 +258,27 @@ namespace Shutdown_PC.Controls
         {
             if (minutesValue != 60 && minutesValue != -1 && secondsValue != 60 && secondsValue != -1)
             {
-                var stringDateTime = string.Format($"{hoursValue}:{minutesValue}:{secondsValue}");
-                SetTimeValue = TimeSpan.Parse(stringDateTime);
+                SetTimeValue = _editDatetime.AddHours(hoursValue).AddMinutes(minutesValue).AddSeconds(secondsValue);
             }
+        }
+
+        private void setTimer()
+        {
+            SetTimerValue = new TimeSpan(hoursValue, minutesValue, secondsValue);
         }
 
         private void setValuesUseControls()
         {
+            _editDatetime = DateTime.Now;
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
 
+                    break;
+                case eTypeModification.AfterTime:
+
+                    break;
+            }
         }
     }
 }

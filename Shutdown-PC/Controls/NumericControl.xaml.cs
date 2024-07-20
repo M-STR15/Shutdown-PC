@@ -52,9 +52,12 @@ namespace Shutdown_PC.Controls
             get => (int)GetValue(TimeValueProperty);
             set
             {
-                SetValue(TimeValueProperty, value);
-                onTimeValueChanged();
-                setLbl();
+                if (TimeValue != value)
+                {
+                    SetValue(TimeValueProperty, value);
+                    onTimeValueChanged();
+                    setLbl();
+                }
             }
         }
 
