@@ -12,13 +12,6 @@ namespace Shutdown_PC.Controls
     public partial class SetTimerControl : UserControl
     {
 
-        public static readonly DependencyProperty SetTimeValueProperty =
-           DependencyProperty.Register
-           (nameof(SetTimeValue),
-            typeof(TimeSpan),
-            typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
         public static readonly DependencyProperty SetTimerValueProperty =
           DependencyProperty.Register
           (nameof(SetTimerValue),
@@ -26,6 +19,12 @@ namespace Shutdown_PC.Controls
            typeof(SetTimerControl),
             new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        public static readonly DependencyProperty SetTimeValueProperty =
+                   DependencyProperty.Register
+           (nameof(SetTimeValue),
+            typeof(TimeSpan),
+            typeof(SetTimerControl),
+             new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public static readonly DependencyProperty TypeModificationProperty =
            DependencyProperty.Register
            (nameof(TypeModification),
@@ -53,6 +52,38 @@ namespace Shutdown_PC.Controls
             SecondsUC.TimeValueChanged += secondsUC_TimeValueChanged;
         }
 
+        public TimeSpan SetTimerValue
+        {
+            get => (TimeSpan)GetValue(SetTimerValueProperty);
+            set
+            {
+                if (SetTimerValue != value)
+                {
+                    SetValue(SetTimerValueProperty, value);
+                    distiobutionTimeValue();
+                }
+            }
+        }
+
+        public TimeSpan SetTimeValue
+        {
+            get => (TimeSpan)GetValue(SetTimeValueProperty);
+            set
+            {
+                if (SetTimeValue != value)
+                {
+                    SetValue(SetTimeValueProperty, value);
+                    distiobutionTimeValue();
+                }
+            }
+        }
+
+        public eTypeModification TypeModification
+        {
+            get => (eTypeModification)GetValue(TypeModificationProperty);
+            set => SetValue(TypeModificationProperty, value);
+        }
+
         private int hoursValue
         {
             get => _hoursValue;
@@ -65,13 +96,6 @@ namespace Shutdown_PC.Controls
                 }
             }
         }
-
-        public eTypeModification TypeModification
-        {
-            get => (eTypeModification)GetValue(TypeModificationProperty);
-            set => SetValue(TypeModificationProperty, value);
-        }
-
         private int minutesValue
         {
             get => _minutesValue;
@@ -97,40 +121,6 @@ namespace Shutdown_PC.Controls
                 }
             }
         }
-
-        public TimeSpan SetTimeValue
-        {
-            get => (TimeSpan)GetValue(SetTimeValueProperty);
-            set
-            {
-                if (SetTimeValue != value)
-                {
-                    SetValue(SetTimeValueProperty, value);
-                    distiobutionTimeValue();
-                }
-            }
-        }
-
-        public TimeSpan SetTimerValue
-        {
-            get => (TimeSpan)GetValue(SetTimerValueProperty);
-            set
-            {
-                if (SetTimerValue != value)
-                {
-                    SetValue(SetTimerValueProperty, value);
-                    distiobutionTimeValue();
-                }
-            }
-        }
-
-        private void distiobutionTimeValue()
-        {
-            hoursValue = SetTimeValue.Hours;
-            minutesValue = SetTimeValue.Minutes;
-            secondsValue = SetTimeValue.Seconds;
-        }
-
         private static void onTypeModificationPPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
@@ -145,6 +135,7 @@ namespace Shutdown_PC.Controls
             minutesValue = timeValue;
             hoursValue = secondTimeValue;
         }
+
         private void controValuelSeconds()
         {
             var timeValue = secondsValue;
@@ -154,6 +145,12 @@ namespace Shutdown_PC.Controls
             minutesValue = secondTimeValue;
         }
 
+        private void distiobutionTimeValue()
+        {
+            hoursValue = SetTimeValue.Hours;
+            minutesValue = SetTimeValue.Minutes;
+            secondsValue = SetTimeValue.Seconds;
+        }
         private void hourUC_TimeValueChanged(object? sender, EventArgs e) => hoursValue = HourUC.TimeValue;
 
         private void changeValues(ref int timeValue, ref int secondTimeValue, ref NumericControl objNumCon)
@@ -175,10 +172,6 @@ namespace Shutdown_PC.Controls
         private void minuteUC_TimeValueChanged(object? sender, EventArgs e) => minutesValue = MinuteUC.TimeValue;
 
 
-        private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            setTime();
-        }
         private void onHorsValuePropertyChanged()
         {
             HourUC.TimeValue = hoursValue;
@@ -201,6 +194,10 @@ namespace Shutdown_PC.Controls
             setTime();
         }
 
+        private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            setTime();
+        }
         private void secondsUC_TimeValueChanged(object? sender, EventArgs e) => secondsValue = SecondsUC.TimeValue;
 
         private void setTime()
