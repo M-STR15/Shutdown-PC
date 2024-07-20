@@ -35,11 +35,12 @@ namespace Shutdown_PC.Controls
 
 
 
-        private int _hoursValue;
 
-        private int _minutesValue;
+        private int _timerHoursValue;
 
-        private int _secondsValue;
+        private int _timerMinutesValue;
+
+        private int _timerSecondsValue;
 
 
         public SetTimerControl()
@@ -100,24 +101,24 @@ namespace Shutdown_PC.Controls
 
         private int timerHoursValue
         {
-            get => _hoursValue;
+            get => _timerHoursValue;
             set
             {
-                if (_hoursValue != value)
+                if (_timerHoursValue != value)
                 {
-                    _hoursValue = value;
+                    _timerHoursValue = value;
                     onHoursValuePropertyChanged();
                 }
             }
         }
         private int timerMinutesValue
         {
-            get => _minutesValue;
+            get => _timerMinutesValue;
             set
             {
-                if (_minutesValue != value)
+                if (_timerMinutesValue != value)
                 {
-                    _minutesValue = value;
+                    _timerMinutesValue = value;
                     onMinutesValueChanged();
                 }
             }
@@ -125,12 +126,12 @@ namespace Shutdown_PC.Controls
 
         private int timerSecondsValue
         {
-            get => _secondsValue;
+            get => _timerSecondsValue;
             set
             {
-                if (_secondsValue != value)
+                if (_timerSecondsValue != value)
                 {
-                    _secondsValue = value;
+                    _timerSecondsValue = value;
                     onSecondValueChanged();
                 }
             }
