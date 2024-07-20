@@ -26,15 +26,17 @@ namespace Shutdown_PC
         private DispatcherTimer t_CountdownTimer;
 
         //[ObservableProperty]
-        private TimeSpan _setTimeValueProperty;
+        private TimeSpan _setTimeValue;
 
-        public TimeSpan SetTimeValueProperty
+        public TimeSpan SetTimeValue
         {
-            get => _setTimeValueProperty;
+            get => _setTimeValue;
             set
             {
-                _setTimeValueProperty = value;
+                _setTimeValue = value;
+                EndDateTime = DateTime.Now.Add(value);
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(EndDateTime));
             }
         }
 

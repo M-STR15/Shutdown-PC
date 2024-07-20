@@ -11,6 +11,7 @@
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
     </UserControl.Resources>
     <Label
+        x:Name="lblTimer"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Content="00:00:00"

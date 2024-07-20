@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Shutdown_PC.Models.Enums;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,110 +11,150 @@ namespace Shutdown_PC.Controls
     [ObservableObject]
     public partial class SetTimerControl : UserControl
     {
-        public static readonly DependencyProperty HoursValueProperty =
-          DependencyProperty.Register
-          (nameof(HoursValue),
-           typeof(int),
-           typeof(SetTimerControl),
-            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onHorsValuePropertyChanged)));
-
-        public static readonly DependencyProperty MinutesValueProperty =
-          DependencyProperty.Register
-          (nameof(MinutesValue),
-           typeof(int),
-           typeof(SetTimerControl),
-            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onMinutesValueChangedChanged)));
-
-        public static readonly DependencyProperty SecondsValueProperty =
-           DependencyProperty.Register
-           (nameof(SecondsValue),
-            typeof(int),
-            typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onSecondValueChanged)));
 
         public static readonly DependencyProperty SetTimeValueProperty =
-                                   DependencyProperty.Register
+           DependencyProperty.Register
            (nameof(SetTimeValue),
             typeof(TimeSpan),
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty SetTimerValueProperty =
+          DependencyProperty.Register
+          (nameof(SetTimerValue),
+           typeof(TimeSpan),
+           typeof(SetTimerControl),
+            new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public static readonly DependencyProperty TypeModificationProperty =
+           DependencyProperty.Register
+           (nameof(TypeModification),
+            typeof(eTypeModification),
+            typeof(SetTimerControl),
+             new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPPropertyChanged)));
+
         private int _hoursValue;
 
         private int _minutesValue;
 
-        private int _secondsValue2;
+        private int _secondsValue;
+
 
         public SetTimerControl()
         {
             InitializeComponent();
 
-            HourUC.TimeValue = HoursValue;
-            MinuteUC.TimeValue = MinutesValue;
-            SecondsUC.TimeValue = SecondsValue;
+            HourUC.TimeValue = hoursValue;
+            MinuteUC.TimeValue = minutesValue;
+            SecondsUC.TimeValue = secondsValue;
 
             HourUC.TimeValueChanged += hourUC_TimeValueChanged;
             MinuteUC.TimeValueChanged += minuteUC_TimeValueChanged;
             SecondsUC.TimeValueChanged += secondsUC_TimeValueChanged;
         }
 
-        public int HoursValue
+        private int hoursValue
         {
-            get => (int)GetValue(HoursValueProperty);
-            set => SetValue(HoursValueProperty, value);
+            get => _hoursValue;
+            set
+            {
+                if (_hoursValue != value)
+                {
+                    _hoursValue = value;
+                    onHorsValuePropertyChanged();
+                }
+            }
         }
 
-        public int MinutesValue
+        public eTypeModification TypeModification
         {
-            get => (int)GetValue(MinutesValueProperty);
-            set => SetValue(MinutesValueProperty, value);
+            get => (eTypeModification)GetValue(TypeModificationProperty);
+            set => SetValue(TypeModificationProperty, value);
         }
 
-        public int SecondsValue
+        private int minutesValue
         {
-            get => (int)GetValue(SecondsValueProperty);
-            set => SetValue(SecondsValueProperty, value);
+            get => _minutesValue;
+            set
+            {
+                if (_minutesValue != value)
+                {
+                    _minutesValue = value;
+                    onMinutesValueChanged();
+                }
+            }
+        }
+
+        private int secondsValue
+        {
+            get => _secondsValue;
+            set
+            {
+                if (_secondsValue != value)
+                {
+                    _secondsValue = value;
+                    onSecondValueChanged();
+                }
+            }
         }
 
         public TimeSpan SetTimeValue
         {
             get => (TimeSpan)GetValue(SetTimeValueProperty);
-            set => SetValue(SetTimeValueProperty, value);
+            set
+            {
+                if (SetTimeValue != value)
+                {
+                    SetValue(SetTimeValueProperty, value);
+                    distiobutionTimeValue();
+                }
+            }
         }
 
-        private static void onHorsValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public TimeSpan SetTimerValue
         {
-            var uc = d as SetTimerControl;
-            uc.onHorsValuePropertyChanged(e);
+            get => (TimeSpan)GetValue(SetTimerValueProperty);
+            set
+            {
+                if (SetTimerValue != value)
+                {
+                    SetValue(SetTimerValueProperty, value);
+                    distiobutionTimeValue();
+                }
+            }
         }
 
-        private static void onMinutesValueChangedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void distiobutionTimeValue()
         {
-            var uc = d as SetTimerControl;
-            uc.onMinutesValueChangedChanged(e);
+            hoursValue = SetTimeValue.Hours;
+            minutesValue = SetTimeValue.Minutes;
+            secondsValue = SetTimeValue.Seconds;
         }
 
-        private static void onSecondValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void onTypeModificationPPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
-            uc.onSecondValueChanged(e);
+            uc.onTypeModificationPropertyChanged(e);
         }
 
         private void controValuelMinutes()
         {
-            var timeValue = MinutesValue;
-            var secondTimeValue = HoursValue;
+            var timeValue = minutesValue;
+            var secondTimeValue = hoursValue;
             changeValues(ref timeValue, ref secondTimeValue, ref HourUC);
-            MinutesValue = timeValue;
-            HoursValue = secondTimeValue;
+            minutesValue = timeValue;
+            hoursValue = secondTimeValue;
         }
         private void controValuelSeconds()
         {
-            var timeValue = SecondsValue;
-            var secondTimeValue = MinutesValue;
+            var timeValue = secondsValue;
+            var secondTimeValue = minutesValue;
             changeValues(ref timeValue, ref secondTimeValue, ref MinuteUC);
-            SecondsValue = timeValue;
-            MinutesValue = secondTimeValue;
+            secondsValue = timeValue;
+            minutesValue = secondTimeValue;
         }
+
+        private void hourUC_TimeValueChanged(object? sender, EventArgs e) => hoursValue = HourUC.TimeValue;
 
         private void changeValues(ref int timeValue, ref int secondTimeValue, ref NumericControl objNumCon)
         {
@@ -131,42 +172,49 @@ namespace Shutdown_PC.Controls
                 timeValue = 59;
             }
         }
+        private void minuteUC_TimeValueChanged(object? sender, EventArgs e) => minutesValue = MinuteUC.TimeValue;
 
-        private void hourUC_TimeValueChanged(object? sender, EventArgs e) => HoursValue = HourUC.TimeValue;
 
-        private void minuteUC_TimeValueChanged(object? sender, EventArgs e) => MinutesValue = MinuteUC.TimeValue;
-
-        private void onHorsValuePropertyChanged(DependencyPropertyChangedEventArgs e)
+        private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            HourUC.TimeValue = HoursValue;
+            setTime();
+        }
+        private void onHorsValuePropertyChanged()
+        {
+            HourUC.TimeValue = hoursValue;
             setTime();
         }
 
-        private void onMinutesValueChangedChanged(DependencyPropertyChangedEventArgs e)
-        { 
-            MinuteUC.PreviousValue = HoursValue;
-            MinuteUC.TimeValue = MinutesValue;
+        private void onMinutesValueChanged()
+        {
+            MinuteUC.PreviousValue = hoursValue;
+            MinuteUC.TimeValue = minutesValue;
             controValuelMinutes();
             setTime();
         }
 
-        private void onSecondValueChanged(DependencyPropertyChangedEventArgs e)
+        private void onSecondValueChanged()
         {
-            SecondsUC.PreviousValue = MinutesValue;
-            SecondsUC.TimeValue = SecondsValue;
+            SecondsUC.PreviousValue = minutesValue;
+            SecondsUC.TimeValue = secondsValue;
             controValuelSeconds();
             setTime();
         }
 
-        private void secondsUC_TimeValueChanged(object? sender, EventArgs e) => SecondsValue = SecondsUC.TimeValue;
+        private void secondsUC_TimeValueChanged(object? sender, EventArgs e) => secondsValue = SecondsUC.TimeValue;
 
         private void setTime()
         {
-            if (MinutesValue != 60 && MinutesValue != -1 && SecondsValue != 60 && SecondsValue != -1)
+            if (minutesValue != 60 && minutesValue != -1 && secondsValue != 60 && secondsValue != -1)
             {
-                var stringDateTime = string.Format($"{HoursValue}:{MinutesValue}:{SecondsValue}");
+                var stringDateTime = string.Format($"{hoursValue}:{minutesValue}:{secondsValue}");
                 SetTimeValue = TimeSpan.Parse(stringDateTime);
             }
+        }
+
+        private void setValuesUseControls()
+        {
+
         }
     }
 }
