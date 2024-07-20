@@ -59,6 +59,8 @@ namespace Shutdown_PC
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 1);
             t_CountdownTimer.Tick += onCountdown_Tick;
             Status = eStatus.Stop;
+
+            SetTimeValue = DateTime.Now;
         }
 
         public int Countdown { get; private set; }
