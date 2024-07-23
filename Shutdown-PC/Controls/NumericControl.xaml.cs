@@ -21,13 +21,6 @@ namespace Shutdown_PC.Controls
              typeof(NumericControl),
              new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty PreviousValueProperty =
-            DependencyProperty.Register
-            (nameof(PreviousValue),
-             typeof(int),
-             typeof(NumericControl),
-             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
         public NumericControl()
         {
             InitializeComponent();
@@ -39,12 +32,6 @@ namespace Shutdown_PC.Controls
         {
             get => (int)GetValue(MaxTimeValueProperty);
             set => SetValue(MaxTimeValueProperty, value);
-        }
-
-        public int PreviousValue
-        {
-            get => (int)GetValue(PreviousValueProperty);
-            set => SetValue(PreviousValueProperty, value);
         }
 
         public int TimeValue
@@ -65,7 +52,7 @@ namespace Shutdown_PC.Controls
 
         private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
 
-        public bool canMinus() => TimeValue > -1 && (PreviousValue != 0 || TimeValue > 0);
+        public bool canMinus() => TimeValue > -1 && TimeValue > 0;
 
         public bool canPlus() => TimeValue < MaxTimeValue;
 
