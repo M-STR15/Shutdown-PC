@@ -34,20 +34,22 @@
                     Width="35"
                     Height="35"
                     Margin="0,5,0,5"
+                    Click="btnPlus_Click"
                     Content="+"
                     FontFamily="{StaticResource LCD}"
                     FontSize="30"
-                    Foreground="#1C274C" Click="btnPlus_Click" />
+                    Foreground="#1C274C" />
                 <Button
                     Name="btnMinus"
                     Width="35"
                     Height="35"
                     Margin="5,0,0,0"
                     HorizontalAlignment="Right"
+                    Click="btnMinus_Click"
                     Content="-"
                     FontFamily="{StaticResource LCD}"
                     FontSize="30"
-                    Foreground="#1C274C" Click="btnMinus_Click" />
+                    Foreground="#1C274C" />
             </StackPanel>
         </Grid>
     </StackPanel>

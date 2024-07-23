@@ -24,13 +24,13 @@
         VerticalAlignment="Center"
         Orientation="Horizontal">
         <local:NumericControl
-            x:Name="HourUC"
+            x:Name="HoursUC"
             MaxTimeValue="99" />
         <Label
             VerticalAlignment="Top"
             Content=":"
             Style="{StaticResource appLabel}" />
-        <local:NumericControl x:Name="MinuteUC" />
+        <local:NumericControl x:Name="MinutesUC" />
         <Label
             VerticalAlignment="Top"
             Content=":"
