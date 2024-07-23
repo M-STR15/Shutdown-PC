@@ -33,7 +33,7 @@ namespace Shutdown_PC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
 
-        private int _secondsValue { get; set; }
+        private int _secondsValue;
 
 
         public SetTimerControl()
@@ -144,23 +144,6 @@ namespace Shutdown_PC.Controls
         {
             var uc = d as SetTimerControl;
             uc.onTypeModificationPropertyChanged(e);
-        }
-
-        private void changeValues(ref int timeValue, ref int secondTimeValue, ref NumericControl objNumCon)
-        {
-            if (timeValue == 60)
-            {
-                secondTimeValue++;
-                objNumCon.TimeValue = secondTimeValue;
-                timeValue = 0;
-            }
-
-            if (timeValue == -1 && secondTimeValue != 0)
-            {
-                secondTimeValue--;
-                objNumCon.TimeValue = secondTimeValue;
-                timeValue = 59;
-            }
         }
 
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
