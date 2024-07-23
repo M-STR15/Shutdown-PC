@@ -52,7 +52,7 @@ namespace Shutdown_PC.Controls
 
         private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
 
-        public bool canMinus() => TimeValue > -1 && TimeValue > 0;
+        public bool canMinus() => TimeValue > 0;
 
         public bool canPlus() => TimeValue < MaxTimeValue;
 
@@ -81,14 +81,14 @@ namespace Shutdown_PC.Controls
         private void btnMinus_Click(object sender, RoutedEventArgs e)
         {
             minus();
-            btnMinus.IsEnabled = canMinus();
+            //btnMinus.IsEnabled = canMinus();
             setLbl();
         }
 
         private void btnPlus_Click(object sender, RoutedEventArgs e)
         {
             plus();
-            btnPlus.IsEnabled = canPlus();
+            //btnPlus.IsEnabled = canPlus();
             setLbl();
         }
 

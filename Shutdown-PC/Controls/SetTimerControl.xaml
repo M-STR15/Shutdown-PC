@@ -19,22 +19,35 @@
             <Setter Property="FontFamily" Value="{StaticResource LCD}" />
         </Style>
     </UserControl.Resources>
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Orientation="Horizontal">
-        <local:NumericControl
-            x:Name="HoursUC"
-            MaxTimeValue="99" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
         <Label
-            VerticalAlignment="Top"
-            Content=":"
-            Style="{StaticResource appLabel}" />
-        <local:NumericControl x:Name="MinutesUC" />
-        <Label
-            VerticalAlignment="Top"
-            Content=":"
-            Style="{StaticResource appLabel}" />
-        <local:NumericControl x:Name="SecondsUC"/>
-    </StackPanel>
+            x:Name="lblDate"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Content="00.00.0000"
+            FontFamily="{StaticResource LCD}"
+            FontSize="20"
+            Foreground="#1C274C" />
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <local:NumericControl x:Name="HoursUC" MaxTimeValue="99" />
+            <Label
+                VerticalAlignment="Top"
+                Content=":"
+                Style="{StaticResource appLabel}" />
+            <local:NumericControl x:Name="MinutesUC" />
+            <Label
+                VerticalAlignment="Top"
+                Content=":"
+                Style="{StaticResource appLabel}" />
+            <local:NumericControl x:Name="SecondsUC" />
+        </StackPanel>
+    </Grid>
 </UserControl>

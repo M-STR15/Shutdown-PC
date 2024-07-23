@@ -9,7 +9,7 @@ namespace Shutdown_PC.Controls
     /// Interaction logic for SetTimerControl.xaml
     /// </summary>
     [ObservableObject]
-    public partial class SetTimerControl : UserControl,IDisposable
+    public partial class SetTimerControl : UserControl, IDisposable
     {
 
         public static readonly DependencyProperty SetTimerValueProperty =
@@ -33,7 +33,16 @@ namespace Shutdown_PC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
 
-        private int _secondsValue;
+        private int _seconds;
+        private int _secondsValue
+        {
+            get => _seconds;
+            set
+            {
+                _seconds = value;
+                SetTimeValue =_editDatetime.AddSeconds(value);
+            }
+        }
 
 
         public SetTimerControl()
@@ -91,19 +100,24 @@ namespace Shutdown_PC.Controls
 
         private void setUCNumeric()
         {
-            var time = TimeSpan.FromSeconds(_secondsValue);
 
             switch (TypeModification)
             {
                 case eTypeModification.InTime:
-                    HoursUC.TimeValue = _editDatetime.AddHours(time.Hours).Hour;
-                    MinutesUC.TimeValue = _editDatetime.AddMinutes(time.Minutes).Minute;
-                    SecondsUC.TimeValue = _editDatetime.AddSeconds(time.Seconds).Second;
+                    var finalDatetime = _editDatetime.AddSeconds(_secondsValue);
+                    HoursUC.TimeValue = finalDatetime.Hour;
+                    MinutesUC.TimeValue = finalDatetime.Minute;
+                    SecondsUC.TimeValue = finalDatetime.Second;
+
+                    lblDate.Content = finalDatetime.ToShortDateString();
                     break;
                 case eTypeModification.AfterTime:
-                    HoursUC.TimeValue = time.Hours;
+                    var time = TimeSpan.FromSeconds(_secondsValue);
+                    HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
                     SecondsUC.TimeValue = time.Seconds;
+
+                    lblDate.Content = "";
                     break;
             }
         }
@@ -114,9 +128,7 @@ namespace Shutdown_PC.Controls
             set
             {
                 if (SetTimerValue != value)
-                {
                     SetValue(SetTimerValueProperty, value);
-                }
             }
         }
 
@@ -126,9 +138,7 @@ namespace Shutdown_PC.Controls
             set
             {
                 if (SetTimeValue != value)
-                {
                     SetValue(SetTimeValueProperty, value);
-                }
             }
         }
 
