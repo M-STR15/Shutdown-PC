@@ -74,7 +74,6 @@ namespace Shutdown_PC.Controls
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
             _editDatetime = DateTime.Now;
-
         }
 
         private void hoursPlus_Change(object sender, EventArgs args)
@@ -119,12 +118,12 @@ namespace Shutdown_PC.Controls
             switch (TypeModification)
             {
                 case eTypeModification.InTime:
-                    var finalDatetime = _editDatetime.AddSeconds(EndAfterSeconds);
-                    HoursUC.TimeValue = finalDatetime.Hour;
-                    MinutesUC.TimeValue = finalDatetime.Minute;
-                    SecondsUC.TimeValue = finalDatetime.Second;
+                    var endAdterSeconds = _editDatetime.AddSeconds(EndAfterSeconds);
+                    HoursUC.TimeValue = endAdterSeconds.Hour;
+                    MinutesUC.TimeValue = endAdterSeconds.Minute;
+                    SecondsUC.TimeValue = endAdterSeconds.Second;
 
-                    lblDate.Content = finalDatetime.ToShortDateString();
+                    lblDate.Content = endAdterSeconds.ToShortDateString();
                     break;
                 case eTypeModification.AfterTime:
                     var time = TimeSpan.FromSeconds(EndAfterSeconds);
@@ -140,21 +139,13 @@ namespace Shutdown_PC.Controls
         public TimeSpan SetTimerValue
         {
             get => (TimeSpan)GetValue(SetTimerValueProperty);
-            set
-            {
-                if (SetTimerValue != value)
-                    SetValue(SetTimerValueProperty, value);
-            }
+            set=> SetValue(SetTimerValueProperty, value);
         }
 
         public DateTime SetTimeValue
         {
             get => (DateTime)GetValue(SetTimeValueProperty);
-            set
-            {
-                if (SetTimeValue != value)
-                    SetValue(SetTimeValueProperty, value);
-            }
+            set=> SetValue(SetTimeValueProperty, value);
         }
 
         public eTypeModification TypeModification
