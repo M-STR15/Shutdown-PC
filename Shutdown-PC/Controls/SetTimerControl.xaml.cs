@@ -50,11 +50,7 @@ namespace Shutdown_PC.Controls
         public int EndAfterSeconds
         {
             get => (int)GetValue(EndAfterSecondsProperty);
-            set
-            {
-                SetValue(EndAfterSecondsProperty, value);
-                SetTimeValue =_editDatetime.AddSeconds(value);
-            }
+            set=>SetValue(EndAfterSecondsProperty, value);
         }
 
 
@@ -190,9 +186,6 @@ namespace Shutdown_PC.Controls
         {
             setUCNumeric();
         }
-
-
-
 
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

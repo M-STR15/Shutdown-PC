@@ -12,7 +12,7 @@ namespace Shutdown_PC
     {
         [ObservableProperty]
         private DateTime _endDateTime;
-
+        [ObservableProperty]
         private string _message;
 
         [ObservableProperty]
@@ -26,31 +26,10 @@ namespace Shutdown_PC
         private PcActionService pcAction;
         private DispatcherTimer t_CountdownTimer;
 
-        //[ObservableProperty]
+        [ObservableProperty]
         private DateTime _setTimeValue;
-
-        public DateTime SetTimeValue
-        {
-            get => _setTimeValue;
-            set
-            {
-                _setTimeValue = value;
-                EndDateTime = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(EndDateTime));
-            }
-        }
-
-        private int _secondsToEnd;
-        public int SecondsToEnd
-        {
-            get => _secondsToEnd;
-            set
-            {
-                _secondsToEnd = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private int _endAfterSeconds;
 
         private readonly WindowStore _windowStore;
         public MainViewModel(WindowStore windowsStore)
@@ -75,18 +54,7 @@ namespace Shutdown_PC
             SetTimeValue = DateTime.Now;
         }
 
-        public int Countdown { get; private set; }
         public ICommand LogTheUserOutCommnad { get; set; }
-        public string Message
-        {
-            get => _message;
-            private set
-            {
-                _message = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand RestartCommand { get; private set; }
         public ICommand ShutdownCommand { get; private set; }
         public ICommand SleepModeCommand { get; private set; }
@@ -106,7 +74,7 @@ namespace Shutdown_PC
                 t_CountdownTimer.Stop();
             }
 
-            SecondsToEnd = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+            EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
         }
         private void restart(object parameter)
         {
@@ -138,11 +106,29 @@ namespace Shutdown_PC
             {
                 Status = eStatus.Stop;
                 t_CountdownTimer.Stop();
+
             }
             else
             {
+                setValues();
                 Status = eStatus.Run;
                 t_CountdownTimer.Start();
+            }
+        }
+
+        private void setValues()
+        {
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    //SetTimeValue = SetTimeValue;
+                    EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                    break;
+                case eTypeModification.AfterTime:
+                    SetTimeValue= SetTimeValue.AddSeconds(EndAfterSeconds);
+                    //EndAfterSeconds = EndAfterSeconds;
+
+                    break;
             }
         }
     }
