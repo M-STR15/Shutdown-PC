@@ -2,6 +2,7 @@
 using Shutdown_PC.Models.Enums;
 using Shutdown_PC.Services;
 using Shutdown_PC.Stores;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -40,6 +41,17 @@ namespace Shutdown_PC
             }
         }
 
+        private int _secondsToEnd;
+        public int SecondsToEnd
+        {
+            get => _secondsToEnd;
+            set
+            {
+                _secondsToEnd = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly WindowStore _windowStore;
         public MainViewModel(WindowStore windowsStore)
         {
@@ -56,8 +68,8 @@ namespace Shutdown_PC
             pcAction = new PcActionService();
 
             t_CountdownTimer = new DispatcherTimer();
-            t_CountdownTimer.Interval = new TimeSpan(0, 0, 1);
-            t_CountdownTimer.Tick += onCountdown_Tick;
+            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 300);
+            t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
             Status = eStatus.Stop;
 
             SetTimeValue = DateTime.Now;
@@ -88,7 +100,13 @@ namespace Shutdown_PC
 
         private void onCountdown_Tick(object sender, EventArgs args)
         {
+            if (SetTimeValue <= DateTime.Now)
+            {
+                MessageBox.Show("test timeru");
+                t_CountdownTimer.Stop();
+            }
 
+            SecondsToEnd = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
         }
         private void restart(object parameter)
         {
@@ -117,9 +135,15 @@ namespace Shutdown_PC
         private void changeStatus(object parameter)
         {
             if (Status == eStatus.Run)
+            {
                 Status = eStatus.Stop;
+                t_CountdownTimer.Stop();
+            }
             else
+            {
                 Status = eStatus.Run;
+                t_CountdownTimer.Start();
+            }
         }
     }
 }

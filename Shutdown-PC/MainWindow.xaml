@@ -78,31 +78,7 @@
                 </TextBlock.Style>
             </TextBlock>
 
-            <control:TimerControl TimerValue="{Binding EndDateTime}">
-                <control:TimerControl.Style >
-                    <Style TargetType="{x:Type control:TimerControl}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Visibility" Value="Collapsed" />
-                    </Style>
-                </control:TimerControl.Style>
-            </control:TimerControl>
-
-            <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}">
-                <control:SetTimerControl.Style>
-                    <Style TargetType="{x:Type control:SetTimerControl}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                        <Setter Property="Visibility" Value="Visible" />
-                    </Style>
-                </control:SetTimerControl.Style>
-            </control:SetTimerControl>
+            <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status}" EndAfterSeconds="{Binding SecondsToEnd, Mode=TwoWay}"/>
         </StackPanel>
 
         <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />

@@ -21,6 +21,19 @@ namespace Shutdown_PC.Controls
              typeof(NumericControl),
              new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
+        public static readonly DependencyProperty VisibilityButtonsProperty =
+            DependencyProperty.Register
+            (nameof(VisibilityButtons),
+             typeof(Visibility),
+             typeof(NumericControl),
+             new FrameworkPropertyMetadata(Visibility.Hidden,new PropertyChangedCallback(oVisibilityButtonsPropertyChanged)));
+
+        public Visibility VisibilityButtons
+        {
+            get => (Visibility)GetValue(VisibilityButtonsProperty);
+            set => SetValue(VisibilityButtonsProperty, value);
+        }
+
         public NumericControl()
         {
             InitializeComponent();
@@ -55,6 +68,17 @@ namespace Shutdown_PC.Controls
         public bool canMinus() => TimeValue > 0;
 
         public bool canPlus() => TimeValue < MaxTimeValue;
+
+        private static void oVisibilityButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as NumericControl;
+            uc.oVisibilityButtonsPropertyChanged(e);
+        }
+
+        private void oVisibilityButtonsPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            stcBtns.Visibility = VisibilityButtons;
+        }
 
         private static void onTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

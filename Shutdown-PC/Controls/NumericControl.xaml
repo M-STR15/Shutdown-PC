@@ -28,6 +28,7 @@
             <StackPanel
                 Grid.Row="1"
                 HorizontalAlignment="Center"
+                Name="stcBtns"
                 Orientation="Horizontal">
                 <Button
                     Name="btnPlus"
