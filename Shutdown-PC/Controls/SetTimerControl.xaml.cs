@@ -2,6 +2,7 @@
 using Shutdown_PC.Models.Enums;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace Shutdown_PC.Controls
 {
@@ -32,25 +33,14 @@ namespace Shutdown_PC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
-        public static readonly DependencyProperty EndAfterSecondsProperty =
-           DependencyProperty.Register
-           (nameof(EndAfterSeconds),
-            typeof(int),
-            typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onEndAfterSecondsPropertyChanged)));
-
-        public int EndAfterSeconds
-        {
-            get => (int)GetValue(EndAfterSecondsProperty);
-            set => SetValue(EndAfterSecondsProperty, value);
-        }
-
-
+        private int _endAfterSeconds;
         public eStatus Status
         {
             get => (eStatus)GetValue(StatusProperty);
             set => SetValue(StatusProperty, value);
         }
+
+        private DispatcherTimer t_CountdownTimer;
 
         private DateTime _endDateTime;
         public SetTimerControl()
@@ -67,6 +57,29 @@ namespace Shutdown_PC.Controls
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
             _endDateTime = DateTime.Now;
+
+            t_CountdownTimer = new DispatcherTimer();
+            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
+        }
+        private void onCountdown_Tick(object sender, EventArgs args)
+        {
+            if (SetTimeValue <= DateTime.Now)
+            {
+                MessageBox.Show("test timeru");
+                t_CountdownTimer.Stop();
+            }
+
+            _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+            aaaa();
+        }
+
+        private void changeStatus()
+        {
+            if (Status == eStatus.Run)
+                t_CountdownTimer.Start();
+            else
+                t_CountdownTimer.Stop();
         }
 
         private void hoursPlus_Change(object sender, EventArgs args) => setUCNumeric(+3600);
@@ -83,9 +96,13 @@ namespace Shutdown_PC.Controls
 
         private void setUCNumeric(int addSeconds)
         {
-            EndAfterSeconds += addSeconds;
-            SetTimeValue = _endDateTime.AddSeconds(EndAfterSeconds);
+            _endAfterSeconds += addSeconds;
+            SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
+            aaaa();
+        }
 
+        private void aaaa()
+        {
             switch (TypeModification)
             {
                 case eTypeModification.InTime:
@@ -98,7 +115,7 @@ namespace Shutdown_PC.Controls
                     break;
                 case eTypeModification.AfterTime:
 
-                    var time = TimeSpan.FromSeconds(EndAfterSeconds);
+                    var time = TimeSpan.FromSeconds(_endAfterSeconds);
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
                     SecondsUC.TimeValue = time.Seconds;
@@ -138,17 +155,6 @@ namespace Shutdown_PC.Controls
             }
         }
 
-        private static void onEndAfterSecondsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var uc = d as SetTimerControl;
-            uc.onEndAfterSecondsPropertyChanged(e);
-        }
-
-        private void onEndAfterSecondsPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            setUCNumeric(0);
-        }
-
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
@@ -164,6 +170,8 @@ namespace Shutdown_PC.Controls
             HoursUC.VisibilityButtons = vis;
             MinutesUC.VisibilityButtons = vis;
             SecondsUC.VisibilityButtons = vis;
+
+            changeStatus();
         }
 
         public void Dispose()

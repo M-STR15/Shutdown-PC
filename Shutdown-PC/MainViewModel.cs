@@ -22,7 +22,6 @@ namespace Shutdown_PC
         [ObservableProperty]
         private eTypeModification _typeModification;
         private PcActionService pcAction;
-        private DispatcherTimer t_CountdownTimer;
 
         [ObservableProperty]
         private DateTime _setTimeValue;
@@ -44,9 +43,6 @@ namespace Shutdown_PC
 
             pcAction = new PcActionService();
 
-            t_CountdownTimer = new DispatcherTimer();
-            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 300);
-            t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
             Status = eStatus.Stop;
 
             SetTimeValue = DateTime.Now;
@@ -64,16 +60,6 @@ namespace Shutdown_PC
             //Message = pcAction.Message;
         }
 
-        private void onCountdown_Tick(object sender, EventArgs args)
-        {
-            if (SetTimeValue <= DateTime.Now)
-            {
-                MessageBox.Show("test timeru");
-                t_CountdownTimer.Stop();
-            }
-
-            EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-        }
         private void restart(object parameter)
         {
             pcAction.Reboot();
@@ -103,14 +89,11 @@ namespace Shutdown_PC
             if (Status == eStatus.Run)
             {
                 Status = eStatus.Stop;
-                t_CountdownTimer.Stop();
-
             }
             else
             {
                 setValues();
                 Status = eStatus.Run;
-                t_CountdownTimer.Start();
             }
         }
 
