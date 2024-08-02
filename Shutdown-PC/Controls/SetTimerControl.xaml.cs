@@ -11,14 +11,6 @@ namespace Shutdown_PC.Controls
     [ObservableObject]
     public partial class SetTimerControl : UserControl, IDisposable
     {
-
-        public static readonly DependencyProperty SetTimerValueProperty =
-          DependencyProperty.Register
-          (nameof(SetTimerValue),
-           typeof(TimeSpan),
-           typeof(SetTimerControl),
-            new FrameworkPropertyMetadata(TimeSpan.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
         public static readonly DependencyProperty SetTimeValueProperty =
            DependencyProperty.Register
            (nameof(SetTimeValue),
@@ -38,7 +30,7 @@ namespace Shutdown_PC.Controls
            (nameof(Status),
             typeof(eStatus),
             typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(eStatus.Run,new PropertyChangedCallback(onStatusPropertyChanged)));
+             new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
         public static readonly DependencyProperty EndAfterSecondsProperty =
            DependencyProperty.Register
@@ -50,7 +42,7 @@ namespace Shutdown_PC.Controls
         public int EndAfterSeconds
         {
             get => (int)GetValue(EndAfterSecondsProperty);
-            set=>SetValue(EndAfterSecondsProperty, value);
+            set => SetValue(EndAfterSecondsProperty, value);
         }
 
 
@@ -60,6 +52,7 @@ namespace Shutdown_PC.Controls
             set => SetValue(StatusProperty, value);
         }
 
+        private DateTime _endDateTime;
         public SetTimerControl()
         {
             InitializeComponent();
@@ -73,52 +66,30 @@ namespace Shutdown_PC.Controls
             SecondsUC.btnPlus.Click += secondsPlus_Change;
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
-            _editDatetime = DateTime.Now;
+            _endDateTime = DateTime.Now;
         }
 
-        private void hoursPlus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds += 60 * 60;
-            setUCNumeric();
-        }
+        private void hoursPlus_Change(object sender, EventArgs args) => setUCNumeric(+3600);
 
-        private void hoursMinus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds -= 60 * 60;
-            setUCNumeric();
-        }
+        private void hoursMinus_Change(object sender, EventArgs args) => setUCNumeric(-3600);
 
-        private void minutesPlus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds += 60;
-            setUCNumeric();
-        }
+        private void minutesPlus_Change(object sender, EventArgs args) => setUCNumeric(+60);
 
-        private void minutesMinus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds -= 60;
-            setUCNumeric();
-        }
+        private void minutesMinus_Change(object sender, EventArgs args) => setUCNumeric(-60);
 
-        private void secondsPlus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds += 1;
-            setUCNumeric();
-        }
+        private void secondsPlus_Change(object sender, EventArgs args) => setUCNumeric(+1);
 
-        private void secondsMinus_Change(object sender, EventArgs args)
-        {
-            EndAfterSeconds -= 1;
-            setUCNumeric();
-        }
+        private void secondsMinus_Change(object sender, EventArgs args) => setUCNumeric(-1);
 
-        private void setUCNumeric()
+        private void setUCNumeric(int addSeconds)
         {
+            EndAfterSeconds += addSeconds;
+            SetTimeValue = _endDateTime.AddSeconds(EndAfterSeconds);
 
             switch (TypeModification)
             {
                 case eTypeModification.InTime:
-                    var endAdterSeconds = _editDatetime.AddSeconds(EndAfterSeconds);
+                    var endAdterSeconds = DateTime.Now.AddSeconds((SetTimeValue - DateTime.Now).TotalSeconds);
                     HoursUC.TimeValue = endAdterSeconds.Hour;
                     MinutesUC.TimeValue = endAdterSeconds.Minute;
                     SecondsUC.TimeValue = endAdterSeconds.Second;
@@ -126,6 +97,7 @@ namespace Shutdown_PC.Controls
                     lblDate.Content = endAdterSeconds.ToShortDateString();
                     break;
                 case eTypeModification.AfterTime:
+
                     var time = TimeSpan.FromSeconds(EndAfterSeconds);
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
@@ -136,16 +108,10 @@ namespace Shutdown_PC.Controls
             }
         }
 
-        public TimeSpan SetTimerValue
-        {
-            get => (TimeSpan)GetValue(SetTimerValueProperty);
-            set=> SetValue(SetTimerValueProperty, value);
-        }
-
         public DateTime SetTimeValue
         {
             get => (DateTime)GetValue(SetTimeValueProperty);
-            set=> SetValue(SetTimeValueProperty, value);
+            set => SetValue(SetTimeValueProperty, value);
         }
 
         public eTypeModification TypeModification
@@ -153,8 +119,6 @@ namespace Shutdown_PC.Controls
             get => (eTypeModification)GetValue(TypeModificationProperty);
             set => SetValue(TypeModificationProperty, value);
         }
-
-        private DateTime _editDatetime;
 
         private static void onTypeModificationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -164,7 +128,14 @@ namespace Shutdown_PC.Controls
 
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            setUCNumeric();
+            setUCNumeric(0);
+
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    _endDateTime = DateTime.Now;
+                    break;
+            }
         }
 
         private static void onEndAfterSecondsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -175,7 +146,7 @@ namespace Shutdown_PC.Controls
 
         private void onEndAfterSecondsPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            setUCNumeric();
+            setUCNumeric(0);
         }
 
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

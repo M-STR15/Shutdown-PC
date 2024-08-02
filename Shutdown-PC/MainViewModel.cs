@@ -11,8 +11,6 @@ namespace Shutdown_PC
     public partial class MainViewModel : ObservableObject
     {
         [ObservableProperty]
-        private DateTime _endDateTime;
-        [ObservableProperty]
         private string _message;
 
         [ObservableProperty]
@@ -122,10 +120,10 @@ namespace Shutdown_PC
             {
                 case eTypeModification.InTime:
                     //SetTimeValue = SetTimeValue;
-                    EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                    //EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
                     break;
                 case eTypeModification.AfterTime:
-                    SetTimeValue= SetTimeValue.AddSeconds(EndAfterSeconds);
+                  //  SetTimeValue= SetTimeValue;
                     //EndAfterSeconds = EndAfterSeconds;
 
                     break;

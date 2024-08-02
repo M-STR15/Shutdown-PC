@@ -10,8 +10,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Shutdown_PC;component/Styles/WindowDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="LCD">pack://application:,,,/Shutdown_PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         </ResourceDictionary>
-        <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
 
         <Style x:Key="labelTimerStyle" TargetType="Label">
             <Setter Property="HorizontalAlignment" Value="Center" />

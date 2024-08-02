@@ -9,7 +9,7 @@
     MinWidth="320"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
+        <FontFamily x:Key="LCD">pack://application:,,,/Shutdown_PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
 
         <Style x:Key="appLabel" TargetType="Label">
             <Setter Property="HorizontalAlignment" Value="Center" />
