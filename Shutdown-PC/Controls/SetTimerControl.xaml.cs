@@ -71,7 +71,7 @@ namespace Shutdown_PC.Controls
             }
 
             _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-            aaaa();
+            setLabelTimer();
         }
 
         private void changeStatus()
@@ -82,26 +82,49 @@ namespace Shutdown_PC.Controls
                 t_CountdownTimer.Stop();
         }
 
-        private void hoursPlus_Change(object sender, EventArgs args) => setUCNumeric(+3600);
+        private void hoursPlus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(+3600);
+            setLabelTimer();
+        }
 
-        private void hoursMinus_Change(object sender, EventArgs args) => setUCNumeric(-3600);
+        private void hoursMinus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(-3600);
+            setLabelTimer();
+        }
 
-        private void minutesPlus_Change(object sender, EventArgs args) => setUCNumeric(+60);
+        private void minutesPlus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(+60);
+            setLabelTimer();
+        }
 
-        private void minutesMinus_Change(object sender, EventArgs args) => setUCNumeric(-60);
+        private void minutesMinus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(-60);
+            setLabelTimer();
+        }
 
-        private void secondsPlus_Change(object sender, EventArgs args) => setUCNumeric(+1);
+        private void secondsPlus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(+1);
+            setLabelTimer();
+        }
 
-        private void secondsMinus_Change(object sender, EventArgs args) => setUCNumeric(-1);
+        private void secondsMinus_Change(object sender, EventArgs args)
+        {
+            setTimeValue(-1);
+            setLabelTimer();
+        }
 
-        private void setUCNumeric(int addSeconds)
+        private void setTimeValue(int addSeconds)
         {
             _endAfterSeconds += addSeconds;
             SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
-            aaaa();
         }
 
-        private void aaaa()
+        private void setLabelTimer()
         {
             switch (TypeModification)
             {
@@ -145,7 +168,7 @@ namespace Shutdown_PC.Controls
 
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            setUCNumeric(0);
+            setLabelTimer();
 
             switch (TypeModification)
             {

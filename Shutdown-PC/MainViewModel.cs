@@ -31,7 +31,7 @@ namespace Shutdown_PC
         private readonly WindowStore _windowStore;
         public MainViewModel(WindowStore windowsStore)
         {
-            TypeModification = eTypeModification.InTime;
+            TypeModification = eTypeModification.AfterTime;
             ShutdownCommand = new Helpers.RelayCommand(shutdown);
             RestartCommand = new Helpers.RelayCommand(restart);
             LogTheUserOutCommnad = new Helpers.RelayCommand(logTheUserOut);
