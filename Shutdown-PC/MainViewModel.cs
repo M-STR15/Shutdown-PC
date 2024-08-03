@@ -2,9 +2,7 @@
 using Shutdown_PC.Models.Enums;
 using Shutdown_PC.Services;
 using Shutdown_PC.Stores;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace Shutdown_PC
 {
@@ -21,14 +19,17 @@ namespace Shutdown_PC
 
         [ObservableProperty]
         private eTypeModification _typeModification;
+
         private PcActionService pcAction;
 
         [ObservableProperty]
         private DateTime _setTimeValue;
+
         [ObservableProperty]
         private int _endAfterSeconds;
 
         private readonly WindowStore _windowStore;
+
         public MainViewModel(WindowStore windowsStore)
         {
             TypeModification = eTypeModification.AfterTime;
@@ -54,6 +55,7 @@ namespace Shutdown_PC
         public ICommand SleepModeCommand { get; private set; }
         public ICommand StartCommand { get; private set; }
         public ICommand ShowSettingCommand { get; private set; }
+
         private void logTheUserOut(object parameter)
         {
             pcAction.LogOff();
@@ -71,6 +73,7 @@ namespace Shutdown_PC
             pcAction.Shutdown();
             //Message=pcAction.Message;
         }
+
         private void sleepMode(object parameter)
         {
             //pcAction.SleepMode();
@@ -105,8 +108,9 @@ namespace Shutdown_PC
                     //SetTimeValue = SetTimeValue;
                     //EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
                     break;
+
                 case eTypeModification.AfterTime:
-                  //  SetTimeValue= SetTimeValue;
+                    //  SetTimeValue= SetTimeValue;
                     //EndAfterSeconds = EndAfterSeconds;
 
                     break;

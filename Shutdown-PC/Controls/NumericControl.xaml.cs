@@ -26,7 +26,7 @@ namespace Shutdown_PC.Controls
             (nameof(VisibilityButtons),
              typeof(Visibility),
              typeof(NumericControl),
-             new FrameworkPropertyMetadata(Visibility.Hidden,new PropertyChangedCallback(oVisibilityButtonsPropertyChanged)));
+             new FrameworkPropertyMetadata(Visibility.Hidden, new PropertyChangedCallback(oVisibilityButtonsPropertyChanged)));
 
         public Visibility VisibilityButtons
         {
@@ -85,6 +85,7 @@ namespace Shutdown_PC.Controls
             var uc = d as NumericControl;
             uc.onTimeValuePropertyChanged(e);
         }
+
         private void minus()
         {
             if (canMinus())
@@ -93,7 +94,6 @@ namespace Shutdown_PC.Controls
 
         private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-
         }
 
         private void plus()

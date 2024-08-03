@@ -28,7 +28,6 @@ namespace Shutdown_PC.Controls
             }
             catch (Exception)
             {
-
             }
         }
     }

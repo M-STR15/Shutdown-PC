@@ -34,6 +34,7 @@ namespace Shutdown_PC.Controls
              new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
         private int _endAfterSeconds;
+
         public eStatus Status
         {
             get => (eStatus)GetValue(StatusProperty);
@@ -43,6 +44,7 @@ namespace Shutdown_PC.Controls
         private DispatcherTimer t_CountdownTimer;
 
         private DateTime _endDateTime;
+
         public SetTimerControl()
         {
             InitializeComponent();
@@ -62,6 +64,7 @@ namespace Shutdown_PC.Controls
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
         }
+
         private void onCountdown_Tick(object sender, EventArgs args)
         {
             if (SetTimeValue <= DateTime.Now)
@@ -136,6 +139,7 @@ namespace Shutdown_PC.Controls
 
                     lblDate.Content = endAdterSeconds.ToShortDateString();
                     break;
+
                 case eTypeModification.AfterTime:
 
                     var time = TimeSpan.FromSeconds(_endAfterSeconds);

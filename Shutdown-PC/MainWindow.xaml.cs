@@ -14,7 +14,6 @@ namespace Shutdown_PC
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

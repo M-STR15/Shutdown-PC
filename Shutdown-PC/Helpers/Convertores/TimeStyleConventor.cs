@@ -10,7 +10,7 @@ namespace Shutdown_PC.Helpers.Convertores
         {
             if (value is int)
             {
-                var intValue= (int)value;
+                var intValue = (int)value;
                 return (intValue < 10 ? "0" : "") + value.ToString();
             }
             else

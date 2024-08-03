@@ -33,6 +33,7 @@ namespace Shutdown_PC.Helpers
         #region ICommand Members
 
         private event EventHandler _canExecuteChanged;
+
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;

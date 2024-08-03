@@ -9,8 +9,10 @@ namespace Shutdown_PC.Stores
     {
         private readonly ClasesStore _clasesStore;
         private readonly MainWindow _mainWindow;
+
         [ObservableProperty]
         private TimeSpan _setTimeValueProperty;
+
         public WindowStore(ClasesStore clasesStore, MainWindow mainWindow)
         {
             _clasesStore = clasesStore;
@@ -28,7 +30,6 @@ namespace Shutdown_PC.Stores
             }
             catch (Exception)
             {
-
             }
 
             return false;
@@ -38,7 +39,6 @@ namespace Shutdown_PC.Stores
             where T : BaseWindowViewModel
             where R : Window
         {
-
             viewModel.Window = window;
             viewModel.Window.DataContext = viewModel;
             viewModel.Window.Owner = owner;

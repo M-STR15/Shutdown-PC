@@ -78,7 +78,7 @@
                 </TextBlock.Style>
             </TextBlock>
 
-            <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status}"/>
+            <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status}" />
         </StackPanel>
 
         <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />

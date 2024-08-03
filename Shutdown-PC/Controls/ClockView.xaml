@@ -34,5 +34,4 @@
             FontSize="60"
             Foreground="#1C274C" />
     </Grid>
-
 </UserControl>

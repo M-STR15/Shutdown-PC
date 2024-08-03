@@ -13,6 +13,7 @@ namespace Shutdown_PC.Stores
         }
 
         public InfoWindowViewModel GetInfoWindowViewModel() => _container.Get<InfoWindowViewModel>();
+
         public SettingWindowViewModel GetSettingWindowViewModel() => _container.Get<SettingWindowViewModel>();
     }
 }

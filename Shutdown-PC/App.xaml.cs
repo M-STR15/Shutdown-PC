@@ -1,8 +1,6 @@
 ﻿using Ninject;
 using Shutdown_PC.Stores;
 using Shutdown_PC.ViewModels.Windows;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace Shutdown_PC
@@ -49,7 +47,6 @@ namespace Shutdown_PC
             _container.Bind<MainViewModel>().To<MainViewModel>().InSingletonScope();
             _container.Bind<InfoWindowViewModel>().To<InfoWindowViewModel>().InSingletonScope();
             _container.Bind<SettingWindowViewModel>().To<SettingWindowViewModel>().InSingletonScope();
-
         }
 
         private void congfigStores()

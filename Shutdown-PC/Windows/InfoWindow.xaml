@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Shutdown_PC.Windows"
         mc:Ignorable="d"
         Style="{StaticResource AppWindowWithOkStorno}"
-        Title="InfoWindow" >
+        Title="InfoWindow">
     <Grid>
-        
     </Grid>
 </Window>
