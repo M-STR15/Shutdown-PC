@@ -6,7 +6,8 @@ using System.Windows.Input;
 
 namespace ShutdownPC
 {
-    public partial class MainViewModel : ObservableObject
+    [ObservableObject]
+    public partial class MainViewModel 
     {
         private readonly WindowStore _windowStore;
 
@@ -28,6 +29,9 @@ namespace ShutdownPC
         [ObservableProperty]
         private eTypeModification _typeModification;
 
+        [ObservableProperty]
+        private string _version;
+
         private PcActionService pcAction;
         public MainViewModel(WindowStore windowsStore)
         {
@@ -46,6 +50,7 @@ namespace ShutdownPC
             Status = eStatus.Stop;
 
             SetTimeValue = DateTime.Now;
+            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         public ICommand LogTheUserOutCommnad { get; set; }
@@ -62,7 +67,6 @@ namespace ShutdownPC
             }
             else
             {
-                setValues();
                 Status = eStatus.Run;
             }
         }
@@ -77,23 +81,6 @@ namespace ShutdownPC
         {
             pcAction.Reboot();
             //Message = pcAction.Message;
-        }
-
-        private void setValues()
-        {
-            switch (TypeModification)
-            {
-                case eTypeModification.InTime:
-                    //SetTimeValue = SetTimeValue;
-                    //EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-                    break;
-
-                case eTypeModification.AfterTime:
-                    //  SetTimeValue= SetTimeValue;
-                    //EndAfterSeconds = EndAfterSeconds;
-
-                    break;
-            }
         }
 
         private void showSetting(object parameter)

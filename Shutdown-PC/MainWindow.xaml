@@ -12,7 +12,7 @@
     Name="MainWin"
     Title="Shutdown-PC"
     Width="500"
-    Height="550"
+    Height="540"
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <Window.Resources>
@@ -21,31 +21,28 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-            <Menu>
-                <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
-                    <MenuItem.Icon>
-                        <Image
+        <Menu>
+            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
+                <MenuItem.Icon>
+                    <Image
                         Width="12"
                         Height="12"
                         Source="{svgc:SvgImage Source=/Resources/Icons/SVG/setting.svg}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </Menu>
-        <Grid Margin="20">
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Margin="20,0,20,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -64,11 +61,11 @@
                 <control:ComputerActionsControl Grid.Column="2" />
             </Grid>
 
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="1">
                 <TextBlock Margin="5" Text="Aktuální čas" />
                 <control:ClockControl />
             </StackPanel>
-            <StackPanel Grid.Row="3">
+            <StackPanel Grid.Row="2">
                 <TextBlock Margin="5">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -82,14 +79,21 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status,Mode=TwoWay}" />
+                <control:SetTimerControl
+                    SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}"
+                    Status="{Binding Status, Mode=TwoWay}"
+                    TypeModification="{Binding TypeModification}" />
             </StackPanel>
 
-            <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />
+            <control:ButtonsControl Grid.Row="3" VerticalAlignment="Bottom" />
+        </Grid>
+        <Grid Grid.Row="2">
             <TextBlock
-            Grid.Row="6"
-            VerticalAlignment="Center"
-            Text="{Binding Message}" />
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Margin="20,0,20,5"
+                Text="{Binding Version, FallbackValue=Version}" />
         </Grid>
     </Grid>
 </Window>
