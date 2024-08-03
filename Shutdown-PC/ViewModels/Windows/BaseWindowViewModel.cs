@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Shutdown_PC.ViewModels.Windows
+namespace ShutdownPC.ViewModels.Windows
 {
     public class BaseWindowViewModel : BaseViewModel
     {

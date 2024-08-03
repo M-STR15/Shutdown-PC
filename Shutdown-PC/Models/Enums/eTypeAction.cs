@@ -1,4 +1,4 @@
-﻿namespace Shutdown_PC.Models.Enums
+﻿namespace ShutdownPC.Models.Enums
 {
     public enum eTypeAction
     {

@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Shutdown_PC.ViewModels.Windows;
-using Shutdown_PC.Windows;
+using ShutdownPC.ViewModels.Windows;
+using ShutdownPC.Windows;
 using System.Windows;
 
-namespace Shutdown_PC.Stores
+namespace ShutdownPC.Stores
 {
     public partial class WindowStore : ObservableObject
     {

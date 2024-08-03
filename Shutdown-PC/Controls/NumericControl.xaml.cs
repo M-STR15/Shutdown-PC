@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Shutdown_PC.Controls
+namespace ShutdownPC.Controls
 {
     /// <summary>
     /// Interaction logic for NumericControl.xaml
@@ -118,7 +118,27 @@ namespace Shutdown_PC.Controls
 
         private void setLbl()
         {
-            lblTimeValue.Content = (TimeValue < 10 ? "0" : "") + TimeValue.ToString();
+            var resultText = "00";
+            var timeVal = Math.Abs(TimeValue);
+
+            if (TimeValue < -9)
+            {
+                resultText = timeVal.ToString();
+            }
+            else if (TimeValue < 0)
+            {
+                resultText = "0" + timeVal.ToString();
+            }
+            else if (TimeValue < 10)
+            {
+                resultText = "0" + timeVal.ToString();
+            }
+            else
+            {
+                resultText = timeVal.ToString();
+            }
+
+            lblTimeValue.Content = resultText;
         }
     }
 }

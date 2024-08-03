@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Shutdown_PC.Models.Enums;
+using ShutdownPC.Models.Enums;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace Shutdown_PC.Controls
+namespace ShutdownPC.Controls
 {
     /// <summary>
     /// Interaction logic for SetTimerControl.xaml
@@ -88,37 +88,69 @@ namespace Shutdown_PC.Controls
         private void hoursPlus_Change(object sender, EventArgs args)
         {
             setTimeValue(+3600);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
         }
 
         private void hoursMinus_Change(object sender, EventArgs args)
         {
             setTimeValue(-3600);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
         }
 
         private void minutesPlus_Change(object sender, EventArgs args)
         {
             setTimeValue(+60);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
         }
 
         private void minutesMinus_Change(object sender, EventArgs args)
         {
             setTimeValue(-60);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
         }
 
         private void secondsPlus_Change(object sender, EventArgs args)
         {
             setTimeValue(+1);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
         }
 
         private void secondsMinus_Change(object sender, EventArgs args)
         {
             setTimeValue(-1);
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
             setLabelTimer();
+        }
+
+        private void setAllButtons()
+        {
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setMinusButton(SecondsUC, time.Seconds, time.Minutes);
+            setMinusButton(MinutesUC, time.Minutes, time.Hours);
+            setMinusButton(HoursUC, time.Hours);
+        }
+        private void setMinusButton(NumericControl numericControl, int timeValue, int previousTimeValue = 0)
+        {
+            if (TypeModification == eTypeModification.AfterTime)
+            {
+                var isEnable = (timeValue > 0) || previousTimeValue > 0;
+                numericControl.btnMinus.IsEnabled = isEnable;
+            }
+            else
+            {
+                numericControl.btnMinus.IsEnabled = true;
+            }
         }
 
         private void setTimeValue(int addSeconds)
@@ -138,18 +170,21 @@ namespace Shutdown_PC.Controls
                     SecondsUC.TimeValue = endAdterSeconds.Second;
 
                     lblDate.Content = endAdterSeconds.ToShortDateString();
+                    lblNegativTime.Visibility = Visibility.Hidden;
                     break;
 
                 case eTypeModification.AfterTime:
-
                     var time = TimeSpan.FromSeconds(_endAfterSeconds);
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
                     SecondsUC.TimeValue = time.Seconds;
 
                     lblDate.Content = "";
+
+                    lblNegativTime.Visibility = time.TotalSeconds < 0 ? Visibility.Visible : Visibility.Hidden;
                     break;
             }
+
         }
 
         public DateTime SetTimeValue
@@ -173,6 +208,7 @@ namespace Shutdown_PC.Controls
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             setLabelTimer();
+            setAllButtons();
 
             switch (TypeModification)
             {
@@ -197,6 +233,11 @@ namespace Shutdown_PC.Controls
             HoursUC.VisibilityButtons = vis;
             MinutesUC.VisibilityButtons = vis;
             SecondsUC.VisibilityButtons = vis;
+
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setMinusButton(HoursUC, time.Hours);
+            setMinusButton(MinutesUC, time.Minutes);
+            setMinusButton(SecondsUC, time.Seconds);
 
             changeStatus();
         }

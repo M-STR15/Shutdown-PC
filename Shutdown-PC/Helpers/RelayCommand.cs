@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
 
-namespace Shutdown_PC.Helpers
+namespace ShutdownPC.Helpers
 {
     public class RelayCommand : ICommand
     {

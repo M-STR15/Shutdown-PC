@@ -1,4 +1,4 @@
-﻿namespace Shutdown_PC.ViewModels
+﻿namespace ShutdownPC.ViewModels
 {
     public abstract class BaseViewModel
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace Shutdown_PC.Controls
+namespace ShutdownPC.Controls
 {
     /// <summary>
     /// Interaction logic for ClockView.xaml

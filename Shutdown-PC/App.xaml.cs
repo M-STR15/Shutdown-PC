@@ -1,9 +1,9 @@
 ﻿using Ninject;
-using Shutdown_PC.Stores;
-using Shutdown_PC.ViewModels.Windows;
+using ShutdownPC.Stores;
+using ShutdownPC.ViewModels.Windows;
 using System.Windows;
 
-namespace Shutdown_PC
+namespace ShutdownPC
 {
     /// <summary>
     /// Interaction logic for App.xaml

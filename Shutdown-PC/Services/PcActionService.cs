@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Shutdown_PC.Services
+namespace ShutdownPC.Services
 {
     public class PcActionService
     {

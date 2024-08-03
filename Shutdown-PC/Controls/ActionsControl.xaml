@@ -1,11 +1,11 @@
 ﻿<UserControl
-    x:Class="Shutdown_PC.Controls.ActionsControl"
+    x:Class="ShutdownPC.Controls.ActionsControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:convert="clr-namespace:Shutdown_PC.Helpers.Convertores"
+    xmlns:convert="clr-namespace:ShutdownPC.Helpers.Convertores"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:enum="clr-namespace:Shutdown_PC.Models.Enums"
-    xmlns:local="clr-namespace:Shutdown_PC.Controls"
+    xmlns:enum="clr-namespace:ShutdownPC.Models.Enums"
+    xmlns:local="clr-namespace:ShutdownPC.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 

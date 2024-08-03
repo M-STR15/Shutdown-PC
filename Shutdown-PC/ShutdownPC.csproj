@@ -3,13 +3,20 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
-    <RootNamespace>Shutdown_PC</RootNamespace>
+    <RootNamespace>ShutdownPC</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageIcon>power_128x128.png</PackageIcon>
     <ApplicationIcon>Resources\Icons\ICO\power_128x128.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="Views\**" />
+    <Page Remove="Views\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Fonts\LCDMonoWinTT\LCDM2B.TTF" />
@@ -41,10 +48,6 @@
 
   <ItemGroup>
     <Content Include="Resources\Icons\ICO\power_128x128.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,16 +1,16 @@
 ﻿<Application
-    x:Class="Shutdown_PC.App"
+    x:Class="ShutdownPC.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Shutdown_PC"
+    xmlns:local="clr-namespace:ShutdownPC"
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
     <Application.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Shutdown_PC;component/Styles/WindowDictionary.xaml" />
+                <ResourceDictionary Source="/ShutdownPC;component/Styles/WindowDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <FontFamily x:Key="LCD">pack://application:,,,/Shutdown_PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
+            <FontFamily x:Key="LCD">pack://application:,,,/ShutdownPC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         </ResourceDictionary>
 
         <Style x:Key="labelTimerStyle" TargetType="Label">

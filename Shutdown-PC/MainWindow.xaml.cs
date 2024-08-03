@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Shutdown_PC
+namespace ShutdownPC
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

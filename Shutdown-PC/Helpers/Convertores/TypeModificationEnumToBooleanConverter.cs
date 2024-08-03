@@ -1,8 +1,8 @@
-﻿using Shutdown_PC.Models.Enums;
+﻿using ShutdownPC.Models.Enums;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Shutdown_PC.Helpers.Convertores
+namespace ShutdownPC.Helpers.Convertores
 {
     public class TypeModificationEnumToBooleanConverter : IValueConverter
     {

@@ -1,7 +1,7 @@
 ﻿using Ninject;
-using Shutdown_PC.ViewModels.Windows;
+using ShutdownPC.ViewModels.Windows;
 
-namespace Shutdown_PC.Stores
+namespace ShutdownPC.Stores
 {
     public class ClasesStore
     {

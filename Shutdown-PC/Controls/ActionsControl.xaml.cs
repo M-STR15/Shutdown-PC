@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Shutdown_PC.Controls
+namespace ShutdownPC.Controls
 {
     /// <summary>
     /// Interaction logic for ActionsControl.xaml

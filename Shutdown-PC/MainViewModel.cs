@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Shutdown_PC.Models.Enums;
-using Shutdown_PC.Services;
-using Shutdown_PC.Stores;
+using ShutdownPC.Models.Enums;
+using ShutdownPC.Services;
+using ShutdownPC.Stores;
 using System.Windows.Input;
 
-namespace Shutdown_PC
+namespace ShutdownPC
 {
     public partial class MainViewModel : ObservableObject
     {

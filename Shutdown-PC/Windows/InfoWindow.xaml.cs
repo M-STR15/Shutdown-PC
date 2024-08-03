@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Shutdown_PC.Windows
+namespace ShutdownPC.Windows
 {
     /// <summary>
     /// Interaction logic for InfoWindow.xaml
