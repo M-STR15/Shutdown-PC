@@ -69,12 +69,15 @@ namespace ShutdownPC.Controls
         {
             if (SetTimeValue <= DateTime.Now)
             {
-                MessageBox.Show("test timeru");
                 t_CountdownTimer.Stop();
+                Status = eStatus.Stop;
+                MessageBox.Show("test timeru");
             }
-
-            _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-            setLabelTimer();
+            else
+            {
+                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                setLabelTimer();
+            }
         }
 
         private void changeStatus()
