@@ -19,13 +19,6 @@ namespace ShutdownPC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(DateTime.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public static readonly DependencyProperty TypeModificationProperty =
-           DependencyProperty.Register
-           (nameof(TypeModification),
-            typeof(eTypeModification),
-            typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
-
         public static readonly DependencyProperty StatusProperty =
            DependencyProperty.Register
            (nameof(Status),
@@ -33,17 +26,17 @@ namespace ShutdownPC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
+        public static readonly DependencyProperty TypeModificationProperty =
+                   DependencyProperty.Register
+           (nameof(TypeModification),
+            typeof(eTypeModification),
+            typeof(SetTimerControl),
+             new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
         private int _endAfterSeconds;
 
-        public eStatus Status
-        {
-            get => (eStatus)GetValue(StatusProperty);
-            set => SetValue(StatusProperty, value);
-        }
+        private DateTime _endDateTime;
 
         private DispatcherTimer t_CountdownTimer;
-
-        private DateTime _endDateTime;
 
         public SetTimerControl()
         {
@@ -65,12 +58,102 @@ namespace ShutdownPC.Controls
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
         }
 
+        public DateTime SetTimeValue
+        {
+            get => (DateTime)GetValue(SetTimeValueProperty);
+            set => SetValue(SetTimeValueProperty, value);
+        }
+
+        public eStatus Status
+        {
+            get => (eStatus)GetValue(StatusProperty);
+            set => SetValue(StatusProperty, value);
+        }
+        public eTypeModification TypeModification
+        {
+            get => (eTypeModification)GetValue(TypeModificationProperty);
+            set => SetValue(TypeModificationProperty, value);
+        }
+
+        public void Dispose()
+        {
+            HoursUC.btnPlus.Click -= hoursPlus_Change;
+            HoursUC.btnMinus.Click -= hoursMinus_Change;
+
+            MinutesUC.btnPlus.Click -= minutesPlus_Change;
+            MinutesUC.btnMinus.Click -= minutesMinus_Change;
+
+            SecondsUC.btnPlus.Click -= secondsPlus_Change;
+            SecondsUC.btnMinus.Click -= secondsMinus_Change;
+        }
+
+        private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as SetTimerControl;
+            uc.onStatusPropertyChanged(e);
+        }
+
+        private static void onTypeModificationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as SetTimerControl;
+            uc.onTypeModificationPropertyChanged(e);
+        }
+
+        private void hoursMinus_Change(object sender, EventArgs args)
+        {
+            _endAfterSeconds += -3600;
+            setTimeValue();
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
+            setLabelTimer();
+        }
+
+        private void hoursPlus_Change(object sender, EventArgs args)
+        {
+            _endAfterSeconds += 3600;
+            setTimeValue();
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
+            setLabelTimer();
+        }
+
+        private void changeStatus()
+        {
+            if (Status == eStatus.Run)
+            {
+                if (TypeModification == eTypeModification.AfterTime)
+                    setTimeValue();
+                t_CountdownTimer.Start();
+            }
+            else
+                t_CountdownTimer.Stop();
+        }
+
+        private void minutesMinus_Change(object sender, EventArgs args)
+        {
+            _endAfterSeconds += -60;
+            setTimeValue();
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
+            setLabelTimer();
+        }
+
+        private void minutesPlus_Change(object sender, EventArgs args)
+        {
+            _endAfterSeconds += 60;
+            setTimeValue();
+            var time = TimeSpan.FromSeconds(_endAfterSeconds);
+            setAllButtons();
+            setLabelTimer();
+        }
+
         private void onCountdown_Tick(object sender, EventArgs args)
         {
             if (SetTimeValue <= DateTime.Now)
             {
                 t_CountdownTimer.Stop();
-                Status = eStatus.Stop;
+                Status = eStatus.Completed;
+
                 MessageBox.Show("test timeru");
             }
             else
@@ -79,42 +162,41 @@ namespace ShutdownPC.Controls
                 setLabelTimer();
             }
         }
-
-        private void changeStatus()
+        private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
+            var vis = Visibility.Visible;
             if (Status == eStatus.Run)
-                t_CountdownTimer.Start();
-            else
-                t_CountdownTimer.Stop();
-        }
+                vis = Visibility.Hidden;
 
-        private void hoursPlus_Change(object sender, EventArgs args)
-        {
-            setTimeValue(+3600);
+            HoursUC.VisibilityButtons = vis;
+            MinutesUC.VisibilityButtons = vis;
+            SecondsUC.VisibilityButtons = vis;
+
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            setMinusButton(HoursUC, time.Hours);
+            setMinusButton(MinutesUC, time.Minutes);
+            setMinusButton(SecondsUC, time.Seconds);
+
+            changeStatus();
         }
 
-        private void hoursMinus_Change(object sender, EventArgs args)
+        private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            setTimeValue(-3600);
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
             setLabelTimer();
+            setAllButtons();
+
+            switch (TypeModification)
+            {
+                case eTypeModification.InTime:
+                    _endDateTime = DateTime.Now;
+                    break;
+            }
         }
 
-        private void minutesPlus_Change(object sender, EventArgs args)
+        private void secondsMinus_Change(object sender, EventArgs args)
         {
-            setTimeValue(+60);
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
-        }
-
-        private void minutesMinus_Change(object sender, EventArgs args)
-        {
-            setTimeValue(-60);
+            _endAfterSeconds += -1;
+            setTimeValue();
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
             setAllButtons();
             setLabelTimer();
@@ -122,20 +204,12 @@ namespace ShutdownPC.Controls
 
         private void secondsPlus_Change(object sender, EventArgs args)
         {
-            setTimeValue(+1);
+            _endAfterSeconds += +1;
+            setTimeValue();
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
             setAllButtons();
             setLabelTimer();
         }
-
-        private void secondsMinus_Change(object sender, EventArgs args)
-        {
-            setTimeValue(-1);
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
-        }
-
         private void setAllButtons()
         {
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
@@ -143,25 +217,6 @@ namespace ShutdownPC.Controls
             setMinusButton(MinutesUC, time.Minutes, time.Hours);
             setMinusButton(HoursUC, time.Hours);
         }
-        private void setMinusButton(NumericControl numericControl, int timeValue, int previousTimeValue = 0)
-        {
-            if (TypeModification == eTypeModification.AfterTime)
-            {
-                var isEnable = (timeValue > 0) || previousTimeValue > 0;
-                numericControl.btnMinus.IsEnabled = isEnable;
-            }
-            else
-            {
-                numericControl.btnMinus.IsEnabled = true;
-            }
-        }
-
-        private void setTimeValue(int addSeconds)
-        {
-            _endAfterSeconds += addSeconds;
-            SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
-        }
-
         private void setLabelTimer()
         {
             switch (TypeModification)
@@ -190,71 +245,23 @@ namespace ShutdownPC.Controls
 
         }
 
-        public DateTime SetTimeValue
+        private void setMinusButton(NumericControl numericControl, int timeValue, int previousTimeValue = 0)
         {
-            get => (DateTime)GetValue(SetTimeValueProperty);
-            set => SetValue(SetTimeValueProperty, value);
-        }
-
-        public eTypeModification TypeModification
-        {
-            get => (eTypeModification)GetValue(TypeModificationProperty);
-            set => SetValue(TypeModificationProperty, value);
-        }
-
-        private static void onTypeModificationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var uc = d as SetTimerControl;
-            uc.onTypeModificationPropertyChanged(e);
-        }
-
-        private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            setLabelTimer();
-            setAllButtons();
-
-            switch (TypeModification)
+            if (TypeModification == eTypeModification.AfterTime)
             {
-                case eTypeModification.InTime:
-                    _endDateTime = DateTime.Now;
-                    break;
+                var isEnable = (timeValue > 0) || previousTimeValue > 0;
+                numericControl.btnMinus.IsEnabled = isEnable;
+            }
+            else
+            {
+                numericControl.btnMinus.IsEnabled = true;
             }
         }
 
-        private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void setTimeValue()
         {
-            var uc = d as SetTimerControl;
-            uc.onStatusPropertyChanged(e);
-        }
-
-        private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            var vis = Visibility.Visible;
-            if (Status == eStatus.Run)
-                vis = Visibility.Hidden;
-
-            HoursUC.VisibilityButtons = vis;
-            MinutesUC.VisibilityButtons = vis;
-            SecondsUC.VisibilityButtons = vis;
-
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setMinusButton(HoursUC, time.Hours);
-            setMinusButton(MinutesUC, time.Minutes);
-            setMinusButton(SecondsUC, time.Seconds);
-
-            changeStatus();
-        }
-
-        public void Dispose()
-        {
-            HoursUC.btnPlus.Click -= hoursPlus_Change;
-            HoursUC.btnMinus.Click -= hoursMinus_Change;
-
-            MinutesUC.btnPlus.Click -= minutesPlus_Change;
-            MinutesUC.btnMinus.Click -= minutesMinus_Change;
-
-            SecondsUC.btnPlus.Click -= secondsPlus_Change;
-            SecondsUC.btnMinus.Click -= secondsMinus_Change;
+            _endDateTime = DateTime.Now;
+            SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
         }
     }
 }

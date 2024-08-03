@@ -12,79 +12,84 @@
     Name="MainWin"
     Title="Shutdown-PC"
     Width="500"
-    Height="530"
+    Height="550"
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <Window.Resources>
         <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Menu>
-            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
-                <MenuItem.Icon>
-                    <Image
+            <Menu>
+                <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
+                    <MenuItem.Icon>
+                        <Image
                         Width="12"
                         Height="12"
                         Source="{svgc:SvgImage Source=/Resources/Icons/SVG/setting.svg}" />
-                </MenuItem.Icon>
-            </MenuItem>
-        </Menu>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.Style>
-                <Style TargetType="Grid">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
-
-            <control:ActionsControl />
-            <control:ComputerActionsControl Grid.Column="2" />
-        </Grid>
-
-        <StackPanel Grid.Row="2">
-            <TextBlock Margin="5" Text="Aktuální čas" />
-            <control:ClockControl />
-        </StackPanel>
-        <StackPanel Grid.Row="3">
-            <TextBlock Margin="5">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
+                    </MenuItem.Icon>
+                </MenuItem>
+            </Menu>
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.Style>
+                    <Style TargetType="Grid">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
-                                <Setter Property="Text" Value="Vypnout za" />
+                            <DataTrigger Binding="{Binding Path=Status}" Value="{x:Static enum:eStatus.Run}">
+                                <Setter Property="IsEnabled" Value="False" />
                             </DataTrigger>
                         </Style.Triggers>
-                        <Setter Property="Text" Value="Vypnout v" />
                     </Style>
-                </TextBlock.Style>
-            </TextBlock>
+                </Grid.Style>
 
-            <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status,Mode=TwoWay}" />
-        </StackPanel>
+                <control:ActionsControl />
+                <control:ComputerActionsControl Grid.Column="2" />
+            </Grid>
 
-        <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />
-        <TextBlock
+            <StackPanel Grid.Row="2">
+                <TextBlock Margin="5" Text="Aktuální čas" />
+                <control:ClockControl />
+            </StackPanel>
+            <StackPanel Grid.Row="3">
+                <TextBlock Margin="5">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TypeModification}" Value="{x:Static enum:eTypeModification.InTime}">
+                                    <Setter Property="Text" Value="Vypnout za" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Text" Value="Vypnout v" />
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <control:SetTimerControl SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}" TypeModification="{Binding TypeModification}" Status="{Binding Status,Mode=TwoWay}" />
+            </StackPanel>
+
+            <control:ButtonsControl Grid.Row="5" VerticalAlignment="Bottom" />
+            <TextBlock
             Grid.Row="6"
             VerticalAlignment="Center"
             Text="{Binding Message}" />
+        </Grid>
     </Grid>
 </Window>
