@@ -23,7 +23,11 @@ namespace ShutdownPC.Controls
         {
             try
             {
-                lblTimer.Content = DateTime.Now.ToString("HH:mm:ss");
+                var time= DateTime.Now;
+                lblHours.Content = time.ToString("HH");
+                lblMinutes.Content = time.ToString("mm");
+                lblSeconds.Content = time.ToString("ss");
+
                 lblDate.Content = DateTime.Now.ToShortDateString();
             }
             catch (Exception)
