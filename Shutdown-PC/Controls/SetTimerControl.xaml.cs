@@ -102,19 +102,13 @@ namespace ShutdownPC.Controls
         private void hoursMinus_Change(object sender, EventArgs args)
         {
             _endAfterSeconds += -3600;
-            setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            methodForModificationControler();
         }
 
         private void hoursPlus_Change(object sender, EventArgs args)
         {
             _endAfterSeconds += 3600;
-            setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            methodForModificationControler();
         }
 
         private void changeStatus()
@@ -129,24 +123,25 @@ namespace ShutdownPC.Controls
                 t_CountdownTimer.Stop();
         }
 
-        private void minutesMinus_Change(object sender, EventArgs args)
+        private void methodForModificationControler()
         {
-            _endAfterSeconds += -60;
             setTimeValue();
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
             setAllButtons();
             setLabelTimer();
+        }
+
+        private void minutesMinus_Change(object sender, EventArgs args)
+        {
+            _endAfterSeconds += -60;
+            methodForModificationControler();
         }
 
         private void minutesPlus_Change(object sender, EventArgs args)
         {
             _endAfterSeconds += 60;
-            setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            methodForModificationControler();
         }
-
         private void onCountdown_Tick(object sender, EventArgs args)
         {
             if (SetTimeValue <= DateTime.Now)
@@ -196,19 +191,13 @@ namespace ShutdownPC.Controls
         private void secondsMinus_Change(object sender, EventArgs args)
         {
             _endAfterSeconds += -1;
-            setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            methodForModificationControler();
         }
 
         private void secondsPlus_Change(object sender, EventArgs args)
         {
             _endAfterSeconds += +1;
-            setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
-            setAllButtons();
-            setLabelTimer();
+            methodForModificationControler();
         }
         private void setAllButtons()
         {
@@ -242,7 +231,6 @@ namespace ShutdownPC.Controls
                     lblNegativTime.Visibility = time.TotalSeconds < 0 ? Visibility.Visible : Visibility.Hidden;
                     break;
             }
-
         }
 
         private void setMinusButton(NumericControl numericControl, int timeValue, int previousTimeValue = 0)
