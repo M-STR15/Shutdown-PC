@@ -8,8 +8,16 @@ namespace ShutdownPC
 {
     public partial class MainViewModel : ObservableObject
     {
+        private readonly WindowStore _windowStore;
+
+        [ObservableProperty]
+        private int _endAfterSeconds;
+
         [ObservableProperty]
         private string _message;
+
+        [ObservableProperty]
+        private DateTime _setTimeValue;
 
         [ObservableProperty]
         private eStatus _status;
@@ -21,15 +29,6 @@ namespace ShutdownPC
         private eTypeModification _typeModification;
 
         private PcActionService pcAction;
-
-        [ObservableProperty]
-        private DateTime _setTimeValue;
-
-        [ObservableProperty]
-        private int _endAfterSeconds;
-
-        private readonly WindowStore _windowStore;
-
         public MainViewModel(WindowStore windowsStore)
         {
             TypeModification = eTypeModification.AfterTime;
@@ -51,42 +50,10 @@ namespace ShutdownPC
 
         public ICommand LogTheUserOutCommnad { get; set; }
         public ICommand RestartCommand { get; private set; }
+        public ICommand ShowSettingCommand { get; private set; }
         public ICommand ShutdownCommand { get; private set; }
         public ICommand SleepModeCommand { get; private set; }
         public ICommand StartCommand { get; private set; }
-        public ICommand ShowSettingCommand { get; private set; }
-
-        private void logTheUserOut(object parameter)
-        {
-            pcAction.LogOff();
-            //Message = pcAction.Message;
-        }
-
-        private void restart(object parameter)
-        {
-            pcAction.Reboot();
-            //Message = pcAction.Message;
-        }
-
-        private void shutdown(object parameter)
-        {
-            pcAction.Shutdown();
-            //Message=pcAction.Message;
-        }
-
-        private void sleepMode(object parameter)
-        {
-            //pcAction.SleepMode();
-            //Message = pcAction.Message;
-        }
-
-        private void showSetting(object parameter)
-        {
-            _windowStore.ShowSettigWindow();
-            //pcAction.SleepMode();
-            //Message = pcAction.Message;
-        }
-
         private void changeStatus(object parameter)
         {
             if (Status == eStatus.Run)
@@ -98,6 +65,18 @@ namespace ShutdownPC
                 setValues();
                 Status = eStatus.Run;
             }
+        }
+
+        private void logTheUserOut(object parameter)
+        {
+            pcAction.LogOff();
+            //Message = pcAction.Message;
+        }
+
+        private void restart(object parameter)
+        {
+            pcAction.Reboot();
+            //Message = pcAction.Message;
         }
 
         private void setValues()
@@ -115,6 +94,25 @@ namespace ShutdownPC
 
                     break;
             }
+        }
+
+        private void showSetting(object parameter)
+        {
+            _windowStore.ShowSettigWindow();
+            //pcAction.SleepMode();
+            //Message = pcAction.Message;
+        }
+
+        private void shutdown(object parameter)
+        {
+            pcAction.Shutdown();
+            //Message=pcAction.Message;
+        }
+
+        private void sleepMode(object parameter)
+        {
+            //pcAction.SleepMode();
+            //Message = pcAction.Message;
         }
     }
 }

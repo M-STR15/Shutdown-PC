@@ -28,18 +28,14 @@ namespace ShutdownPC.Controls
              typeof(NumericControl),
              new FrameworkPropertyMetadata(Visibility.Hidden, new PropertyChangedCallback(oVisibilityButtonsPropertyChanged)));
 
-        public Visibility VisibilityButtons
-        {
-            get => (Visibility)GetValue(VisibilityButtonsProperty);
-            set => SetValue(VisibilityButtonsProperty, value);
-        }
-
         public NumericControl()
         {
             InitializeComponent();
 
             MaxTimeValue = 60;
         }
+
+        public event EventHandler TimeValueChanged;
 
         public int MaxTimeValue
         {
@@ -61,24 +57,14 @@ namespace ShutdownPC.Controls
             }
         }
 
-        public event EventHandler TimeValueChanged;
-
-        private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
-
+        public Visibility VisibilityButtons
+        {
+            get => (Visibility)GetValue(VisibilityButtonsProperty);
+            set => SetValue(VisibilityButtonsProperty, value);
+        }
         public bool canMinus() => TimeValue > 0;
 
         public bool canPlus() => TimeValue < MaxTimeValue;
-
-        private static void oVisibilityButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var uc = d as NumericControl;
-            uc.oVisibilityButtonsPropertyChanged(e);
-        }
-
-        private void oVisibilityButtonsPropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-            stcBtns.Visibility = VisibilityButtons;
-        }
 
         private static void onTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -86,20 +72,10 @@ namespace ShutdownPC.Controls
             uc.onTimeValuePropertyChanged(e);
         }
 
-        private void minus()
+        private static void oVisibilityButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (canMinus())
-                TimeValue -= 1;
-        }
-
-        private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
-        {
-        }
-
-        private void plus()
-        {
-            if (canPlus())
-                TimeValue += 1;
+            var uc = d as NumericControl;
+            uc.oVisibilityButtonsPropertyChanged(e);
         }
 
         private void btnMinus_Click(object sender, RoutedEventArgs e)
@@ -116,6 +92,26 @@ namespace ShutdownPC.Controls
             setLbl();
         }
 
+        private void minus()
+        {
+            if (canMinus())
+                TimeValue -= 1;
+        }
+
+        private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
+        private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+        }
+
+        private void oVisibilityButtonsPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            stcBtns.Visibility = VisibilityButtons;
+        }
+        private void plus()
+        {
+            if (canPlus())
+                TimeValue += 1;
+        }
         private void setLbl()
         {
             var resultText = "00";

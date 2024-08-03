@@ -5,27 +5,55 @@ namespace ShutdownPC.Services
 {
     public class PcActionService
     {
-        private struct LUID
+        private const ushort EWX_FORCE = 0x00000004;
+
+        private const ushort EWX_LOGOFF = 0;
+
+        private const ushort EWX_POWEROFF = 0x00000008;
+
+        private const ushort EWX_REBOOT = 0x00000002;
+
+        private const ushort EWX_RESTARTAPPS = 0x00000040;
+
+        private const ushort EWX_SHUTDOWN = 0x00000001;
+
+        private const short SE_PRIVILEGE_ENABLED = 2;
+
+        private const string SE_SHUTDOWN_NAME = "SeShutdownPrivilege";
+
+        private const short TOKEN_ADJUST_PRIVILEGES = 32;
+
+        private const short TOKEN_QUERY = 8;
+
+        public void LogOff()
+        { LogOff(false); }
+
+        public void LogOff(bool force)
         {
-            public int LowPart;
-            public int HighPart;
+            getPrivileges();
+            ExitWindowsEx(EWX_LOGOFF |
+              (uint)(force ? EWX_FORCE : 0), 0);
         }
 
-        private struct LUID_AND_ATTRIBUTES
+        public void Reboot()
+        { Reboot(false); }
+
+        public void Reboot(bool force)
         {
-            public LUID pLuid;
-            public int Attributes;
+            getPrivileges();
+            ExitWindowsEx(EWX_REBOOT |
+              (uint)(force ? EWX_FORCE : 0), 0);
         }
 
-        private struct TOKEN_PRIVILEGES
-        {
-            public int PrivilegeCount;
-            public LUID_AND_ATTRIBUTES Privileges;
-        }
+        public void Shutdown()
+        { Shutdown(false); }
 
-        [DllImport("advapi32.dll")]
-        private static extern int OpenProcessToken(IntPtr ProcessHandle,
-          int DesiredAccess, out IntPtr TokenHandle);
+        public void Shutdown(bool force)
+        {
+            getPrivileges();
+            ExitWindowsEx(EWX_SHUTDOWN |
+              (uint)(force ? EWX_FORCE : 0) | EWX_POWEROFF, 0);
+        }
 
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -36,24 +64,16 @@ namespace ShutdownPC.Services
           IntPtr PreviousState,
           IntPtr ReturnLength);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
+
         [DllImport("advapi32.dll")]
         private static extern int LookupPrivilegeValue(string lpSystemName,
           string lpName, out LUID lpLuid);
 
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
-
-        private const string SE_SHUTDOWN_NAME = "SeShutdownPrivilege";
-        private const short SE_PRIVILEGE_ENABLED = 2;
-        private const short TOKEN_ADJUST_PRIVILEGES = 32;
-        private const short TOKEN_QUERY = 8;
-
-        private const ushort EWX_LOGOFF = 0;
-        private const ushort EWX_POWEROFF = 0x00000008;
-        private const ushort EWX_REBOOT = 0x00000002;
-        private const ushort EWX_RESTARTAPPS = 0x00000040;
-        private const ushort EWX_SHUTDOWN = 0x00000001;
-        private const ushort EWX_FORCE = 0x00000004;
+        [DllImport("advapi32.dll")]
+        private static extern int OpenProcessToken(IntPtr ProcessHandle,
+          int DesiredAccess, out IntPtr TokenHandle);
 
         private void getPrivileges()
         {
@@ -70,34 +90,22 @@ namespace ShutdownPC.Services
               0U, IntPtr.Zero, IntPtr.Zero);
         }
 
-        public void Shutdown()
-        { Shutdown(false); }
-
-        public void Shutdown(bool force)
+        private struct LUID
         {
-            getPrivileges();
-            ExitWindowsEx(EWX_SHUTDOWN |
-              (uint)(force ? EWX_FORCE : 0) | EWX_POWEROFF, 0);
+            public int HighPart;
+            public int LowPart;
         }
 
-        public void Reboot()
-        { Reboot(false); }
-
-        public void Reboot(bool force)
+        private struct LUID_AND_ATTRIBUTES
         {
-            getPrivileges();
-            ExitWindowsEx(EWX_REBOOT |
-              (uint)(force ? EWX_FORCE : 0), 0);
+            public int Attributes;
+            public LUID pLuid;
         }
 
-        public void LogOff()
-        { LogOff(false); }
-
-        public void LogOff(bool force)
+        private struct TOKEN_PRIVILEGES
         {
-            getPrivileges();
-            ExitWindowsEx(EWX_LOGOFF |
-              (uint)(force ? EWX_FORCE : 0), 0);
+            public int PrivilegeCount;
+            public LUID_AND_ATTRIBUTES Privileges;
         }
     }
 }
