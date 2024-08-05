@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="LCD">pack://application:,,,/ShutdownPC;Component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
+
+    <Style x:Key="labelTimerStyle" TargetType="{x:Type Label}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="60" />
+        <Setter Property="Foreground" Value="#1C274C" />
+        <Setter Property="FontFamily" Value="{StaticResource LCD}" />
+    </Style>
+
+    <Style x:Key="labelTimerMinStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource labelTimerStyle}">
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+</ResourceDictionary>

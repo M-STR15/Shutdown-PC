@@ -6,6 +6,9 @@
     xmlns:local="clr-namespace:ShutdownPC.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Setting"
+    ResizeMode="NoResize"
+    Height="150"
+    Width="300"
     mc:Ignorable="d">
 
     <Grid>

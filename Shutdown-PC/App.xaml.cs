@@ -14,6 +14,7 @@ namespace ShutdownPC
 
         public App()
         {
+            InitializeComponent();
             _ = Run();
         }
 

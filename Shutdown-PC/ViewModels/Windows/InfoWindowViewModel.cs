@@ -1,6 +1,18 @@
-﻿namespace ShutdownPC.ViewModels.Windows
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace ShutdownPC.ViewModels.Windows
 {
-    public class InfoWindowViewModel : BaseWindowViewModel
+    [ObservableObject]
+    public partial class InfoWindowViewModel : BaseWindowViewModel
     {
+        [ObservableProperty]
+        private string _hours;
+
+        [ObservableProperty]
+        private string _minutes;
+
+        [ObservableProperty]
+        private string _seconds;
+
     }
 }

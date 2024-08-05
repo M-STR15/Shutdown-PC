@@ -16,7 +16,6 @@
     ResizeMode="NoResize"
     mc:Ignorable="d">
     <Window.Resources>
-        <FontFamily x:Key="LCD">pack://application:,,,/Shutdown-PC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
     <Grid>

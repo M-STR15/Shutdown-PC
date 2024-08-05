@@ -167,6 +167,8 @@ namespace ShutdownPC
 
                     break;
             }
+
+            _windowStore.ShowInfoWindow();
         }
     }
 }

@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <FontFamily x:Key="LCD">pack://application:,,,/ShutdownPC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
         <conv:TimeStyleConventor x:Key="TimeStyleConventor" />
     </UserControl.Resources>
     <StackPanel>
@@ -19,12 +18,8 @@
             </Grid.RowDefinitions>
             <Label
                 x:Name="lblTimeValue"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
                 Content="{Binding TimeValue, FallbackValue=00, Converter={StaticResource TimeStyleConventor}}"
-                FontFamily="{StaticResource LCD}"
-                FontSize="60"
-                Foreground="#1C274C" />
+                Style="{StaticResource labelTimerStyle}" />
             <StackPanel
                 Name="stcBtns"
                 Grid.Row="1"

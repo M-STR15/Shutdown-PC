@@ -8,17 +8,7 @@
     Name="SetTimeUC"
     MinWidth="320"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <FontFamily x:Key="LCD">pack://application:,,,/ShutdownPC;component/Resources/Fonts/LCDMonoWinTT/#LCDMono2 Ultra</FontFamily>
-
-        <Style x:Key="appLabel" TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="60" />
-            <Setter Property="Foreground" Value="#1C274C" />
-            <Setter Property="FontFamily" Value="{StaticResource LCD}" />
-        </Style>
-    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -47,7 +37,7 @@
                     Grid.Column="0"
                     VerticalAlignment="Top"
                     Content="-"
-                    Style="{StaticResource appLabel}"
+                    Style="{StaticResource labelTimerStyle}"
                     Visibility="Hidden" />
             <local:NumericControl
                     x:Name="HoursUC"
@@ -57,13 +47,13 @@
                     Grid.Column="2"
                     VerticalAlignment="Top"
                     Content=":"
-                    Style="{StaticResource appLabel}" />
+                    Style="{StaticResource labelTimerStyle}" />
             <local:NumericControl x:Name="MinutesUC" Grid.Column="3" />
             <Label
                     Grid.Column="4"
                     VerticalAlignment="Top"
                     Content=":"
-                    Style="{StaticResource appLabel}" />
+                    Style="{StaticResource labelTimerStyle}" />
             <local:NumericControl x:Name="SecondsUC" Grid.Column="5" />
         </Grid>
     </Grid>
