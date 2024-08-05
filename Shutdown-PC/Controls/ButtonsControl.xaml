@@ -62,7 +62,7 @@
                 Width="35"
                 Height="35"
                 Margin="5"
-                Command="{Binding StartCommand}">
+                Command="{Binding ChangeStatusCommnad}">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="24px" Height="24px">
                         <Image.Style>

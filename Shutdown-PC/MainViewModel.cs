@@ -7,8 +7,9 @@ using System.Windows.Input;
 namespace ShutdownPC
 {
     [ObservableObject]
-    public partial class MainViewModel 
+    public partial class MainViewModel
     {
+        public EventHandler StatusChange;
         private readonly WindowStore _windowStore;
 
         [ObservableProperty]
@@ -20,12 +21,14 @@ namespace ShutdownPC
         [ObservableProperty]
         private DateTime _setTimeValue;
 
-        [ObservableProperty]
         private eStatus _status;
-
         [ObservableProperty]
         private eTypeAction _typeAction;
 
+        //private void onStatusChange(EventArgs args = null)
+        //{
+        //    StatusChange?.Invoke(this, args);
+        //}
         [ObservableProperty]
         private eTypeModification _typeModification;
 
@@ -33,15 +36,16 @@ namespace ShutdownPC
         private string _version;
 
         private PcActionService pcAction;
+
         public MainViewModel(WindowStore windowsStore)
         {
             TypeModification = eTypeModification.AfterTime;
-            ShutdownCommand = new Helpers.RelayCommand(shutdown);
-            RestartCommand = new Helpers.RelayCommand(restart);
-            LogTheUserOutCommnad = new Helpers.RelayCommand(logTheUserOut);
-            SleepModeCommand = new Helpers.RelayCommand(sleepMode);
-            StartCommand = new Helpers.RelayCommand(changeStatus);
-            ShowSettingCommand = new Helpers.RelayCommand(showSetting);
+            ShutdownCommand = new Helpers.RelayCommand(cmd_Shutdown);
+            RestartCommand = new Helpers.RelayCommand(cmd_Restart);
+            LogTheUserOutCommnad = new Helpers.RelayCommand(cmd_LogTheUserOut);
+            SleepModeCommand = new Helpers.RelayCommand(cmd_SleepMode);
+            ChangeStatusCommnad = new Helpers.RelayCommand(cmd_ChangeStatus);
+            ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
 
             _windowStore = windowsStore;
 
@@ -51,55 +55,118 @@ namespace ShutdownPC
 
             SetTimeValue = DateTime.Now;
             Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+
+            //StatusChange += onStatusChange;
         }
 
+        public ICommand ChangeStatusCommnad { get; private set; }
+
+        //private void onStatusChange(object sender, EventArgs args)
+        //{
+        //    changeStatus();
+        //}
         public ICommand LogTheUserOutCommnad { get; set; }
+
         public ICommand RestartCommand { get; private set; }
+
         public ICommand ShowSettingCommand { get; private set; }
+
         public ICommand ShutdownCommand { get; private set; }
+
         public ICommand SleepModeCommand { get; private set; }
-        public ICommand StartCommand { get; private set; }
-        private void changeStatus(object parameter)
+
+        public eStatus Status
         {
-            if (Status == eStatus.Run)
+            get => _status;
+            set
             {
-                Status = eStatus.Stop;
+                if (_status != value)
+                {
+                    _status = value;
+                    //onStatusChange();
+                    OnPropertyChanged();
+                    startMethodAfterTheTimerExpires();
+                }
             }
-            else
+        }
+        private void cmd_ChangeStatus(object parameter) => changeStatus();
+
+        private void cmd_LogTheUserOut(object parameter) => logOff();
+
+        private void cmd_Restart(object parameter) => reboot();
+
+        private void cmd_ShowSetting(object parameter) => showSetting();
+
+        private void cmd_Shutdown(object parameter) => shutdown();
+
+        private void cmd_SleepMode(object parameter) => sleepMode();
+
+        private void changeStatus()
+        {
+            switch (Status)
             {
-                Status = eStatus.Run;
+                case eStatus.Run:
+                    Status = eStatus.Stop;
+                    break;
+                default:
+                    Status = eStatus.Run;
+                    break;
             }
         }
 
-        private void logTheUserOut(object parameter)
+        private void logOff()
         {
             pcAction.LogOff();
             //Message = pcAction.Message;
         }
-
-        private void restart(object parameter)
+        private void reboot()
         {
             pcAction.Reboot();
             //Message = pcAction.Message;
         }
-
-        private void showSetting(object parameter)
+        private void showSetting()
         {
             _windowStore.ShowSettigWindow();
             //pcAction.SleepMode();
             //Message = pcAction.Message;
         }
-
-        private void shutdown(object parameter)
+        private void shutdown()
         {
             pcAction.Shutdown();
             //Message=pcAction.Message;
         }
-
-        private void sleepMode(object parameter)
+        private void sleepMode()
         {
             //pcAction.SleepMode();
             //Message = pcAction.Message;
+        }
+
+        private void startMethodAfterTheTimerExpires()
+        {
+            switch (Status)
+            {
+                case eStatus.Completed:
+                    Status = eStatus.Stop;
+
+                    switch (TypeAction)
+                    {
+                        case eTypeAction.Shutdown:
+                            pcAction.Shutdown();
+                            break;
+                        case eTypeAction.Restart:
+                            pcAction.Reboot();
+                            break;
+                        case eTypeAction.LogTheUserOut:
+                            pcAction.LogOff();
+                            break;
+                        case eTypeAction.SleepMode:
+
+                            break;
+                    }
+
+                    break;
+            }
         }
     }
 }

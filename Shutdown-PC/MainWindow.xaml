@@ -85,14 +85,16 @@
                     TypeModification="{Binding TypeModification}" />
             </StackPanel>
 
-            <control:ButtonsControl Grid.Row="3" VerticalAlignment="Bottom" />
+            <control:ButtonsControl
+                Grid.Row="3"
+                VerticalAlignment="Bottom" />
         </Grid>
         <Grid Grid.Row="2">
             <TextBlock
+                Margin="20,0,20,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="12"
-                Margin="20,0,20,5"
                 Text="{Binding Version, FallbackValue=Version}" />
         </Grid>
     </Grid>
