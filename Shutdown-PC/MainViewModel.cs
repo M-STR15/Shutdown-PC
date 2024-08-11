@@ -11,6 +11,7 @@ namespace ShutdownPC
     [ObservableObject]
     public partial class MainViewModel
     {
+        public EventHandler SetTimeValueChange;
         public EventHandler StatusChange;
         private readonly WindowStore _windowStore;
 
@@ -20,10 +21,13 @@ namespace ShutdownPC
         [ObservableProperty]
         private string _message;
 
-        [ObservableProperty]
         private DateTime _setTimeValue;
 
         private eStatus _status;
+
+        [ObservableProperty]
+        private string _title;
+
         [ObservableProperty]
         private eTypeAction _typeAction;
 
@@ -37,17 +41,16 @@ namespace ShutdownPC
         [ObservableProperty]
         private string _version;
 
-        [ObservableProperty]
-        private string _title;
-
         private PcActionService pcAction;
+
         private DispatcherTimer t_CountdownTimer;
+
         public MainViewModel(WindowStore windowsStore)
         {
             t_CountdownTimer = new DispatcherTimer();
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
-            
+
             TypeModification = eTypeModification.AfterTime;
             ShutdownCommand = new Helpers.RelayCommand(cmd_Shutdown);
             RestartCommand = new Helpers.RelayCommand(cmd_Restart);
@@ -72,21 +75,7 @@ namespace ShutdownPC
 
         }
 
-        private void onCountdown_Tick(object sender, EventArgs args)
-        {
-            if (SetTimeValue <= DateTime.Now)
-            {
-                t_CountdownTimer.Stop();
-                Status = eStatus.Completed;
-
-                MessageBox.Show("test timeru");
-            }
-            else
-            {
-                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-                //setLabelTimer();
-            }
-        }
+        public ICommand CloseCommand { get; private set; }
 
         public ICommand ChangeStatusCommnad { get; private set; }
 
@@ -98,14 +87,27 @@ namespace ShutdownPC
 
         public ICommand RestartCommand { get; private set; }
 
-        public ICommand ShowSettingCommand { get; private set; }
+        public DateTime SetTimeValue
+        {
+            get => _setTimeValue;
+            set
+            {
+                if (_setTimeValue != value)
+                {
+                    _setTimeValue = value;
+                }
+
+                onSetTimeValueChange();
+                OnPropertyChanged();
+            }
+        }
         public ICommand ShowInfoCommand { get; private set; }
+
+        public ICommand ShowSettingCommand { get; private set; }
 
         public ICommand ShutdownCommand { get; private set; }
 
         public ICommand SleepModeCommand { get; private set; }
-
-        public ICommand CloseCommand { get; private set; }
 
         public eStatus Status
         {
@@ -128,16 +130,23 @@ namespace ShutdownPC
                 }
             }
         }
+
+        private void close()
+        {
+            App.Current.Shutdown();
+        }
+
+        private void cmd_close(object parameter) => close();
+
         private void cmd_ChangeStatus(object parameter) => changeStatus();
 
         private void cmd_LogTheUserOut(object parameter) => logOff();
 
         private void cmd_Restart(object parameter) => reboot();
 
-        private void cmd_ShowSetting(object parameter) => showSetting();
-
         private void cmd_ShowInfo(object parameter) => showInfo();
-        private void cmd_close(object parameter) => close();
+
+        private void cmd_ShowSetting(object parameter) => showSetting();
 
         private void cmd_Shutdown(object parameter) => shutdown();
 
@@ -152,49 +161,67 @@ namespace ShutdownPC
                     break;
                 default:
                     Status = eStatus.Run;
+                    //_windowStore.ShowCountdownPopupWindow();
                     break;
             }
         }
 
-        private void close()
-        {
-            App.Current.Shutdown();
-        }
         private void logOff()
         {
             pcAction.LogOff();
-            //Message = pcAction.Message;
         }
+
+        private void onCountdown_Tick(object sender, EventArgs args)
+        {
+            if (SetTimeValue <= DateTime.Now)
+            {
+                t_CountdownTimer.Stop();
+                Status = eStatus.Completed;
+
+                MessageBox.Show("test timeru");
+            }
+            else
+            {
+                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                //setLabelTimer();
+            }
+
+            resetTimeInControl();
+        }
+
+        private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
         private void reboot()
         {
             pcAction.Reboot();
-            //Message = pcAction.Message;
+        }
+
+        private void resetTimeInControl()
+        {
+            var backupTimeSetting= SetTimeValue;
+            SetTimeValue = DateTime.MinValue;
+            SetTimeValue = backupTimeSetting;
+        }
+        private void showCountdownPopup()
+        {
+            _windowStore.ShowCountdownPopupWindow();
         }
 
         private void showInfo()
         {
             _windowStore.ShowInfoWindow();
         }
-
-        private void showCountdownPopup()
-        {
-            _windowStore.ShowCountdownPopupWindow();
-        }
         private void showSetting()
         {
             _windowStore.ShowSettigWindow();
             //pcAction.SleepMode();
-            //Message = pcAction.Message;
         }
         private void shutdown()
         {
             pcAction.Shutdown();
-            //Message=pcAction.Message;
         }
         private void sleepMode()
         {
             //pcAction.SleepMode();
-            //Message = pcAction.Message;
         }
 
         private void startMethodAfterTheTimerExpires()
@@ -222,8 +249,6 @@ namespace ShutdownPC
 
                     break;
             }
-
-            _windowStore.ShowCountdownPopupWindow();
         }
     }
 }

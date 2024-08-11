@@ -55,7 +55,7 @@ namespace ShutdownPC.Stores
             {
                 var viewModel = _clasesStore.GetCountdownPopupViewModel();
                 var window = new CountdownPopupWindow();
-                return (bool)showDialog<CountdownPopupViewModel, CountdownPopupWindow>(viewModel, window, _mainWindow);
+                return (bool)showDialog<CountdownPopupViewModel, CountdownPopupWindow>(viewModel, window, _mainWindow, WindowStartupLocation.Manual);
             }
             catch (Exception)
             {
@@ -77,7 +77,7 @@ namespace ShutdownPC.Stores
             }
         }
 
-        private bool? showDialog<T, R>(T viewModel, R window, Window owner)
+        private bool? showDialog<T, R>(T viewModel, R window, Window owner, WindowStartupLocation windowStartupLocation= WindowStartupLocation.CenterOwner)
             where T : BaseWindowViewModel
             where R : Window
         {
@@ -89,10 +89,10 @@ namespace ShutdownPC.Stores
             viewModel.Window.DataContext = viewModel;
             viewModel.Window.Owner = owner;
             viewModel.Window.Owner.Effect = objBlur;
-            viewModel.Window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            viewModel.Window.WindowStartupLocation = windowStartupLocation;
 
-            viewModel.Window.HorizontalAlignment = HorizontalAlignment.Center;
-            viewModel.Window.VerticalAlignment = VerticalAlignment.Center;
+            //viewModel.Window.HorizontalAlignment = HorizontalAlignment.Center;
+            //viewModel.Window.VerticalAlignment = VerticalAlignment.Center;
             viewModel.Window.Topmost = true;
 
             return viewModel.Window.ShowDialog();

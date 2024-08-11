@@ -21,6 +21,7 @@
             Content="00.00.0000"
             FontFamily="{StaticResource LCD}"
             FontSize="20"
+            Visibility="Hidden"
             Foreground="#1C274C" />
         <Grid  Grid.Row="1">
             <Grid.ColumnDefinitions>

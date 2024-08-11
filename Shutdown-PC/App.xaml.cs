@@ -14,14 +14,15 @@ namespace ShutdownPC
 
         public App()
         {
-            InitializeComponent();
+   
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             configureContainer();
+
+            InitializeComponent();
+            base.OnStartup(e);
 
             Current.MainWindow = _container.Get<MainWindow>();
             Current.MainWindow.DataContext = _container.Get<MainViewModel>();

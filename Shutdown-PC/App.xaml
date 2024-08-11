@@ -20,6 +20,8 @@
                 <Setter Property="WindowStyle" Value="None" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Window">
@@ -33,8 +35,15 @@
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <Image Source="Resources/Icons/PNG/power_256x256_red.png" Height="30" Width="30" HorizontalAlignment="Center" />
-                                        <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" Margin="30,0,0,0" />
+                                        <Image
+                                            Width="30"
+                                            Height="30"
+                                            HorizontalAlignment="Center"
+                                            Source="Resources/Icons/PNG/power_256x256_red.png" />
+                                        <Label
+                                            Margin="30,0,0,0"
+                                            Content="{Binding Title, FallbackValue=TITULEK}"
+                                            FontSize="12" />
                                         <Button
                                             Grid.Row="0"
                                             Width="20"
@@ -43,7 +52,7 @@
                                             HorizontalAlignment="Right"
                                             BorderBrush="Transparent"
                                             Command="{Binding CloseCommand}">
-                                            <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg"/>
+                                            <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg" />
                                         </Button>
                                         <!--  Zde můžete definovat obsah vašeho okna  -->
                                         <Grid Grid.Row="1" Margin="0">
@@ -60,8 +69,11 @@
             <Style x:Key="CustWindow" TargetType="Window">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="SizeToContent" Value="WidthAndHeight" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="Background" Value="{StaticResource Background}" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -85,7 +97,52 @@
                                                 HorizontalAlignment="Right"
                                                 BorderBrush="Transparent"
                                                 Command="{Binding CloseWindowCommand}">
-                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg"/>
+                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg" />
+                                            </Button>
+                                        </Grid>
+                                        <!--  Zde můžete definovat obsah vašeho okna  -->
+                                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <Style x:Key="PopWindow" TargetType="Window">
+                <Setter Property="Focusable" Value="True" />
+                <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="SizeToContent" Value="WidthAndHeight" />
+                <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+                <Setter Property="AllowsTransparency" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Background" Value="{StaticResource Background}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Window">
+                            <Border
+                                Padding="4"
+                                Background="{StaticResource BorderWindow}"
+                                CornerRadius="30,30,30,30">
+                                <Grid Margin="5,10,5,10" Background="{StaticResource Background}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid Background="{StaticResource BorderWindow}">
+                                            <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" />
+                                            <Button
+                                                Width="20"
+                                                Height="20"
+                                                Margin="0,0,15,10"
+                                                HorizontalAlignment="Right"
+                                                BorderBrush="Transparent"
+                                                Command="{Binding CloseWindowCommand}">
+                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg" />
                                             </Button>
                                         </Grid>
                                         <!--  Zde můžete definovat obsah vašeho okna  -->

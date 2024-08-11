@@ -2,7 +2,6 @@
 using ShutdownPC.Models.Enums;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace ShutdownPC.Controls
 {
@@ -17,7 +16,7 @@ namespace ShutdownPC.Controls
            (nameof(SetTimeValue),
             typeof(DateTime),
             typeof(SetTimerControl),
-             new FrameworkPropertyMetadata(DateTime.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+             new FrameworkPropertyMetadata(DateTime.MinValue, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onSetTimeValuePropertyChanged)));
 
         public static readonly DependencyProperty StatusProperty =
            DependencyProperty.Register
@@ -27,7 +26,7 @@ namespace ShutdownPC.Controls
              new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
         public static readonly DependencyProperty TypeModificationProperty =
-                   DependencyProperty.Register
+           DependencyProperty.Register
            (nameof(TypeModification),
             typeof(eTypeModification),
             typeof(SetTimerControl),
@@ -81,6 +80,11 @@ namespace ShutdownPC.Controls
             SecondsUC.btnMinus.Click -= secondsMinus_Change;
         }
 
+        private static void onSetTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as SetTimerControl;
+            uc.onSetTimeValuePropertyChanged(e);
+        }
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
@@ -116,7 +120,6 @@ namespace ShutdownPC.Controls
         private void methodForModificationControler()
         {
             setTimeValue();
-            var time = TimeSpan.FromSeconds(_endAfterSeconds);
             setAllButtons();
             setLabelTimer();
         }
@@ -133,6 +136,14 @@ namespace ShutdownPC.Controls
             methodForModificationControler();
         }
 
+        private void onSetTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (Status == eStatus.Run)
+            {
+                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                setLabelTimer();
+            }
+        }
         private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             var vis = Visibility.Visible;
@@ -226,6 +237,7 @@ namespace ShutdownPC.Controls
         {
             _endDateTime = DateTime.Now;
             SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
+            setLabelTimer();
         }
     }
 }
