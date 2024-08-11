@@ -12,7 +12,69 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+        <Grid>
+            <ScrollViewer>
+                <TextBlock Text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadfssssssssssssssssssssssssssssss fsdf  fsfs
+                             sfsfdfsdf fsdfsdff
+                           fsdfsdfsdf
+                           fsdfdsf
+                           dfsfdffsf
+                           dsfsfsfsdf
+                           dfssfsdfsdfsfsfsf
+                           sfsffsdf
+                           sdfsdfsfsdfdsfsdf
+                           fsfdsfsdfsdfdsfsdfdfs
+                           fsdf
+                           sdfsdffs
+                           dsfsdf
+                           sdfsf
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           fsfsfd
+                           fs
+                           fsd
+                           fds
+                           fds
+                           fsd
+                           fsdfsdf
+                           
+                           dsf
+                           sdf
+                           sdf
+                           sdf
+                           sdf
+                           sdf
+                           sdf
+                           sdf
+                           
+                           fdsffsdf
+                           sdf
+                           sdf
+                           sdfsdf
+                           fsfs
+                           fsdf
+                           fsfsdf
+                           
+                           fs
+                           fsaaaaaaaaaaaaaaaaaaaaaaa dasdaddfsf" TextWrapping="Wrap"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="1">
+            <TextBlock
+               Margin="20,0,20,5"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               FontSize="12"
+               Text="{Binding Version, FallbackValue=Version}" />
+        </Grid>
     </Grid>
 </Window>

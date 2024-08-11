@@ -9,7 +9,7 @@
     <UseWPF>true</UseWPF>
     <PackageIcon>power_128x128.png</PackageIcon>
     <ApplicationIcon>Resources\Icons\ICO\power_256x256_red.ico</ApplicationIcon>
-    <AssemblyVersion>1.1.1.1</AssemblyVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +36,10 @@
     <None Remove="Resources\Fonts\LCDWinTT\LCD2L.TTF" />
     <None Remove="Resources\Fonts\LCDWinTT\LCD2N.TTF" />
     <None Remove="Resources\Fonts\LCDWinTT\LCD2U.TTF" />
+    <None Remove="Resources\Icons\PNG\power_128x128.png" />
+    <None Remove="Resources\Icons\PNG\power_256x256.png" />
+    <None Remove="Resources\Icons\PNG\power_256x256_red.png" />
+    <None Remove="Resources\Icons\SVG\close-square.svg" />
     <None Remove="Resources\Icons\SVG\hiking-round.svg" />
     <None Remove="Resources\Icons\SVG\moon-sleep.svg" />
     <None Remove="Resources\Icons\SVG\pause-circle.svg" />
@@ -77,6 +81,18 @@
     <Resource Include="Resources\Fonts\LCDWinTT\LCD2L.TTF" />
     <Resource Include="Resources\Fonts\LCDWinTT\LCD2N.TTF" />
     <Resource Include="Resources\Fonts\LCDWinTT\LCD2U.TTF" />
+    <Resource Include="Resources\Icons\PNG\power_128x128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+    <Resource Include="Resources\Icons\PNG\power_256x256.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+    <Resource Include="Resources\Icons\PNG\power_256x256_red.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\SVG\close-square.svg" />
     <Resource Include="Resources\Icons\SVG\hiking-round.svg" />
     <Resource Include="Resources\Icons\SVG\moon-sleep.svg" />
     <Resource Include="Resources\Icons\SVG\pause-circle.svg" />
@@ -86,17 +102,6 @@
     <Resource Include="Resources\Icons\SVG\restart.svg" />
     <Resource Include="Resources\Icons\SVG\setting.svg" />
     <Resource Include="Resources\Icons\SVG\stop-circle.svg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\Icons\PNG\power_128x128.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Update="Resources\Icons\PNG\power_256x256.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>

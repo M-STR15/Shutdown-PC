@@ -5,8 +5,6 @@
     xmlns:local="clr-namespace:ShutdownPC"
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/">
     <Application.Resources>
-
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ShutdownPC;Component/Styles/LabelDictionary.xaml" />
@@ -25,30 +23,30 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Window">
-                            <Border Background="{StaticResource BorderWindow}" Padding="4" CornerRadius="30,30,30,30">
+                            <Border
+                                Padding="4"
+                                Background="{StaticResource BorderWindow}"
+                                CornerRadius="30,30,30,30">
                                 <Grid>
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" />
+                                        <Image Source="Resources/Icons/PNG/power_256x256_red.png" Height="30" Width="30" HorizontalAlignment="Center" />
+                                        <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" Margin="30,0,0,0" />
                                         <Button
                                             Grid.Row="0"
                                             Width="20"
                                             Height="20"
                                             Margin="0,0,15,10"
                                             HorizontalAlignment="Right"
-                                            Command="{Binding CloseWindowCommand}">
-                                            <Image Source="/ShutdownPC;component/Resources/Icons/SVG/close-square.svg" />
-
-
+                                            BorderBrush="Transparent"
+                                            Command="{Binding CloseCommand}">
+                                            <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg"/>
                                         </Button>
                                         <!--  Zde můžete definovat obsah vašeho okna  -->
-                                        <Grid
-                                            Grid.Row="1"
-                                            Margin="0"
-                                            >
+                                        <Grid Grid.Row="1" Margin="0">
                                             <ContentPresenter Content="{TemplateBinding Content}" />
                                         </Grid>
                                     </Grid>
@@ -62,34 +60,36 @@
             <Style x:Key="CustWindow" TargetType="Window">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+                <Setter Property="AllowsTransparency" Value="True" />
                 <Setter Property="Background" Value="{StaticResource Background}" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Window">
-                            <Border Background="{TemplateBinding Background}">
-                                <Grid>
+                            <Border
+                                Padding="4"
+                                Background="{StaticResource BorderWindow}"
+                                CornerRadius="30,30,30,30">
+                                <Grid Margin="5,10,5,10" Background="{StaticResource Background}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" />
-                                        <Button
-                                            Grid.Row="0"
-                                            Width="20"
-                                            Height="20"
-                                            Margin="0,0,15,10"
-                                            HorizontalAlignment="Right"
-                                            Command="{Binding CloseWindowCommand}">
-                                            <Image Source="/ShutdownPC;component/Resources/Icons/SVG/close-square.svg" />
-
-
-                                        </Button>
+                                        <Grid Background="{StaticResource BorderWindow}">
+                                            <Label Content="{Binding Title, FallbackValue=TITULEK}" FontSize="12" />
+                                            <Button
+                                                Width="20"
+                                                Height="20"
+                                                Margin="0,0,15,10"
+                                                HorizontalAlignment="Right"
+                                                BorderBrush="Transparent"
+                                                Command="{Binding CloseWindowCommand}">
+                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg"/>
+                                            </Button>
+                                        </Grid>
                                         <!--  Zde můžete definovat obsah vašeho okna  -->
-                                        <ContentPresenter
-                                            Grid.Row="1"
-                                            Margin="20,0,20,20"
-                                            Content="{TemplateBinding Content}" />
+                                        <ContentPresenter Grid.Row="1" Content="{TemplateBinding Content}" />
                                     </Grid>
                                 </Grid>
                             </Border>

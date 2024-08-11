@@ -15,7 +15,6 @@ namespace ShutdownPC
         public App()
         {
             InitializeComponent();
-            _ = Run();
         }
 
         protected override void OnStartup(StartupEventArgs e)
