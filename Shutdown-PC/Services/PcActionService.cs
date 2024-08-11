@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace ShutdownPC.Services
 {
@@ -7,7 +8,7 @@ namespace ShutdownPC.Services
     {
         private const ushort EWX_FORCE = 0x00000004;
 
-        private const ushort EWX_LOGOFF = 0;
+        private const ushort EWX_LOGOFF = 0x00000000;
 
         private const ushort EWX_POWEROFF = 0x00000008;
 
@@ -17,42 +18,65 @@ namespace ShutdownPC.Services
 
         private const ushort EWX_SHUTDOWN = 0x00000001;
 
-        private const short SE_PRIVILEGE_ENABLED = 2;
+        private const short SE_PRIVILEGE_ENABLED = 0x00000002;
 
         private const string SE_SHUTDOWN_NAME = "SeShutdownPrivilege";
 
-        private const short TOKEN_ADJUST_PRIVILEGES = 32;
+        private const short TOKEN_ADJUST_PRIVILEGES = 0x0020;
 
-        private const short TOKEN_QUERY = 8;
+        private const short TOKEN_QUERY = 0x0008;
 
         public void LogOff()
-        { LogOff(false); }
+        {
+            LogOff(false);
+        }
 
         public void LogOff(bool force)
         {
             getPrivileges();
-            ExitWindowsEx(EWX_LOGOFF |
-              (uint)(force ? EWX_FORCE : 0), 0);
+            bool success = ExitWindowsEx(EWX_LOGOFF |
+              (uint)(force ? EWX_FORCE : 0), 0) != 0;
+            if (!success)
+            {
+                int error = Marshal.GetLastWin32Error();
+                MessageBox.Show($"Chyba vypnutí: {error}");
+            }
         }
 
         public void Reboot()
-        { Reboot(false); }
+        {
+            Reboot(false);
+        }
 
         public void Reboot(bool force)
         {
             getPrivileges();
-            ExitWindowsEx(EWX_REBOOT |
-              (uint)(force ? EWX_FORCE : 0), 0);
+            bool success = ExitWindowsEx(EWX_REBOOT |
+              (uint)(force ? EWX_FORCE : 0), 0) != 0;
+
+            if (!success)
+            {
+                int error = Marshal.GetLastWin32Error();
+                MessageBox.Show($"Chyba vypnutí: {error}");
+            }
         }
 
         public void Shutdown()
-        { Shutdown(false); }
+        {
+            Shutdown(false);
+        }
 
         public void Shutdown(bool force)
         {
             getPrivileges();
-            ExitWindowsEx(EWX_SHUTDOWN |
-              (uint)(force ? EWX_FORCE : 0) | EWX_POWEROFF, 0);
+            bool success = ExitWindowsEx(EWX_SHUTDOWN |
+           (uint)(force ? EWX_FORCE : 0) | EWX_POWEROFF, 0) != 0;
+
+            if (!success)
+            {
+                int error = Marshal.GetLastWin32Error();
+                MessageBox.Show($"Chyba vypnutí: {error}");
+            }
         }
 
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -67,11 +91,11 @@ namespace ShutdownPC.Services
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
 
-        [DllImport("advapi32.dll")]
+        [DllImport("advapi32.dll", SetLastError = true)]
         private static extern int LookupPrivilegeValue(string lpSystemName,
           string lpName, out LUID lpLuid);
 
-        [DllImport("advapi32.dll")]
+        [DllImport("advapi32.dll", SetLastError = true)]
         private static extern int OpenProcessToken(IntPtr ProcessHandle,
           int DesiredAccess, out IntPtr TokenHandle);
 

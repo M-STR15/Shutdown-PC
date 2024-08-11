@@ -119,7 +119,6 @@ namespace ShutdownPC
                     _status = value;
                     //onStatusChange();
                     OnPropertyChanged();
-                    startMethodAfterTheTimerExpires();
 
                     if (Status == eStatus.Run)
                     {
@@ -177,8 +176,7 @@ namespace ShutdownPC
             {
                 t_CountdownTimer.Stop();
                 Status = eStatus.Completed;
-
-                MessageBox.Show("test timeru");
+                startMethodAfterTheTimerExpires();
             }
             else
             {
