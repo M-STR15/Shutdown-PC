@@ -2,7 +2,9 @@
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace ShutdownPC
 {
@@ -35,10 +37,17 @@ namespace ShutdownPC
         [ObservableProperty]
         private string _version;
 
-        private PcActionService pcAction;
+        [ObservableProperty]
+        private string _title;
 
+        private PcActionService pcAction;
+        private DispatcherTimer t_CountdownTimer;
         public MainViewModel(WindowStore windowsStore)
         {
+            t_CountdownTimer = new DispatcherTimer();
+            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
+            
             TypeModification = eTypeModification.AfterTime;
             ShutdownCommand = new Helpers.RelayCommand(cmd_Shutdown);
             RestartCommand = new Helpers.RelayCommand(cmd_Restart);
@@ -46,6 +55,7 @@ namespace ShutdownPC
             SleepModeCommand = new Helpers.RelayCommand(cmd_SleepMode);
             ChangeStatusCommnad = new Helpers.RelayCommand(cmd_ChangeStatus);
             ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
+            ShowInfoCommand = new Helpers.RelayCommand(cmd_ShowInfo);
 
             _windowStore = windowsStore;
 
@@ -56,8 +66,25 @@ namespace ShutdownPC
             SetTimeValue = DateTime.Now;
             Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-
+            Title = "Shutdown-PC";
             //StatusChange += onStatusChange;
+
+        }
+
+        private void onCountdown_Tick(object sender, EventArgs args)
+        {
+            if (SetTimeValue <= DateTime.Now)
+            {
+                t_CountdownTimer.Stop();
+                Status = eStatus.Completed;
+
+                MessageBox.Show("test timeru");
+            }
+            else
+            {
+                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                //setLabelTimer();
+            }
         }
 
         public ICommand ChangeStatusCommnad { get; private set; }
@@ -71,6 +98,7 @@ namespace ShutdownPC
         public ICommand RestartCommand { get; private set; }
 
         public ICommand ShowSettingCommand { get; private set; }
+        public ICommand ShowInfoCommand { get; private set; }
 
         public ICommand ShutdownCommand { get; private set; }
 
@@ -87,6 +115,13 @@ namespace ShutdownPC
                     //onStatusChange();
                     OnPropertyChanged();
                     startMethodAfterTheTimerExpires();
+
+                    if (Status == eStatus.Run)
+                    {
+                        t_CountdownTimer.Start();
+                    }
+                    else
+                        t_CountdownTimer.Stop();
                 }
             }
         }
@@ -97,6 +132,8 @@ namespace ShutdownPC
         private void cmd_Restart(object parameter) => reboot();
 
         private void cmd_ShowSetting(object parameter) => showSetting();
+
+        private void cmd_ShowInfo(object parameter) => showInfo();
 
         private void cmd_Shutdown(object parameter) => shutdown();
 
@@ -124,6 +161,16 @@ namespace ShutdownPC
         {
             pcAction.Reboot();
             //Message = pcAction.Message;
+        }
+
+        private void showInfo()
+        {
+            _windowStore.ShowInfoWindow();
+        }
+
+        private void showCountdownPopup()
+        {
+            _windowStore.ShowCountdownPopupWindow();
         }
         private void showSetting()
         {
@@ -168,7 +215,7 @@ namespace ShutdownPC
                     break;
             }
 
-            _windowStore.ShowInfoWindow();
+            _windowStore.ShowCountdownPopupWindow();
         }
     }
 }

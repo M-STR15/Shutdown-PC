@@ -48,6 +48,7 @@ namespace ShutdownPC
             _container.Bind<MainViewModel>().To<MainViewModel>().InSingletonScope();
             _container.Bind<InfoWindowViewModel>().To<InfoWindowViewModel>().InSingletonScope();
             _container.Bind<SettingWindowViewModel>().To<SettingWindowViewModel>().InSingletonScope();
+            _container.Bind<CountdownPopupViewModel>().To<CountdownPopupViewModel>().InSingletonScope();
         }
 
         private void congfigStores()

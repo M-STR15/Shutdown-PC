@@ -13,19 +13,19 @@
     Title="Shutdown-PC"
     Width="500"
     Height="540"
-    ResizeMode="NoResize"
+    Style="{StaticResource MainWindow}"
     mc:Ignorable="d">
     <Window.Resources>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Menu>
-            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení">
+        <Menu x:Name="LeftMenu" Margin="20,0,20,0">
+            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení" Visibility="Collapsed">
                 <MenuItem.Icon>
                     <Image
                         Width="12"
@@ -34,7 +34,17 @@
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
-        <Grid Grid.Row="1" Margin="20,0,20,0">
+        <Menu x:Name="RightMenu" HorizontalAlignment="Right" Margin="20,0,20,0">
+            <MenuItem Command="{Binding ShowInfoCommand}" Header="Info">
+                <MenuItem.Icon>
+                    <Image
+                        Width="12"
+                        Height="12"
+                        Source="{svgc:SvgImage Source=/Resources/Icons/SVG/setting.svg}" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Margin="20,0,20,0" Background="{StaticResource Background}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />

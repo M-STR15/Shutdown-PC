@@ -8,7 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <PackageIcon>power_128x128.png</PackageIcon>
-    <ApplicationIcon>Resources\Icons\ICO\power_128x128.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Icons\ICO\power_256x256_red.ico</ApplicationIcon>
     <AssemblyVersion>1.1.1.1</AssemblyVersion>
   </PropertyGroup>
 
@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\Icons\ICO\power_128x128.ico" />
+    <Content Include="Resources\Icons\ICO\power_256x256_red.ico" />
   </ItemGroup>
 
   <ItemGroup>

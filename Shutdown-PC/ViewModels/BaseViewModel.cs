@@ -1,6 +1,10 @@
-﻿namespace ShutdownPC.ViewModels
+﻿using ShutdownPC.Stores;
+using System.Windows.Input;
+
+namespace ShutdownPC.ViewModels
 {
-    public abstract class BaseViewModel
+    public partial class BaseViewModel
     {
+
     }
 }

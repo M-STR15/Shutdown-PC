@@ -24,10 +24,10 @@ namespace ShutdownPC.Stores
         {
             try
             {
-                var viewMode = _clasesStore.GetSettingWindowViewModel();
+                var viewModel = _clasesStore.GetSettingWindowViewModel();
                 var window = new SettingWindow();
 
-                return (bool)showDialog<SettingWindowViewModel, SettingWindow>(viewMode, window, _mainWindow);
+                return (bool)showDialog<SettingWindowViewModel, SettingWindow>(viewModel, window, _mainWindow);
             }
             catch (Exception)
             {
@@ -39,9 +39,37 @@ namespace ShutdownPC.Stores
         {
             try
             {
-                var viewMode = _clasesStore.GetInfoWindowViewModel();
+                var viewModel = _clasesStore.GetInfoWindowViewModel();
                 var window = new InfoWindow();
-                return (bool)showDialog<InfoWindowViewModel, InfoWindow>(viewMode, window, _mainWindow);
+                return (bool)showDialog<InfoWindowViewModel, InfoWindow>(viewModel, window, _mainWindow);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool ShowCountdownPopupWindow()
+        {
+            try
+            {
+                var viewModel = _clasesStore.GetCountdownPopupViewModel();
+                var window = new CountdownPopupWindow();
+                return (bool)showDialog<CountdownPopupViewModel, CountdownPopupWindow>(viewModel, window, _mainWindow);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool CloseWindow<T>(T viewModel)
+             where T : BaseWindowViewModel
+        {
+            try
+            {
+                closeWindow(viewModel);
+                return true;
             }
             catch (Exception)
             {
@@ -70,6 +98,18 @@ namespace ShutdownPC.Stores
             return viewModel.Window.ShowDialog();
         }
 
+        private void closeWindow<T>(T viewModel)
+              where T : BaseWindowViewModel
+        {
+            // Zavřete okno (implementace závisí na frameworku, např. Window.Close())
+            if (viewModel.Window is Window)
+            {
+                BlurEffect objBlur = new BlurEffect();
+                objBlur.Radius = 0;
+                viewModel.Window.Owner.Effect = objBlur;
+            }
 
+            viewModel.Window?.Close();
+        }
     }
 }

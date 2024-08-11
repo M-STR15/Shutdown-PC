@@ -1,6 +1,13 @@
-﻿namespace ShutdownPC.ViewModels.Windows
+﻿using ShutdownPC.Stores;
+using System.Windows.Input;
+
+namespace ShutdownPC.ViewModels.Windows
 {
-    public class SettingWindowViewModel : BaseWindowViewModel
+    public partial class SettingWindowViewModel : BaseWindowViewModel
     {
+        public SettingWindowViewModel(WindowStore windowStore):base(windowStore)
+        {
+            Title = "Setting";
+        }
     }
 }

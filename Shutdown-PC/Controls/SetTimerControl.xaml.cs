@@ -36,8 +36,6 @@ namespace ShutdownPC.Controls
 
         private DateTime _endDateTime;
 
-        private DispatcherTimer t_CountdownTimer;
-
         public SetTimerControl()
         {
             InitializeComponent();
@@ -52,10 +50,6 @@ namespace ShutdownPC.Controls
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
             _endDateTime = DateTime.Now;
-
-            t_CountdownTimer = new DispatcherTimer();
-            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
-            t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
         }
 
         public DateTime SetTimeValue
@@ -113,14 +107,10 @@ namespace ShutdownPC.Controls
 
         private void changeStatus()
         {
-            if (Status == eStatus.Run)
+            if (Status == eStatus.Run && TypeModification == eTypeModification.AfterTime)
             {
-                if (TypeModification == eTypeModification.AfterTime)
-                    setTimeValue();
-                t_CountdownTimer.Start();
+                setTimeValue();
             }
-            else
-                t_CountdownTimer.Stop();
         }
 
         private void methodForModificationControler()
@@ -142,21 +132,7 @@ namespace ShutdownPC.Controls
             _endAfterSeconds += 60;
             methodForModificationControler();
         }
-        private void onCountdown_Tick(object sender, EventArgs args)
-        {
-            if (SetTimeValue <= DateTime.Now)
-            {
-                t_CountdownTimer.Stop();
-                Status = eStatus.Completed;
 
-                MessageBox.Show("test timeru");
-            }
-            else
-            {
-                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-                setLabelTimer();
-            }
-        }
         private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             var vis = Visibility.Visible;
