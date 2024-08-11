@@ -69,7 +69,6 @@
             <Style x:Key="CustWindow" TargetType="Window">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="WindowStyle" Value="None" />
-                <Setter Property="SizeToContent" Value="WidthAndHeight" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
                 <Setter Property="HorizontalAlignment" Value="Center"/>
