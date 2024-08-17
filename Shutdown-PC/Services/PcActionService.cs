@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -55,12 +56,14 @@ namespace ShutdownPC.Services
                 MessageBox.Show($"Chyba při restartování: {error}");
             }
         }
-
+        /// <summary>
+        ///  Volání funkce pro vypnutí (false znamená normální vypnutí, true by vynutilo vypnutí)
+        /// </summary>
+        /// <param name="force"></param>
         public void Shutdown(bool force=false)
         {
             getPrivileges();
-            bool success = ExitWindowsEx(EWX_SHUTDOWN |
-           (uint)(force ? EWX_FORCE : 0) | EWX_POWEROFF, 0) != 0;
+            bool success = ExitWindowsEx(EWX_SHUTDOWN | EWX_POWEROFF | (uint)(force ? EWX_FORCE : 0), 0) != 0;
 
             if (!success)
             {
@@ -72,9 +75,9 @@ namespace ShutdownPC.Services
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool AdjustTokenPrivileges(IntPtr TokenHandle,
-          [MarshalAs(UnmanagedType.Bool)] bool DisableAllPrivileges,
+          bool DisableAllPrivileges,
           ref TOKEN_PRIVILEGES NewState,
-          UInt32 BufferLength,
+          uint BufferLength,
           IntPtr PreviousState,
           IntPtr ReturnLength);
 
@@ -82,14 +85,12 @@ namespace ShutdownPC.Services
         private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern int LookupPrivilegeValue(string lpSystemName,
-          string lpName, out LUID lpLuid);
+        private static extern int LookupPrivilegeValue(string lpSystemName,string lpName, out LUID lpLuid);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern int OpenProcessToken(IntPtr ProcessHandle,
-          int DesiredAccess, out IntPtr TokenHandle);
+        private static extern int OpenProcessToken(IntPtr ProcessHandle,int DesiredAccess, out IntPtr TokenHandle);
 
-        private void getPrivileges()
+        private static void getPrivileges()
         {
             IntPtr hToken;
             TOKEN_PRIVILEGES tkp;
@@ -97,7 +98,7 @@ namespace ShutdownPC.Services
             OpenProcessToken(Process.GetCurrentProcess().Handle,TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, out hToken);
             tkp.PrivilegeCount = 1;
             tkp.Privileges.Attributes = SE_PRIVILEGE_ENABLED;
-            LookupPrivilegeValue("", SE_SHUTDOWN_NAME,out tkp.Privileges.pLuid);
+            LookupPrivilegeValue(null, SE_SHUTDOWN_NAME,out tkp.Privileges.Luid);
             AdjustTokenPrivileges(hToken, false, ref tkp,0U, IntPtr.Zero, IntPtr.Zero);
         }
 
@@ -110,7 +111,7 @@ namespace ShutdownPC.Services
         private struct LUID_AND_ATTRIBUTES
         {
             public int Attributes;
-            public LUID pLuid;
+            public LUID Luid;
         }
 
         private struct TOKEN_PRIVILEGES
