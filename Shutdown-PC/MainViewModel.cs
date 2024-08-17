@@ -117,9 +117,7 @@ namespace ShutdownPC
                     OnPropertyChanged();
 
                     if (Status == eStatus.Run)
-                    {
                         t_CountdownTimer.Start();
-                    }
                     else
                         t_CountdownTimer.Stop();
                 }
