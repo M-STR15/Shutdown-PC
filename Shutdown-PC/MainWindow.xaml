@@ -90,9 +90,11 @@
                 </TextBlock>
 
                 <control:SetTimerControl
-                    SetTimeValue="{Binding SetTimeValue, Mode=TwoWay}"
+                    x:Name="timerControl"
+                    SetTimeValue="{Binding SetTimeValue, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                     Status="{Binding Status, Mode=TwoWay}"
-                    TypeModification="{Binding TypeModification}" />
+                    TypeModification="{Binding TypeModification}" >
+                </control:SetTimerControl>
             </StackPanel>
 
             <views:ButtonsControl

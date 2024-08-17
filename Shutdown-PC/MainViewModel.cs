@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ShutdownPC.Controls;
 using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ShutdownPC.Helpers;
 
 namespace ShutdownPC
 {
@@ -44,6 +47,7 @@ namespace ShutdownPC
         {
             t_CountdownTimer = new DispatcherTimer();
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            t_CountdownTimer.Tick += (s, e) => Helpers.EventManager.RaiseTickEvent();
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
 
             TypeModification = eTypeModification.AfterTime;
@@ -89,10 +93,9 @@ namespace ShutdownPC
                 if (_setTimeValue != value)
                 {
                     _setTimeValue = value;
+                    onSetTimeValueChange();
+                    OnPropertyChanged();
                 }
-
-                onSetTimeValueChange();
-                OnPropertyChanged();
             }
         }
 
@@ -191,8 +194,10 @@ namespace ShutdownPC
         private void resetTimeInControl()
         {
             var backupTimeSetting = SetTimeValue;
-            SetTimeValue = DateTime.MinValue;
+            //SetTimeValue = DateTime.MinValue;
             SetTimeValue = backupTimeSetting;
+
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void showCountdownPopup()

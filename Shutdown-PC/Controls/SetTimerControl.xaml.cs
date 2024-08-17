@@ -50,6 +50,13 @@ namespace ShutdownPC.Controls
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
             _endDateTime = DateTime.Now;
+
+            Helpers.EventManager.OnTickEvent += refresh_Tic;
+        }
+
+        public void refresh_Tic()
+        {
+            setLabelTimer();
         }
 
         public DateTime SetTimeValue
@@ -193,6 +200,11 @@ namespace ShutdownPC.Controls
             setMinusButton(HoursUC, time.Hours);
         }
 
+        public void RefreshLabel()
+        {
+            setLabelTimer();
+        }
+
         private void setLabelTimer()
         {
             switch (TypeModification)
@@ -209,6 +221,7 @@ namespace ShutdownPC.Controls
                     break;
 
                 case eTypeModification.AfterTime:
+                    _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
                     var time = TimeSpan.FromSeconds(_endAfterSeconds);
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
