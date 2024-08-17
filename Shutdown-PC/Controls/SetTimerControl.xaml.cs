@@ -168,15 +168,9 @@ namespace ShutdownPC.Controls
 
         private void onTypeModificationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
+            setTimeValue();
             setLabelTimer();
             setAllButtons();
-
-            switch (TypeModification)
-            {
-                case eTypeModification.InTime:
-                    _endDateTime = DateTime.Now;
-                    break;
-            }
         }
 
         private void secondsMinus_Change(object sender, EventArgs args)
@@ -241,7 +235,9 @@ namespace ShutdownPC.Controls
 
         private void setTimeValue()
         {
-            _endDateTime = DateTime.Now;
+            if (TypeModification == eTypeModification.AfterTime)
+                _endDateTime = DateTime.Now;
+
             SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
             setLabelTimer();
         }
