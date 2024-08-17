@@ -5,9 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ShutdownPC.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Style="{StaticResource CustWindow}"
     Width="200"
     Height="400"
+    Style="{StaticResource CustWindow}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,57 +16,30 @@
         </Grid.RowDefinitions>
         <Grid>
             <ScrollViewer>
-                <TextBlock Text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadfssssssssssssssssssssssssssssss fsdf  fsfs
-                             sfsfdfsdf fsdfsdff
-                           fsdfsdfsdf
-                           fsdfdsf
-                           dfsfdffsf
-                           dsfsfsfsdf
-                           dfssfsdfsdfsfsfsf
-                           sfsffsdf
-                           sdfsdfsfsdfdsfsdf
-                           fsfdsfsdfsdfdsfsdfdfs
-                           fsdf
-                           sdfsdffs
-                           dsfsdf
-                           sdfsf
-
-                           fsfsfd
-                           fs
-                           fsd
-                           fds
-                           fds
-                           fsd
-                           fsdfsdf
-
-                           dsf
-                           sdf
-                           sdf
-                           sdf
-                           sdf
-                           sdf
-                           sdf
-                           sdf
-
-                           fdsffsdf
-                           sdf
-                           sdf
-                           sdfsdf
-                           fsfs
-                           fsdf
-                           fsfsdf
-
-                           fs
-                           fsaaaaaaaaaaaaaaaaaaaaaaa dasdaddfsf" TextWrapping="Wrap" />
+                <TextBlock TextWrapping="Wrap">
+                     <Run FontWeight="Bold" Text="Název SW:" />
+                    <Run Text="Shutdown-PC" />
+                    <LineBreak />
+                    <Run FontWeight="Bold" Text="Autor:" />
+                    <Run Text="M-Str" />
+                    <LineBreak />
+                    <Run FontWeight="Bold" Text="Licence:" />
+                    <Run Text="freeware" />
+                    <LineBreak />
+                    <LineBreak />
+                    <Run FontWeight="Bold" Text="Popis:" />
+                    <LineBreak />
+                    <Run Text="Tento program byl vytvořen za účelem vlastní potřeby.Ale může ho kdokoliv užívat zdarma." />
+                </TextBlock>
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="1">
             <TextBlock
-               Margin="20,0,20,5"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               FontSize="12"
-               Text="{Binding Version, FallbackValue=Version}" />
+                Margin="20,0,20,5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="{Binding Version, FallbackValue=Version}" />
         </Grid>
     </Grid>
 </Window>
