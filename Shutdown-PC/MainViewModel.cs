@@ -190,7 +190,7 @@ namespace ShutdownPC
         private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
         private void reboot()
         {
-            pcAction.Reboot();
+            PcActionService.Reboot();
         }
 
         private void resetTimeInControl()
@@ -215,7 +215,7 @@ namespace ShutdownPC
         }
         private void shutdown()
         {
-            pcAction.Shutdown();
+            PcActionService.Shutdown();
         }
         private void sleepMode()
         {
@@ -232,10 +232,10 @@ namespace ShutdownPC
                     switch (TypeAction)
                     {
                         case eTypeAction.Shutdown:
-                            pcAction.Shutdown();
+                            PcActionService.Shutdown();
                             break;
                         case eTypeAction.Restart:
-                            pcAction.Reboot();
+                            PcActionService.Reboot();
                             break;
                         case eTypeAction.LogTheUserOut:
                             pcAction.LogOff();

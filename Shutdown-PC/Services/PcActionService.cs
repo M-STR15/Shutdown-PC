@@ -32,7 +32,7 @@ namespace ShutdownPC.Services
             LogOff(false);
         }
 
-        public void LogOff(bool force)
+        public static void LogOff(bool force)
         {
             getPrivileges();
             bool success = ExitWindowsEx(EWX_LOGOFF |
@@ -44,7 +44,7 @@ namespace ShutdownPC.Services
             }
         }
 
-        public void Reboot(bool force = false)
+        public static void Reboot(bool force = false)
         {
             getPrivileges();
             bool success = ExitWindowsEx(EWX_REBOOT |
@@ -60,7 +60,7 @@ namespace ShutdownPC.Services
         ///  Volání funkce pro vypnutí (false znamená normální vypnutí, true by vynutilo vypnutí)
         /// </summary>
         /// <param name="force"></param>
-        public void Shutdown(bool force=false)
+        public static void Shutdown(bool force=false)
         {
             getPrivileges();
             bool success = ExitWindowsEx(EWX_SHUTDOWN | EWX_POWEROFF | (uint)(force ? EWX_FORCE : 0), 0) != 0;
@@ -74,12 +74,7 @@ namespace ShutdownPC.Services
 
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool AdjustTokenPrivileges(IntPtr TokenHandle,
-          bool DisableAllPrivileges,
-          ref TOKEN_PRIVILEGES NewState,
-          uint BufferLength,
-          IntPtr PreviousState,
-          IntPtr ReturnLength);
+        private static extern bool AdjustTokenPrivileges(IntPtr TokenHandle,bool DisableAllPrivileges,ref TOKEN_PRIVILEGES NewState,uint BufferLength,IntPtr PreviousState,IntPtr ReturnLength);
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
@@ -104,14 +99,14 @@ namespace ShutdownPC.Services
 
         private struct LUID
         {
-            public int HighPart;
             public int LowPart;
+            public int HighPart;
         }
 
         private struct LUID_AND_ATTRIBUTES
         {
-            public int Attributes;
             public LUID Luid;
+            public int Attributes;
         }
 
         private struct TOKEN_PRIVILEGES
