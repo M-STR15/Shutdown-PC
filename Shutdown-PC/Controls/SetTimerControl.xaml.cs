@@ -205,6 +205,7 @@ namespace ShutdownPC.Controls
 
                     lblDate.Content = endAdterSeconds.ToShortDateString();
                     lblNegativTime.Visibility = Visibility.Hidden;
+                    lblDate.Visibility = Visibility.Visible;
                     break;
 
                 case eTypeModification.AfterTime:
@@ -212,7 +213,7 @@ namespace ShutdownPC.Controls
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
                     SecondsUC.TimeValue = time.Seconds;
-
+                    lblDate.Visibility = Visibility.Hidden;
                     lblDate.Content = "";
 
                     lblNegativTime.Visibility = time.TotalSeconds < 0 ? Visibility.Visible : Visibility.Hidden;
