@@ -72,6 +72,7 @@ namespace ShutdownPC.Controls
 
         public void refresh_Tick()
         {
+            _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
             setLabelTimer();
         }
 
@@ -250,7 +251,6 @@ namespace ShutdownPC.Controls
                     break;
 
                 case eTypeModification.AfterTime:
-                    _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
                     var time = TimeSpan.FromSeconds(_endAfterSeconds);
                     HoursUC.TimeValue = (int)time.TotalHours;
                     MinutesUC.TimeValue = time.Minutes;
@@ -282,7 +282,6 @@ namespace ShutdownPC.Controls
                 _endDateTime = DateTime.Now;
 
             SetTimeValue = _endDateTime.AddSeconds(_endAfterSeconds);
-            setLabelTimer();
         }
     }
 }
