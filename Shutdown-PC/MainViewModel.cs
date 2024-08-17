@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
@@ -67,7 +68,7 @@ namespace ShutdownPC
             Status = eStatus.Stop;
 
             SetTimeValue = DateTime.Now;
-            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = BuildInfo.VersionStr;
 
             Title = "Shutdown-PC";
             //StatusChange += onStatusChange;

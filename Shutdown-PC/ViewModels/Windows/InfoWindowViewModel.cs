@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ShutdownPC.Models;
 using ShutdownPC.Stores;
 
 namespace ShutdownPC.ViewModels.Windows
@@ -11,7 +12,7 @@ namespace ShutdownPC.ViewModels.Windows
         public InfoWindowViewModel(WindowStore windowStore) : base(windowStore)
         {
             Title = "Info";
-            Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Version = BuildInfo.VersionStr;
         }
     }
 }

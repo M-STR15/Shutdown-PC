@@ -15,6 +15,14 @@
     <Authors>M-Str</Authors>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<GenerateBuildInfoScript>$(MSBuildProjectDirectory)\Scripts\BuildDateGenerateClass.ps1</GenerateBuildInfoScript>
+	</PropertyGroup>
+
+	<Target Name="RunPowerShellScript" BeforeTargets="Build">
+		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(GenerateBuildInfoScript)&quot;" />
+	</Target>
+	
   <ItemGroup>
     <Compile Remove="Views\**" />
     <EmbeddedResource Remove="Views\**" />
