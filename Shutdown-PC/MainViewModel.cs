@@ -43,7 +43,6 @@ namespace ShutdownPC
 
         [ObservableProperty]
         private string _version;
-        private PcActionService pcAction;
 
         private DispatcherTimer t_CountdownTimer;
         public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView)
@@ -66,25 +65,18 @@ namespace ShutdownPC
 
             _windowStore = windowsStore;
 
-            pcAction = new PcActionService();
-
             Status = eStatus.Stop;
 
             SetTimeValue = DateTime.Now;
             Version = BuildInfo.VersionStr;
 
             Title = "Shutdown-PC";
-            //StatusChange += onStatusChange;
         }
 
         public ICommand CloseCommand { get; private set; }
 
         public ICommand ChangeStatusCommnad { get; private set; }
 
-        //private void onStatusChange(object sender, EventArgs args)
-        //{
-        //    changeStatus();
-        //}
         public ICommand LogTheUserOutCommnad { get; set; }
 
         public ICommand RestartCommand { get; private set; }
@@ -119,7 +111,6 @@ namespace ShutdownPC
                 if (_status != value)
                 {
                     _status = value;
-                    //onStatusChange();
                     OnPropertyChanged();
                     setTimer();
                 }
@@ -170,7 +161,7 @@ namespace ShutdownPC
 
         private void logOff()
         {
-            pcAction.LogOff();
+            PcActionService.LogOff(false);
         }
 
         private void onCountdown_Tick(object sender, EventArgs args)
@@ -183,7 +174,7 @@ namespace ShutdownPC
             }
             else
             {
-                _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+                EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
                 //setLabelTimer();
             }
 
@@ -201,7 +192,7 @@ namespace ShutdownPC
         {
             if (Status == eStatus.Run)
             {
-                var delay = TimeSpan.FromMicroseconds(1000 - _clockTime.Millisecond);
+                var delay = TimeSpan.FromMicroseconds(1000 - ClockTime.Millisecond);
                 await delayStartTimerAsync(delay);
             }
             else
@@ -241,7 +232,7 @@ namespace ShutdownPC
                             break;
 
                         case eTypeAction.LogTheUserOut:
-                            pcAction.LogOff();
+                            PcActionService.LogOff(true);
                             break;
 
                         case eTypeAction.SleepMode:
