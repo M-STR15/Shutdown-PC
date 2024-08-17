@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Prism.Events;
+using ShutdownPC.Helpers;
 using ShutdownPC.Models.Enums;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,6 +27,7 @@ namespace ShutdownPC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eStatus.Run, new PropertyChangedCallback(onStatusPropertyChanged)));
 
+
         public static readonly DependencyProperty TypeModificationProperty =
            DependencyProperty.Register
            (nameof(TypeModification),
@@ -32,7 +35,22 @@ namespace ShutdownPC.Controls
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
 
+
+        public static readonly DependencyProperty EventRestartViewProperty =
+           DependencyProperty.Register
+           (nameof(EventRestartView),
+            typeof(IEventAggregator),
+            typeof(SetTimerControl), 
+            new FrameworkPropertyMetadata(new PropertyChangedCallback(onEventRestartViewPropertyChanged)));
+
+
         private int _endAfterSeconds;
+
+        public IEventAggregator EventRestartView
+        {
+            get => (IEventAggregator)GetValue(EventRestartViewProperty);
+            set => SetValue(EventRestartViewProperty, value);
+        }
 
         private DateTime _endDateTime;
 
@@ -50,11 +68,9 @@ namespace ShutdownPC.Controls
             SecondsUC.btnMinus.Click += secondsMinus_Change;
 
             _endDateTime = DateTime.Now;
-
-            Helpers.EventManager.OnTickEvent += refresh_Tic;
         }
 
-        public void refresh_Tic()
+        public void refresh_Tick()
         {
             setLabelTimer();
         }
@@ -94,6 +110,19 @@ namespace ShutdownPC.Controls
             var uc = d as SetTimerControl;
             uc.onSetTimeValuePropertyChanged(e);
         }
+
+
+        private static void onEventRestartViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var uc = d as SetTimerControl;
+            uc.onEventRestartViewPropertyChanged(e);
+        }
+
+        private void onEventRestartViewPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            EventRestartView.GetEvent<TickEvent>().Subscribe(refresh_Tick);
+        }
+
 
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

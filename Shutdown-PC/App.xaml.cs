@@ -1,4 +1,5 @@
 ﻿using Ninject;
+using Prism.Events;
 using ShutdownPC.Stores;
 using ShutdownPC.ViewModels.Windows;
 using System.Windows;
@@ -31,6 +32,8 @@ namespace ShutdownPC
         private void configureContainer()
         {
             _container = new StandardKernel();
+
+            _container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
             configWindows();
             configVieModels();

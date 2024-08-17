@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ShutdownPC.Helpers;
+using Prism.Events;
 
 namespace ShutdownPC
 {
@@ -43,11 +44,14 @@ namespace ShutdownPC
 
         private DispatcherTimer t_CountdownTimer;
 
-        public MainViewModel(WindowStore windowsStore)
+        [ObservableProperty]
+        private IEventAggregator _eventRestartView;
+        public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView)
         {
+            EventRestartView = eventRestartView;
+
             t_CountdownTimer = new DispatcherTimer();
             t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
-            t_CountdownTimer.Tick += (s, e) => Helpers.EventManager.RaiseTickEvent();
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
 
             TypeModification = eTypeModification.AfterTime;
@@ -181,7 +185,7 @@ namespace ShutdownPC
                 //setLabelTimer();
             }
 
-            resetTimeInControl();
+            EventRestartView.GetEvent<TickEvent>().Publish();
         }
 
         private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
@@ -189,15 +193,6 @@ namespace ShutdownPC
         private void reboot()
         {
             PcActionService.Reboot();
-        }
-
-        private void resetTimeInControl()
-        {
-            var backupTimeSetting = SetTimeValue;
-            //SetTimeValue = DateTime.MinValue;
-            SetTimeValue = backupTimeSetting;
-
-            CommandManager.InvalidateRequerySuggested();
         }
 
         private void showCountdownPopup()

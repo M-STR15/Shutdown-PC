@@ -62,6 +62,7 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="SharpVectors" Version="1.8.4" />
     <PackageReference Include="SharpVectors.Wpf" Version="1.8.4" />
   </ItemGroup>

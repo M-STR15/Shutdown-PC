@@ -90,6 +90,7 @@
                 </TextBlock>
 
                 <control:SetTimerControl
+                    EventRestartView="{Binding EventRestartView}"
                     x:Name="timerControl"
                     SetTimeValue="{Binding SetTimeValue, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                     Status="{Binding Status, Mode=TwoWay}"
