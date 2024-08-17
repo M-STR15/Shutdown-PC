@@ -19,7 +19,7 @@ namespace ShutdownPC.Helpers
         {
         }
 
-        public RelayCommand(Action<object> execute, Func<bool> canExecute = null, INotifyPropertyChanged propChangedSource = null)
+        public RelayCommand(Action<object> execute, Func<bool>? canExecute = null, INotifyPropertyChanged? propChangedSource = null)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");

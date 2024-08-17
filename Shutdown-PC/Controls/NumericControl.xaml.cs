@@ -70,13 +70,15 @@ namespace ShutdownPC.Controls
         private static void onTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as NumericControl;
-            uc.onTimeValuePropertyChanged(e);
+            if (uc != null)
+                uc.onTimeValuePropertyChanged(e);
         }
 
         private static void oVisibilityButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as NumericControl;
-            uc.oVisibilityButtonsPropertyChanged(e);
+            if (uc != null)
+                uc.oVisibilityButtonsPropertyChanged(e);
         }
 
         private void btnMinus_Click(object sender, RoutedEventArgs e)

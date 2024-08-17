@@ -109,24 +109,28 @@ namespace ShutdownPC.Controls
         private static void onEventRestartViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
-            uc.onEventRestartViewPropertyChanged(e);
+            if (uc != null)
+                uc.onEventRestartViewPropertyChanged(e);
         }
 
         private static void onSetTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
-            uc.onSetTimeValuePropertyChanged(e);
+            if (uc != null)
+                uc.onSetTimeValuePropertyChanged(e);
         }
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
-            uc.onStatusPropertyChanged(e);
+            if (uc != null)
+                uc.onStatusPropertyChanged(e);
         }
 
         private static void onTypeModificationPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
-            uc.onTypeModificationPropertyChanged(e);
+            if (uc != null)
+                uc.onTypeModificationPropertyChanged(e);
         }
 
         private void hoursMinus_Change(object sender, EventArgs args)
@@ -144,9 +148,7 @@ namespace ShutdownPC.Controls
         private void changeStatus()
         {
             if (Status == eStatus.Run && TypeModification == eTypeModification.AfterTime)
-            {
                 setTimeValue();
-            }
         }
 
         private void methodForModificationControler()
