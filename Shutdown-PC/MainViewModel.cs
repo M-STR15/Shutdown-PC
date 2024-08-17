@@ -31,7 +31,6 @@ namespace ShutdownPC
         [ObservableProperty]
         private eTypeAction _typeAction;
 
-        [ObservableProperty]
         private eTypeModification _typeModification;
 
         [ObservableProperty]
@@ -124,6 +123,22 @@ namespace ShutdownPC
             }
         }
 
+        public eTypeModification TypeModification
+        {
+            get => _typeModification;
+            set
+            {
+                _typeModification = value;
+
+                switch (TypeModification)
+                {
+                    case eTypeModification.InTime:
+                        SetTimeValue = DateTime.Now;
+                        break;
+                }
+                OnPropertyChanged();
+            }
+        }
         private void close()
         {
             App.Current.Shutdown();
