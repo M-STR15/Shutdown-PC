@@ -9,19 +9,13 @@ namespace ShutdownPC.Controls
     /// </summary>
     public partial class ClockControl : UserControl
     {
-        private readonly DispatcherTimer _timer = new DispatcherTimer();   //hodiny
-
         public static readonly DependencyProperty ClockTimeProperty =
            DependencyProperty.Register
            (nameof(ClockTime),
             typeof(DateTime),
             typeof(ClockControl));
 
-        public DateTime ClockTime
-        {
-            get => (DateTime)GetValue(ClockTimeProperty);
-            set => SetValue(ClockTimeProperty, value);
-        }
+        private readonly DispatcherTimer _timer = new DispatcherTimer();   //hodiny
         public ClockControl()
         {
             InitializeComponent();
@@ -31,6 +25,11 @@ namespace ShutdownPC.Controls
             _timer.Start();
         }
 
+        public DateTime ClockTime
+        {
+            get => (DateTime)GetValue(ClockTimeProperty);
+            set => SetValue(ClockTimeProperty, value);
+        }
         private void timer_Click(object sender, EventArgs e)
         {
             try

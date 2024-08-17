@@ -18,7 +18,13 @@ namespace ShutdownPC
         private readonly WindowStore _windowStore;
 
         [ObservableProperty]
+        private DateTime _clockTime;
+
+        [ObservableProperty]
         private int _endAfterSeconds;
+
+        [ObservableProperty]
+        private IEventAggregator _eventRestartView;
 
         [ObservableProperty]
         private string _message;
@@ -37,15 +43,9 @@ namespace ShutdownPC
 
         [ObservableProperty]
         private string _version;
-        [ObservableProperty]
-        private DateTime _clockTime;
-
         private PcActionService pcAction;
 
         private DispatcherTimer t_CountdownTimer;
-
-        [ObservableProperty]
-        private IEventAggregator _eventRestartView;
         public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView)
         {
             EventRestartView = eventRestartView;
@@ -126,23 +126,6 @@ namespace ShutdownPC
             }
         }
 
-        private async void setTimer()
-        {
-            if (Status == eStatus.Run)
-            {
-                var delay = TimeSpan.FromMicroseconds(1000 - _clockTime.Millisecond);
-                await delayStartTimerAsync(delay);
-            }
-            else
-                t_CountdownTimer.Stop();
-        }
-
-        private async Task delayStartTimerAsync(TimeSpan delay)
-        {
-            await Task.Delay(delay);
-            t_CountdownTimer.Start();
-        }
-
         private void close()
         {
             App.Current.Shutdown();
@@ -163,6 +146,12 @@ namespace ShutdownPC
         private void cmd_Shutdown(object parameter) => shutdown();
 
         private void cmd_SleepMode(object parameter) => sleepMode();
+
+        private async Task delayStartTimerAsync(TimeSpan delay)
+        {
+            await Task.Delay(delay);
+            t_CountdownTimer.Start();
+        }
 
         private void changeStatus()
         {
@@ -208,6 +197,16 @@ namespace ShutdownPC
             PcActionService.Reboot();
         }
 
+        private async void setTimer()
+        {
+            if (Status == eStatus.Run)
+            {
+                var delay = TimeSpan.FromMicroseconds(1000 - _clockTime.Millisecond);
+                await delayStartTimerAsync(delay);
+            }
+            else
+                t_CountdownTimer.Stop();
+        }
         private void showCountdownPopup() => _windowStore.ShowCountdownPopupWindow();
 
         private void showInfo() => _windowStore.ShowInfoWindow();
