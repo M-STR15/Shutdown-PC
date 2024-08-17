@@ -31,6 +31,7 @@ namespace ShutdownPC.Controls
             typeof(eTypeModification),
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
+
         private int _endAfterSeconds;
 
         private DateTime _endDateTime;
@@ -62,6 +63,7 @@ namespace ShutdownPC.Controls
             get => (eStatus)GetValue(StatusProperty);
             set => SetValue(StatusProperty, value);
         }
+
         public eTypeModification TypeModification
         {
             get => (eTypeModification)GetValue(TypeModificationProperty);
@@ -85,6 +87,7 @@ namespace ShutdownPC.Controls
             var uc = d as SetTimerControl;
             uc.onSetTimeValuePropertyChanged(e);
         }
+
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
@@ -144,6 +147,7 @@ namespace ShutdownPC.Controls
                 setLabelTimer();
             }
         }
+
         private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             var vis = Visibility.Visible;
@@ -186,6 +190,7 @@ namespace ShutdownPC.Controls
             _endAfterSeconds += +1;
             methodForModificationControler();
         }
+
         private void setAllButtons()
         {
             var time = TimeSpan.FromSeconds(_endAfterSeconds);
@@ -193,6 +198,7 @@ namespace ShutdownPC.Controls
             setMinusButton(MinutesUC, time.Minutes, time.Hours);
             setMinusButton(HoursUC, time.Hours);
         }
+
         private void setLabelTimer()
         {
             switch (TypeModification)

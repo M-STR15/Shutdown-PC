@@ -71,7 +71,6 @@ namespace ShutdownPC
 
             Title = "Shutdown-PC";
             //StatusChange += onStatusChange;
-
         }
 
         public ICommand CloseCommand { get; private set; }
@@ -100,6 +99,7 @@ namespace ShutdownPC
                 OnPropertyChanged();
             }
         }
+
         public ICommand ShowInfoCommand { get; private set; }
 
         public ICommand ShowSettingCommand { get; private set; }
@@ -157,6 +157,7 @@ namespace ShutdownPC
                 case eStatus.Run:
                     Status = eStatus.Stop;
                     break;
+
                 default:
                     Status = eStatus.Run;
                     //_windowStore.ShowCountdownPopupWindow();
@@ -187,6 +188,7 @@ namespace ShutdownPC
         }
 
         private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
+
         private void reboot()
         {
             PcActionService.Reboot();
@@ -198,6 +200,7 @@ namespace ShutdownPC
             SetTimeValue = DateTime.MinValue;
             SetTimeValue = backupTimeSetting;
         }
+
         private void showCountdownPopup()
         {
             _windowStore.ShowCountdownPopupWindow();
@@ -207,15 +210,18 @@ namespace ShutdownPC
         {
             _windowStore.ShowInfoWindow();
         }
+
         private void showSetting()
         {
             _windowStore.ShowSettigWindow();
             //pcAction.SleepMode();
         }
+
         private void shutdown()
         {
             PcActionService.Shutdown();
         }
+
         private void sleepMode()
         {
             //pcAction.SleepMode();
@@ -233,12 +239,15 @@ namespace ShutdownPC
                         case eTypeAction.Shutdown:
                             PcActionService.Shutdown(true);
                             break;
+
                         case eTypeAction.Restart:
                             PcActionService.Reboot(true);
                             break;
+
                         case eTypeAction.LogTheUserOut:
                             pcAction.LogOff();
                             break;
+
                         case eTypeAction.SleepMode:
 
                             break;

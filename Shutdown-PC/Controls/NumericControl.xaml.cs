@@ -62,6 +62,7 @@ namespace ShutdownPC.Controls
             get => (Visibility)GetValue(VisibilityButtonsProperty);
             set => SetValue(VisibilityButtonsProperty, value);
         }
+
         public bool canMinus() => TimeValue > 0;
 
         public bool canPlus() => TimeValue < MaxTimeValue;
@@ -99,6 +100,7 @@ namespace ShutdownPC.Controls
         }
 
         private void onTimeValueChanged() => TimeValueChanged?.Invoke(this, EventArgs.Empty);
+
         private void onTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
         }
@@ -107,11 +109,13 @@ namespace ShutdownPC.Controls
         {
             stcBtns.Visibility = VisibilityButtons;
         }
+
         private void plus()
         {
             if (canPlus())
                 TimeValue += 1;
         }
+
         private void setLbl()
         {
             var resultText = "00";

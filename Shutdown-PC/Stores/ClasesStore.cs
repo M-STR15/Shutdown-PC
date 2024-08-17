@@ -11,6 +11,7 @@ namespace ShutdownPC.Stores
         }
 
         private IKernel _container { get; set; }
+
         public InfoWindowViewModel GetInfoWindowViewModel() => _container.Get<InfoWindowViewModel>();
 
         public SettingWindowViewModel GetSettingWindowViewModel() => _container.Get<SettingWindowViewModel>();

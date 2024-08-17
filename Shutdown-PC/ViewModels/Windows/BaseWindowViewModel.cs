@@ -10,10 +10,12 @@ namespace ShutdownPC.ViewModels.Windows
     {
         [ObservableProperty]
         private string _title;
+
         public Window Window { get; set; }
 
         protected WindowStore _windowStore;
         public ICommand CloseWindowCommand { get; private set; }
+
         public BaseWindowViewModel(WindowStore windowStore)
         {
             _windowStore = windowStore;

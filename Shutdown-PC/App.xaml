@@ -20,8 +20,8 @@
                 <Setter Property="WindowStyle" Value="None" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Window">
@@ -71,8 +71,8 @@
                 <Setter Property="WindowStyle" Value="None" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Background" Value="{StaticResource Background}" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -109,15 +109,14 @@
                 </Setter>
             </Style>
 
-
             <Style x:Key="PopWindow" TargetType="Window">
                 <Setter Property="Focusable" Value="True" />
                 <Setter Property="WindowStyle" Value="None" />
                 <Setter Property="SizeToContent" Value="WidthAndHeight" />
                 <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
                 <Setter Property="AllowsTransparency" Value="True" />
-                <Setter Property="HorizontalAlignment" Value="Right"/>
-                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="HorizontalAlignment" Value="Right" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
                 <Setter Property="Background" Value="{StaticResource Background}" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -154,6 +153,5 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-
     </Application.Resources>
 </Application>

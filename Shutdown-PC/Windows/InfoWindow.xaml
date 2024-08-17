@@ -30,15 +30,7 @@
                            sdfsdffs
                            dsfsdf
                            sdfsf
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
+
                            fsfsfd
                            fs
                            fsd
@@ -46,7 +38,7 @@
                            fds
                            fsd
                            fsdfsdf
-                           
+
                            dsf
                            sdf
                            sdf
@@ -55,7 +47,7 @@
                            sdf
                            sdf
                            sdf
-                           
+
                            fdsffsdf
                            sdf
                            sdf
@@ -63,9 +55,9 @@
                            fsfs
                            fsdf
                            fsfsdf
-                           
+
                            fs
-                           fsaaaaaaaaaaaaaaaaaaaaaaa dasdaddfsf" TextWrapping="Wrap"/>
+                           fsaaaaaaaaaaaaaaaaaaaaaaa dasdaddfsf" TextWrapping="Wrap" />
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="1">

@@ -77,11 +77,10 @@ namespace ShutdownPC.Stores
             }
         }
 
-        private bool? showDialog<T, R>(T viewModel, R window, Window owner, WindowStartupLocation windowStartupLocation= WindowStartupLocation.CenterOwner)
+        private bool? showDialog<T, R>(T viewModel, R window, Window owner, WindowStartupLocation windowStartupLocation = WindowStartupLocation.CenterOwner)
             where T : BaseWindowViewModel
             where R : Window
         {
-
             BlurEffect objBlur = new BlurEffect();
             objBlur.Radius = 4;
 

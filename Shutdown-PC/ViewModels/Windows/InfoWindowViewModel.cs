@@ -7,6 +7,7 @@ namespace ShutdownPC.ViewModels.Windows
     {
         [ObservableProperty]
         private string _version;
+
         public InfoWindowViewModel(WindowStore windowStore) : base(windowStore)
         {
             Title = "Info";

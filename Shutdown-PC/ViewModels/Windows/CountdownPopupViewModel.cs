@@ -15,6 +15,7 @@ namespace ShutdownPC.ViewModels.Windows
         private string _seconds;
 
         private readonly DateTime _setTimeValue;
+
         public CountdownPopupViewModel(WindowStore windowStore, MainViewModel mainViewModel) : base(windowStore)
         {
             _setTimeValue = mainViewModel.SetTimeValue;

@@ -23,7 +23,7 @@ namespace ShutdownPC.Controls
         {
             try
             {
-                var time= DateTime.Now;
+                var time = DateTime.Now;
                 lblHours.Content = time.ToString("HH");
                 lblMinutes.Content = time.ToString("mm");
                 lblSeconds.Content = time.ToString("ss");

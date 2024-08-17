@@ -14,7 +14,6 @@ namespace ShutdownPC
 
         public App()
         {
-   
         }
 
         protected override void OnStartup(StartupEventArgs e)

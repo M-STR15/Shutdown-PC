@@ -9,6 +9,7 @@ namespace ShutdownPC.Helpers
 
         private readonly Func<bool> _canExecute;
         private readonly Action<object> _execute;
+
         #endregion Fields
 
         #region Constructors
@@ -38,6 +39,7 @@ namespace ShutdownPC.Helpers
         }
 
         private event EventHandler _canExecuteChanged;
+
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
 
         public void Execute(object parameter)
@@ -54,6 +56,7 @@ namespace ShutdownPC.Helpers
         {
             OnCanExecuteChanged();
         }
+
         #endregion ICommand Members
     }
 }

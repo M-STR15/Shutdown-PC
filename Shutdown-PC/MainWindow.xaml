@@ -18,7 +18,7 @@
     <Window.Resources>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
     </Window.Resources>
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
