@@ -26,11 +26,6 @@ namespace ShutdownPC.Services
 
         private const short TOKEN_QUERY = 0x0008;
 
-        public void LogOff()
-        {
-            LogOff(false);
-        }
-
         public static void LogOff(bool force)
         {
             getPrivileges();
@@ -72,18 +67,16 @@ namespace ShutdownPC.Services
             }
         }
 
+        public void LogOff()
+        {
+            LogOff(false);
+        }
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool AdjustTokenPrivileges(IntPtr TokenHandle, bool DisableAllPrivileges, ref TOKEN_PRIVILEGES NewState, uint BufferLength, IntPtr PreviousState, IntPtr ReturnLength);
 
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int ExitWindowsEx(uint uFlags, uint dwReason);
-
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern int LookupPrivilegeValue(string lpSystemName, string lpName, out LUID lpLuid);
-
-        [DllImport("advapi32.dll", SetLastError = true)]
-        private static extern int OpenProcessToken(IntPtr ProcessHandle, int DesiredAccess, out IntPtr TokenHandle);
 
         private static void getPrivileges()
         {
@@ -97,16 +90,21 @@ namespace ShutdownPC.Services
             AdjustTokenPrivileges(hToken, false, ref tkp, 0U, IntPtr.Zero, IntPtr.Zero);
         }
 
+        [DllImport("advapi32.dll", SetLastError = true)]
+        private static extern int LookupPrivilegeValue(string lpSystemName, string lpName, out LUID lpLuid);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        private static extern int OpenProcessToken(IntPtr ProcessHandle, int DesiredAccess, out IntPtr TokenHandle);
         private struct LUID
         {
-            public int LowPart;
             public int HighPart;
+            public int LowPart;
         }
 
         private struct LUID_AND_ATTRIBUTES
         {
-            public LUID Luid;
             public int Attributes;
+            public LUID Luid;
         }
 
         private struct TOKEN_PRIVILEGES

@@ -20,14 +20,14 @@ namespace ShutdownPC.Stores
             _mainWindow = mainWindow;
         }
 
-        public bool ShowSettigWindow()
+        public bool? ShowSettigWindow()
         {
             try
             {
                 var viewModel = _clasesStore.GetSettingWindowViewModel();
                 var window = new SettingWindow();
 
-                return (bool)showDialog<SettingWindowViewModel, SettingWindow>(viewModel, window, _mainWindow);
+                return showDialog<SettingWindowViewModel, SettingWindow>(viewModel, window, _mainWindow);
             }
             catch (Exception)
             {
@@ -35,13 +35,13 @@ namespace ShutdownPC.Stores
             }
         }
 
-        public bool ShowInfoWindow()
+        public bool? ShowInfoWindow()
         {
             try
             {
                 var viewModel = _clasesStore.GetInfoWindowViewModel();
                 var window = new InfoWindow();
-                return (bool)showDialog<InfoWindowViewModel, InfoWindow>(viewModel, window, _mainWindow);
+                return showDialog<InfoWindowViewModel, InfoWindow>(viewModel, window, _mainWindow);
             }
             catch (Exception)
             {
@@ -49,13 +49,13 @@ namespace ShutdownPC.Stores
             }
         }
 
-        public bool ShowCountdownPopupWindow()
+        public bool? ShowCountdownPopupWindow()
         {
             try
             {
                 var viewModel = _clasesStore.GetCountdownPopupViewModel();
                 var window = new CountdownPopupWindow();
-                return (bool)showDialog<CountdownPopupViewModel, CountdownPopupWindow>(viewModel, window, _mainWindow, WindowStartupLocation.Manual);
+                return showDialog<CountdownPopupViewModel, CountdownPopupWindow>(viewModel, window, _mainWindow, WindowStartupLocation.Manual);
             }
             catch (Exception)
             {
@@ -90,17 +90,12 @@ namespace ShutdownPC.Stores
             viewModel.Window.Owner.Effect = objBlur;
             viewModel.Window.WindowStartupLocation = windowStartupLocation;
 
-            //viewModel.Window.HorizontalAlignment = HorizontalAlignment.Center;
-            //viewModel.Window.VerticalAlignment = VerticalAlignment.Center;
-            //viewModel.Window.Topmost = true;
-
             return viewModel.Window.ShowDialog();
         }
 
         private void closeWindow<T>(T viewModel)
               where T : BaseWindowViewModel
         {
-            // Zavřete okno (implementace závisí na frameworku, např. Window.Close())
             if (viewModel.Window is Window)
             {
                 BlurEffect objBlur = new BlurEffect();

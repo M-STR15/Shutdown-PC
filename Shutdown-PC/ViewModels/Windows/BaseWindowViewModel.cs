@@ -8,13 +8,10 @@ namespace ShutdownPC.ViewModels.Windows
     [ObservableObject]
     public partial class BaseWindowViewModel : BaseViewModel
     {
+        protected WindowStore _windowStore;
+
         [ObservableProperty]
         private string _title;
-
-        public Window Window { get; set; }
-
-        protected WindowStore _windowStore;
-        public ICommand CloseWindowCommand { get; private set; }
 
         public BaseWindowViewModel(WindowStore windowStore)
         {
@@ -22,6 +19,8 @@ namespace ShutdownPC.ViewModels.Windows
             CloseWindowCommand = new Helpers.RelayCommand(cmd_CloseWindow);
         }
 
+        public ICommand CloseWindowCommand { get; private set; }
+        public Window Window { get; set; }
         private void cmd_CloseWindow(object parameter)
         {
             _windowStore.CloseWindow<BaseWindowViewModel>(this);

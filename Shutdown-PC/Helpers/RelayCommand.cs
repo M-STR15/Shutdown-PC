@@ -42,10 +42,7 @@ namespace ShutdownPC.Helpers
 
         public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
 
-        public void Execute(object parameter)
-        {
-            _execute(parameter);
-        }
+        public void Execute(object parameter) => _execute(parameter);
 
         protected virtual void OnCanExecuteChanged()
         {

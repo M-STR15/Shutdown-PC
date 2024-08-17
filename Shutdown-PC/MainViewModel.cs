@@ -31,10 +31,6 @@ namespace ShutdownPC
         [ObservableProperty]
         private eTypeAction _typeAction;
 
-        //private void onStatusChange(EventArgs args = null)
-        //{
-        //    StatusChange?.Invoke(this, args);
-        //}
         [ObservableProperty]
         private eTypeModification _typeModification;
 
