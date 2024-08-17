@@ -39,16 +39,11 @@ namespace ShutdownPC.Services
             if (!success)
             {
                 int error = Marshal.GetLastWin32Error();
-                MessageBox.Show($"Chyba vypnutí: {error}");
+                MessageBox.Show($"Chyba při odhlášení: {error}");
             }
         }
 
-        public void Reboot()
-        {
-            Reboot(false);
-        }
-
-        public void Reboot(bool force)
+        public void Reboot(bool force = false)
         {
             getPrivileges();
             bool success = ExitWindowsEx(EWX_REBOOT |
@@ -57,16 +52,11 @@ namespace ShutdownPC.Services
             if (!success)
             {
                 int error = Marshal.GetLastWin32Error();
-                MessageBox.Show($"Chyba vypnutí: {error}");
+                MessageBox.Show($"Chyba při restartování: {error}");
             }
         }
 
-        public void Shutdown()
-        {
-            Shutdown(false);
-        }
-
-        public void Shutdown(bool force)
+        public void Shutdown(bool force=false)
         {
             getPrivileges();
             bool success = ExitWindowsEx(EWX_SHUTDOWN |
@@ -75,7 +65,7 @@ namespace ShutdownPC.Services
             if (!success)
             {
                 int error = Marshal.GetLastWin32Error();
-                MessageBox.Show($"Chyba vypnutí: {error}");
+                MessageBox.Show($"Chyba při vypnutí: {error}");
             }
         }
 
@@ -104,14 +94,11 @@ namespace ShutdownPC.Services
             IntPtr hToken;
             TOKEN_PRIVILEGES tkp;
 
-            OpenProcessToken(Process.GetCurrentProcess().Handle,
-              TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, out hToken);
+            OpenProcessToken(Process.GetCurrentProcess().Handle,TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, out hToken);
             tkp.PrivilegeCount = 1;
             tkp.Privileges.Attributes = SE_PRIVILEGE_ENABLED;
-            LookupPrivilegeValue("", SE_SHUTDOWN_NAME,
-              out tkp.Privileges.pLuid);
-            AdjustTokenPrivileges(hToken, false, ref tkp,
-              0U, IntPtr.Zero, IntPtr.Zero);
+            LookupPrivilegeValue("", SE_SHUTDOWN_NAME,out tkp.Privileges.pLuid);
+            AdjustTokenPrivileges(hToken, false, ref tkp,0U, IntPtr.Zero, IntPtr.Zero);
         }
 
         private struct LUID
