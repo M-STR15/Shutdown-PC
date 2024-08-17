@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:control="clr-namespace:ShutdownPC.Controls"
+    xmlns:views="clr-namespace:ShutdownPC.Views"
     xmlns:convert="clr-namespace:ShutdownPC.Helpers.Convertores"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="clr-namespace:ShutdownPC.Models.Enums"
@@ -66,8 +67,8 @@
                     </Style>
                 </Grid.Style>
 
-                <control:ActionsControl />
-                <control:ComputerActionsControl Grid.Column="2" />
+                <views:ActionsControl />
+                <views:ComputerActionsControl Grid.Column="2" />
             </Grid>
 
             <StackPanel Grid.Row="1">
@@ -94,7 +95,7 @@
                     TypeModification="{Binding TypeModification}" />
             </StackPanel>
 
-            <control:ButtonsControl
+            <views:ButtonsControl
                 Grid.Row="3"
                 VerticalAlignment="Bottom" />
         </Grid>

@@ -22,13 +22,6 @@
 	<Target Name="RunPowerShellScript" BeforeTargets="Build">
 		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(GenerateBuildInfoScript)&quot;" />
 	</Target>
-	
-  <ItemGroup>
-    <Compile Remove="Views\**" />
-    <EmbeddedResource Remove="Views\**" />
-    <None Remove="Views\**" />
-    <Page Remove="Views\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Fonts\LCDMonoWinTT\LCDM2B.TTF" />
