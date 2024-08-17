@@ -51,7 +51,7 @@ namespace ShutdownPC
             EventRestartView = eventRestartView;
 
             t_CountdownTimer = new DispatcherTimer();
-            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
 
             TypeModification = eTypeModification.AfterTime;

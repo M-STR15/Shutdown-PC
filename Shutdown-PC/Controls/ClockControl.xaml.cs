@@ -27,7 +27,7 @@ namespace ShutdownPC.Controls
             InitializeComponent();
 
             _timer.Tick += new EventHandler(timer_Click);
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
             _timer.Start();
         }
 
