@@ -2,7 +2,6 @@
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -195,7 +194,7 @@ namespace ShutdownPC
 
         private void resetTimeInControl()
         {
-            var backupTimeSetting= SetTimeValue;
+            var backupTimeSetting = SetTimeValue;
             SetTimeValue = DateTime.MinValue;
             SetTimeValue = backupTimeSetting;
         }
@@ -232,10 +231,10 @@ namespace ShutdownPC
                     switch (TypeAction)
                     {
                         case eTypeAction.Shutdown:
-                            PcActionService.Shutdown();
+                            PcActionService.Shutdown(true);
                             break;
                         case eTypeAction.Restart:
-                            PcActionService.Reboot();
+                            PcActionService.Reboot(true);
                             break;
                         case eTypeAction.LogTheUserOut:
                             pcAction.LogOff();
