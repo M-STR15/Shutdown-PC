@@ -62,7 +62,7 @@ namespace ShutdownPC
             ChangeStatusCommnad = new Helpers.RelayCommand(cmd_ChangeStatus);
             ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
             ShowInfoCommand = new Helpers.RelayCommand(cmd_ShowInfo);
-            CloseCommand = new Helpers.RelayCommand(cmd_close);
+            CloseCommand = new Helpers.RelayCommand(cmd_Close);
 
             _windowStore = windowsStore;
 
@@ -135,7 +135,7 @@ namespace ShutdownPC
             App.Current.Shutdown();
         }
 
-        private void cmd_close(object parameter) => close();
+        private void cmd_Close(object parameter) => close();
 
         private void cmd_ChangeStatus(object parameter) => changeStatus();
 
