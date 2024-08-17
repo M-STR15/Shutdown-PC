@@ -1,14 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using ShutdownPC.Controls;
+using Prism.Events;
+using ShutdownPC.Helpers;
 using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using ShutdownPC.Helpers;
-using Prism.Events;
 
 namespace ShutdownPC
 {
@@ -39,6 +37,8 @@ namespace ShutdownPC
 
         [ObservableProperty]
         private string _version;
+        [ObservableProperty]
+        private DateTime _clockTime;
 
         private PcActionService pcAction;
 
@@ -51,7 +51,7 @@ namespace ShutdownPC
             EventRestartView = eventRestartView;
 
             t_CountdownTimer = new DispatcherTimer();
-            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 200);
+            t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
             t_CountdownTimer.Tick += new EventHandler(onCountdown_Tick);
 
             TypeModification = eTypeModification.AfterTime;
@@ -121,13 +121,26 @@ namespace ShutdownPC
                     _status = value;
                     //onStatusChange();
                     OnPropertyChanged();
-
-                    if (Status == eStatus.Run)
-                        t_CountdownTimer.Start();
-                    else
-                        t_CountdownTimer.Stop();
+                    setTimer();
                 }
             }
+        }
+
+        private async void setTimer()
+        {
+            if (Status == eStatus.Run)
+            {
+                var delay = TimeSpan.FromMicroseconds(1000 - _clockTime.Millisecond);
+                await delayStartTimerAsync(delay);
+            }
+            else
+                t_CountdownTimer.Stop();
+        }
+
+        private async Task delayStartTimerAsync(TimeSpan delay)
+        {
+            await Task.Delay(delay);
+            t_CountdownTimer.Start();
         }
 
         private void close()
@@ -195,26 +208,16 @@ namespace ShutdownPC
             PcActionService.Reboot();
         }
 
-        private void showCountdownPopup()
-        {
-            _windowStore.ShowCountdownPopupWindow();
-        }
+        private void showCountdownPopup() => _windowStore.ShowCountdownPopupWindow();
 
-        private void showInfo()
-        {
-            _windowStore.ShowInfoWindow();
-        }
-
+        private void showInfo() => _windowStore.ShowInfoWindow();
         private void showSetting()
         {
             _windowStore.ShowSettigWindow();
             //pcAction.SleepMode();
         }
 
-        private void shutdown()
-        {
-            PcActionService.Shutdown();
-        }
+        private void shutdown() => PcActionService.Shutdown();
 
         private void sleepMode()
         {
