@@ -13,8 +13,15 @@ namespace ShutdownPC.Controls
     [ObservableObject]
     public partial class SetTimerControl : UserControl, IDisposable
     {
-        public static readonly DependencyProperty SetTimeValueProperty =
+        public static readonly DependencyProperty EventRestartViewProperty =
            DependencyProperty.Register
+           (nameof(EventRestartView),
+            typeof(IEventAggregator),
+            typeof(SetTimerControl),
+            new FrameworkPropertyMetadata(new PropertyChangedCallback(onEventRestartViewPropertyChanged)));
+
+        public static readonly DependencyProperty SetTimeValueProperty =
+                   DependencyProperty.Register
            (nameof(SetTimeValue),
             typeof(DateTime),
             typeof(SetTimerControl),
@@ -34,23 +41,7 @@ namespace ShutdownPC.Controls
             typeof(eTypeModification),
             typeof(SetTimerControl),
              new FrameworkPropertyMetadata(eTypeModification.AfterTime, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(onTypeModificationPropertyChanged)));
-
-
-        public static readonly DependencyProperty EventRestartViewProperty =
-           DependencyProperty.Register
-           (nameof(EventRestartView),
-            typeof(IEventAggregator),
-            typeof(SetTimerControl), 
-            new FrameworkPropertyMetadata(new PropertyChangedCallback(onEventRestartViewPropertyChanged)));
-
-
         private int _endAfterSeconds;
-
-        public IEventAggregator EventRestartView
-        {
-            get => (IEventAggregator)GetValue(EventRestartViewProperty);
-            set => SetValue(EventRestartViewProperty, value);
-        }
 
         private DateTime _endDateTime;
 
@@ -70,12 +61,11 @@ namespace ShutdownPC.Controls
             _endDateTime = DateTime.Now;
         }
 
-        public void refresh_Tick()
+        public IEventAggregator EventRestartView
         {
-            _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-            setLabelTimer();
+            get => (IEventAggregator)GetValue(EventRestartViewProperty);
+            set => SetValue(EventRestartViewProperty, value);
         }
-
         public DateTime SetTimeValue
         {
             get => (DateTime)GetValue(SetTimeValueProperty);
@@ -106,12 +96,15 @@ namespace ShutdownPC.Controls
             SecondsUC.btnMinus.Click -= secondsMinus_Change;
         }
 
-        private static void onSetTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public void refresh_Tick()
         {
-            var uc = d as SetTimerControl;
-            uc.onSetTimeValuePropertyChanged(e);
+            _endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+            setLabelTimer();
         }
-
+        public void RefreshLabel()
+        {
+            setLabelTimer();
+        }
 
         private static void onEventRestartViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -119,12 +112,11 @@ namespace ShutdownPC.Controls
             uc.onEventRestartViewPropertyChanged(e);
         }
 
-        private void onEventRestartViewPropertyChanged(DependencyPropertyChangedEventArgs e)
+        private static void onSetTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            EventRestartView.GetEvent<TickEvent>().Subscribe(refresh_Tick);
+            var uc = d as SetTimerControl;
+            uc.onSetTimeValuePropertyChanged(e);
         }
-
-
         private static void onStatusPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var uc = d as SetTimerControl;
@@ -176,6 +168,10 @@ namespace ShutdownPC.Controls
             methodForModificationControler();
         }
 
+        private void onEventRestartViewPropertyChanged(DependencyPropertyChangedEventArgs e)
+        {
+            EventRestartView.GetEvent<TickEvent>().Subscribe(refresh_Tick);
+        }
         private void onSetTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             if (Status == eStatus.Run)
@@ -229,12 +225,6 @@ namespace ShutdownPC.Controls
             setMinusButton(MinutesUC, time.Minutes, time.Hours);
             setMinusButton(HoursUC, time.Hours);
         }
-
-        public void RefreshLabel()
-        {
-            setLabelTimer();
-        }
-
         private void setLabelTimer()
         {
             switch (TypeModification)
