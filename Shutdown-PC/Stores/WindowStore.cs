@@ -92,7 +92,7 @@ namespace ShutdownPC.Stores
 
             //viewModel.Window.HorizontalAlignment = HorizontalAlignment.Center;
             //viewModel.Window.VerticalAlignment = VerticalAlignment.Center;
-            viewModel.Window.Topmost = true;
+            //viewModel.Window.Topmost = true;
 
             return viewModel.Window.ShowDialog();
         }
