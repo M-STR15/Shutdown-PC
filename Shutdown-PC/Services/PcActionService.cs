@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Windows;
+﻿using System.Runtime.InteropServices;
 
 namespace ShutdownPC.Services
 {
@@ -25,36 +23,28 @@ namespace ShutdownPC.Services
 		public static void LogOff()
 		{
 			if (!ExitWindowsEx(EWX_LOGOFF, 0))
-			{
 				ThrowLastWin32Error();
-			}
 		}
 
 		// Function to shutdown the computer
 		public static void Shutdown()
 		{
 			if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, 0))
-			{
 				ThrowLastWin32Error();
-			}
 		}
 
 		// Function to restart the computer
 		public static void Restart()
 		{
 			if (!ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0))
-			{
 				ThrowLastWin32Error();
-			}
 		}
 
 		// Function to shutdown with custom parameters
 		public static void ShutdownEx(string message, uint timeout, bool forceAppsClosed, bool rebootAfterShutdown, uint reason)
 		{
 			if (!InitiateSystemShutdownEx(null, message, timeout, forceAppsClosed, rebootAfterShutdown, reason))
-			{
 				ThrowLastWin32Error();
-			}
 		}
 
 		private static void ThrowLastWin32Error()
