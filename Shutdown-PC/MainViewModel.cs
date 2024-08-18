@@ -128,7 +128,7 @@ namespace ShutdownPC
 
         private void cmd_LogTheUserOut(object parameter) => logOff();
 
-        private void cmd_Restart(object parameter) => reboot();
+        private void cmd_Restart(object parameter) => restart();
 
         private void cmd_ShowInfo(object parameter) => showInfo();
 
@@ -161,7 +161,8 @@ namespace ShutdownPC
 
         private void logOff()
         {
-            PcActionService.LogOff(false);
+			PrivilegeManager.EnableShutdownPrivilege();
+			PcActionService.LogOff();
         }
 
         private void onCountdown_Tick(object sender, EventArgs args)
@@ -183,9 +184,10 @@ namespace ShutdownPC
 
         private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
 
-        private void reboot()
+        private void restart()
         {
-            PcActionService.Reboot();
+			PrivilegeManager.EnableShutdownPrivilege();
+			PcActionService.Restart();
         }
 
         private async void setTimer()
@@ -207,7 +209,11 @@ namespace ShutdownPC
             //pcAction.SleepMode();
         }
 
-        private void shutdown() => PcActionService.Shutdown();
+		private void shutdown()
+		{
+			PrivilegeManager.EnableShutdownPrivilege();
+			PcActionService.Shutdown();
+		}
 
         private void sleepMode()
         {
@@ -224,15 +230,18 @@ namespace ShutdownPC
                     switch (TypeAction)
                     {
                         case eTypeAction.Shutdown:
-                            PcActionService.Shutdown(true);
+							PrivilegeManager.EnableShutdownPrivilege();
+							PcActionService.Shutdown();
                             break;
 
                         case eTypeAction.Restart:
-                            PcActionService.Reboot(true);
+							PrivilegeManager.EnableShutdownPrivilege();
+							PcActionService.Restart();
                             break;
 
                         case eTypeAction.LogTheUserOut:
-                            PcActionService.LogOff(true);
+							PrivilegeManager.EnableShutdownPrivilege();
+							PcActionService.LogOff();
                             break;
 
                         case eTypeAction.SleepMode:
