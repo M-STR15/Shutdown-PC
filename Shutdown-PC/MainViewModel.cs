@@ -46,9 +46,11 @@ namespace ShutdownPC
 		private string _version;
 
 		private DispatcherTimer t_CountdownTimer;
-		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView)
+		private EventLogService _log;
+		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, EventLogService log)
 		{
 			EventRestartView = eventRestartView;
+			_log= log;	
 
 			t_CountdownTimer = new DispatcherTimer();
 			t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
@@ -72,6 +74,9 @@ namespace ShutdownPC
 			Version = BuildInfo.VersionStr;
 
 			Title = "Shutdown-PC";
+
+			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
+			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "End	");
 		}
 
 		public ICommand CloseCommand { get; private set; }
