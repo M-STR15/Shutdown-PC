@@ -17,8 +17,7 @@ namespace ShutdownPC
 		private IKernel _container;
 
 		public App()
-		{
-		}
+		{}
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -40,6 +39,7 @@ namespace ShutdownPC
 			_container.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 
 			configServices();
+
 			configWindows();
 			configVieModels();
 			congfigStores();

@@ -1,36 +1,23 @@
-﻿using Serilog;
-using Serilog.Events;
-using ShutdownPC.Models;
+﻿using ShutdownPC.Models;
 using ShutdownPC.Services.Models.EventLogService;
-using System;
 using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Reflection;
 using System.Text.Json;
-using System.Windows.Controls;
-
 
 namespace ShutdownPC.Services
 {
 	public class EventLogService : IDisposable
 	{
 		private readonly string _version;
+		private readonly string _source;
+		private readonly string _logName = "Application";
 		public EventLogService()
 		{
 			_version = BuildInfo.VersionStr;
 
 			var assembly = Assembly.GetExecutingAssembly();
-			string assemblyName = assembly?.GetName()?.Name ?? "";
-
-			if (!EventLog.SourceExists(assemblyName))
-			{
-				EventLog.CreateEventSource(assemblyName, "Application");
-			}
-			Log.Logger = new LoggerConfiguration()
-				  .Enrich.WithProperty("SoftwareVersion", _version)
-				  .Enrich.FromLogContext()
-				  .WriteTo.Sink(new CustomEventLogSink(assemblyName))
-				  .CreateLogger();
-
+			_source = assembly?.GetName()?.Name ?? "";
 		}
 
 		~EventLogService()
@@ -39,20 +26,46 @@ namespace ShutdownPC.Services
 		}
 		public void Dispose()
 		{
-			Log.CloseAndFlush();
+
 		}
 
-		public void Information(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Information, _version));
+		public void Information(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Information, _version));
 
-		public void Warning(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Warning, _version));
+		public void Warning(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Warning, _version));
 
-		public void Error(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Error, _version));
-
-		public void Fatal(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Fatal, _version));
+		public void Error(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Error, _version));
 
 		private void writeEvent(CustomLogEvent customLogEvent)
 		{
-			Log.Write(customLogEvent.Level, JsonSerializer.Serialize(customLogEvent));
+			using (EventLog eventLog = new EventLog(_logName))
+			{
+				eventLog.Source = _source;
+				var jsonSerilize = JsonSerializer.Serialize(customLogEvent);
+				eventLog.WriteEntry(jsonSerilize, customLogEvent.Level);
+			}
+		}
+
+		public List<CustomLogEvent> ReadEventLogs()
+		{
+			var events = new List<CustomLogEvent>();
+			var queryText=@"*[System[Provider[@Name='ShutdownPC']]]";
+			// Vytvořte EventLogQuery pro získání událostí
+			var query = new EventLogQuery(_logName, PathType.LogName, queryText);
+
+			// Použití EventLogReader pro čtení událostí
+			var reader = new EventLogReader(query);
+
+			// Čtení událostí a zobrazení jejich obsahu
+			EventRecord eventRecord;
+			while ((eventRecord = reader.ReadEvent()) != null)
+			{
+				var message = eventRecord.FormatDescription();
+				var eventData = JsonSerializer.Deserialize<CustomLogEvent>(message);
+
+				events.Add(eventData);
+			}
+
+			return events;
 		}
 	}
 }

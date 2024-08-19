@@ -50,7 +50,7 @@ namespace ShutdownPC
 		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, EventLogService log)
 		{
 			EventRestartView = eventRestartView;
-			_log= log;	
+			_log = log;
 
 			t_CountdownTimer = new DispatcherTimer();
 			t_CountdownTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000);
@@ -76,6 +76,7 @@ namespace ShutdownPC
 			Title = "Shutdown-PC";
 
 			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
+
 			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "End	");
 		}
 
