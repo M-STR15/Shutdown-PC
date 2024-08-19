@@ -75,7 +75,8 @@ namespace ShutdownPC
 		private void registerEventSourceToWindowsLogers()
 		{
 			var powerShellService = _container.Get<PowerShellService>();
-			var path = Path.Combine(Assembly.GetExecutingAssembly().Location, "Scripts", "NewEventLog.ps1");
+			var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			var path = Path.Combine(directory, "Scripts", "NewEventLog.ps1");
 			powerShellService.RunForPath(path);
 		}
 
