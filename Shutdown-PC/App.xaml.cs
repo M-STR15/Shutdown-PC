@@ -77,7 +77,7 @@ namespace ShutdownPC
 			var powerShellService = _container.Get<PowerShellService>();
 			var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 			var path = Path.Combine(directory, "Scripts", "NewEventLog.ps1");
-			powerShellService.RunForPath(path);
+			var result = powerShellService.RunFromPathWithResult(path);
 		}
 
 		public void Dispose()
