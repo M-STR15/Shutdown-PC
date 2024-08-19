@@ -39,6 +39,7 @@ namespace ShutdownPC
 
 		[ObservableProperty]
 		private eTypeAction _typeAction;
+
 		[ObservableProperty]
 		private eTypeModification _typeModification;
 
@@ -47,6 +48,7 @@ namespace ShutdownPC
 
 		private DispatcherTimer t_CountdownTimer;
 		private EventLogService _log;
+
 		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, EventLogService log)
 		{
 			EventRestartView = eventRestartView;
@@ -221,9 +223,11 @@ namespace ShutdownPC
 			else
 				t_CountdownTimer.Stop();
 		}
+
 		private void showCountdownPopup() => _windowStore.ShowCountdownPopupWindow();
 
 		private void showInfo() => _windowStore.ShowInfoWindow();
+
 		private void showSetting()
 		{
 			_windowStore.ShowSettigWindow();

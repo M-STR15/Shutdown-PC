@@ -2,11 +2,11 @@
 
 namespace ShutdownPC.Windows
 {
-    public partial class InfoWindow : Window
-    {
-        public InfoWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class InfoWindow : Window
+	{
+		public InfoWindow()
+		{
+			InitializeComponent();
+		}
+	}
 }

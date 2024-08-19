@@ -1,6 +1,6 @@
 ﻿namespace ShutdownPC.ViewModels
 {
-    public partial class BaseViewModel
-    {
-    }
+	public partial class BaseViewModel
+	{
+	}
 }

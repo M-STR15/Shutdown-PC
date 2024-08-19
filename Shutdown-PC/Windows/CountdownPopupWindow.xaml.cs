@@ -2,11 +2,11 @@
 
 namespace ShutdownPC.Windows
 {
-    public partial class CountdownPopupWindow : Window
-    {
-        public CountdownPopupWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class CountdownPopupWindow : Window
+	{
+		public CountdownPopupWindow()
+		{
+			InitializeComponent();
+		}
+	}
 }

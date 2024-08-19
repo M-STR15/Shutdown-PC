@@ -17,7 +17,7 @@ namespace ShutdownPC
 		private IKernel _container;
 
 		public App()
-		{}
+		{ }
 
 		protected override void OnStartup(StartupEventArgs e)
 		{

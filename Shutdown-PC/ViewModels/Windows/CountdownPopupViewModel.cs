@@ -3,33 +3,34 @@ using ShutdownPC.Stores;
 
 namespace ShutdownPC.ViewModels.Windows
 {
-    public partial class CountdownPopupViewModel : BaseWindowViewModel
-    {
-        private readonly DateTime _setTimeValue;
+	public partial class CountdownPopupViewModel : BaseWindowViewModel
+	{
+		private readonly DateTime _setTimeValue;
 
-        [ObservableProperty]
-        private string _hours;
+		[ObservableProperty]
+		private string _hours;
 
-        [ObservableProperty]
-        private string _minutes;
+		[ObservableProperty]
+		private string _minutes;
 
-        [ObservableProperty]
-        private string _seconds;
-        public CountdownPopupViewModel(WindowStore windowStore, MainViewModel mainViewModel) : base(windowStore)
-        {
-            _setTimeValue = mainViewModel.SetTimeValue;
-            mainViewModel.SetTimeValueChange += new EventHandler(updateTime_SetTimeValue);
-        }
+		[ObservableProperty]
+		private string _seconds;
 
-        private string convert(int value) => (value < 10 ? "0" : "") + value.ToString();
+		public CountdownPopupViewModel(WindowStore windowStore, MainViewModel mainViewModel) : base(windowStore)
+		{
+			_setTimeValue = mainViewModel.SetTimeValue;
+			mainViewModel.SetTimeValueChange += new EventHandler(updateTime_SetTimeValue);
+		}
 
-        private void updateTime_SetTimeValue(object sender, EventArgs args)
-        {
-            TimeSpan timeToEnd = _setTimeValue - DateTime.Now;
+		private string convert(int value) => (value < 10 ? "0" : "") + value.ToString();
 
-            Hours = convert(timeToEnd.Hours);
-            Minutes = convert(timeToEnd.Minutes);
-            Seconds = convert(timeToEnd.Seconds);
-        }
-    }
+		private void updateTime_SetTimeValue(object sender, EventArgs args)
+		{
+			TimeSpan timeToEnd = _setTimeValue - DateTime.Now;
+
+			Hours = convert(timeToEnd.Hours);
+			Minutes = convert(timeToEnd.Minutes);
+			Seconds = convert(timeToEnd.Seconds);
+		}
+	}
 }

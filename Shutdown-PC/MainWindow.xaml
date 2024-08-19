@@ -73,7 +73,7 @@
 
             <StackPanel Grid.Row="1">
                 <TextBlock Margin="5" Text="Aktuální čas" />
-                <control:ClockControl ClockTime="{Binding ClockTime, Mode=TwoWay}"/>
+                <control:ClockControl ClockTime="{Binding ClockTime, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <TextBlock Margin="5">
@@ -94,7 +94,7 @@
                     x:Name="timerControl"
                     SetTimeValue="{Binding SetTimeValue, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
                     Status="{Binding Status, Mode=TwoWay}"
-                    TypeModification="{Binding TypeModification}" >
+                    TypeModification="{Binding TypeModification}">
                 </control:SetTimerControl>
             </StackPanel>
 

@@ -14,6 +14,7 @@ namespace ShutdownPC.Services
 
 		// Flags for ExitWindowsEx
 		private const uint EWX_LOGOFF = 0x00000000;
+
 		private const uint EWX_SHUTDOWN = 0x00000001;
 		private const uint EWX_REBOOT = 0x00000002;
 		private const uint EWX_FORCE = 0x00000004;

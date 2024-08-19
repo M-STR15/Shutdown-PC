@@ -9,8 +9,10 @@ namespace ShutdownPC.Services.Models.EventLogService
 		public DateTime Timestamp { get; private set; }
 		public Guid GuidID { get; private set; }
 		public string Version { get; private set; }
+
 		public CustomLogEvent()
 		{ }
+
 		public CustomLogEvent(Guid guidID, string message, EventLogEntryType level, string version)
 		{
 			Timestamp = DateTime.Now;

@@ -12,6 +12,7 @@ namespace ShutdownPC.Services
 		private readonly string _version;
 		private readonly string _source;
 		private readonly string _logName = "Application";
+
 		public EventLogService()
 		{
 			_version = BuildInfo.VersionStr;
@@ -24,9 +25,9 @@ namespace ShutdownPC.Services
 		{
 			Dispose();
 		}
+
 		public void Dispose()
 		{
-
 		}
 
 		public void Information(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Information, _version));
@@ -48,7 +49,7 @@ namespace ShutdownPC.Services
 		public List<CustomLogEvent> ReadEventLogs()
 		{
 			var events = new List<CustomLogEvent>();
-			var queryText=@"*[System[Provider[@Name='ShutdownPC']]]";
+			var queryText = @"*[System[Provider[@Name='ShutdownPC']]]";
 			// Vytvořte EventLogQuery pro získání událostí
 			var query = new EventLogQuery(_logName, PathType.LogName, queryText);
 

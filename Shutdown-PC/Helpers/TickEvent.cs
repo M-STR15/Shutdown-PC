@@ -2,5 +2,6 @@
 
 namespace ShutdownPC.Helpers
 {
-    public class TickEvent : PubSubEvent { }
+	public class TickEvent : PubSubEvent
+	{ }
 }
