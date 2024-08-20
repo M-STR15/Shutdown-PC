@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace ShutdownPC.Helpers.Convertores
 {
 	/// <summary>
-	/// Konvertní funkce překontroluje, jestli TypeModification jsou stejný.
+	/// Konvertní funkce překontroluje, jestli TypeModification jsou stejný. 
 	/// Podle výsledku vrátí True/False.
 	/// </summary>
 	public class TypeModificationEnumToBooleanConverter : IValueConverter

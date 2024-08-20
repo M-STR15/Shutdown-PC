@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace ShutdownPC.Services
 {

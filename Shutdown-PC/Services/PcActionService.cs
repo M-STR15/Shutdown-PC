@@ -3,7 +3,7 @@
 namespace ShutdownPC.Services
 {
 	/// <summary>
-	/// Služka vyvolává jednotlivé akce s počítačem.
+	/// Služka vyvolává jednotlivé akce s počítačem. 
 	/// Přes službu se dá: vypnout, restartovat a odhlásit PC.
 	/// </summary>
 	public class PcActionService
@@ -31,7 +31,6 @@ namespace ShutdownPC.Services
 			if (!ExitWindowsEx(EWX_LOGOFF, 0))
 				ThrowLastWin32Error();
 		}
-
 		/// <summary>
 		/// Vypne počítač.
 		/// </summary>
@@ -40,7 +39,6 @@ namespace ShutdownPC.Services
 			if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, 0))
 				ThrowLastWin32Error();
 		}
-
 		/// <summary>
 		/// Restartuje počítač.
 		/// </summary>

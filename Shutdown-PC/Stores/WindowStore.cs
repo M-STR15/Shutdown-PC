@@ -22,7 +22,6 @@ namespace ShutdownPC.Stores
 			_clasesStore = clasesStore;
 			_mainWindow = mainWindow;
 		}
-
 		/// <summary>
 		/// Zobrazení okna s nastavením aplikace.
 		/// </summary>
@@ -41,7 +40,6 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
 		/// <summary>
 		/// Zobrazení okna s nastavením aplikace.
 		/// </summary>
@@ -59,7 +57,6 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
 		/// <summary>
 		/// Zobrazení okna s informací, že se blíží konec času.
 		/// Uživatel může rozhodnout, zda chce prodloužit čas či nikoliv.
@@ -79,7 +76,6 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
 		/// <summary>
 		/// Zavře okno.
 		/// </summary>

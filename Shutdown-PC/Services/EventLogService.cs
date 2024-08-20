@@ -16,7 +16,6 @@ namespace ShutdownPC.Services
 	{
 		private readonly string _version;
 		private readonly string _assemblyName;
-
 		public EventLogService()
 		{
 			_version = BuildInfo.VersionStr;
@@ -33,13 +32,13 @@ namespace ShutdownPC.Services
 				  restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information // Minimální úroveň logování
 			  )
 			  .CreateLogger();
+
 		}
 
 		~EventLogService()
 		{
 			Dispose();
 		}
-
 		public void Dispose()
 		{
 			Log.CloseAndFlush();
@@ -63,6 +62,7 @@ namespace ShutdownPC.Services
 			var events = new List<CustomLogEvent>();
 			string logFilePath = $"logs/{_assemblyName}{DateTime.Now.ToString("yyyyMMdd")}.log";
 
+
 			using (FileStream fs = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
 			using (StreamReader sr = new StreamReader(fs))
 			{
@@ -78,7 +78,7 @@ namespace ShutdownPC.Services
 			return events;
 		}
 
-		private static string ParseLogEntry(string logLine)
+		static string ParseLogEntry(string logLine)
 		{
 			// Předpoklad: Logovací formát je "Timestamp [Level] Message"
 			var parts = logLine.Split(';', 3);  // Rozdělíme na 3 části: Timestamp, Level, a Message
