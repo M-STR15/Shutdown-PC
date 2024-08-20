@@ -4,6 +4,9 @@ using System.Text;
 
 namespace ShutdownPC.Services.Models.EventLogService
 {
+	/// <summary>
+	/// Třída sloužící pro formát JSONu v event logu.
+	/// </summary>
 	public class CustomLogEvent
 	{
 		public string Message { get; set; }
