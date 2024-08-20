@@ -78,8 +78,6 @@ namespace ShutdownPC
 			Title = "Shutdown-PC";
 
 			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
-
-			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "End	");
 		}
 
 		public ICommand CloseCommand { get; private set; }

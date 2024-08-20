@@ -1,7 +1,8 @@
-﻿using ShutdownPC.Models;
+﻿using Serilog;
+using Serilog.Events;
+using ShutdownPC.Models;
 using ShutdownPC.Services.Models.EventLogService;
-using System.Diagnostics;
-using System.Diagnostics.Eventing.Reader;
+using System.IO;
 using System.Reflection;
 using System.Text.Json;
 
@@ -10,63 +11,82 @@ namespace ShutdownPC.Services
 	public class EventLogService : IDisposable
 	{
 		private readonly string _version;
-		private readonly string _source;
-		private readonly string _logName = "Application";
-
+		private readonly string _assemblyName;
 		public EventLogService()
 		{
 			_version = BuildInfo.VersionStr;
 
 			var assembly = Assembly.GetExecutingAssembly();
-			_source = assembly?.GetName()?.Name ?? "";
+			_assemblyName = assembly?.GetName()?.Name ?? "";
+			var format = new CustomLogEvent().GetFormat();
+
+			Log.Logger = new LoggerConfiguration()
+			  .WriteTo.File(
+				  path: $"logs/{_assemblyName}.log", // Cesta k souboru
+				  rollingInterval: RollingInterval.Day, // Denní archivace
+				  outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz};[{Level}];{Message:lj}{NewLine}", //, // Vlastní formát
+				  restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Information // Minimální úroveň logování
+			  )
+			  .CreateLogger();
+
 		}
 
 		~EventLogService()
 		{
 			Dispose();
 		}
-
 		public void Dispose()
 		{
+			Log.CloseAndFlush();
 		}
 
-		public void Information(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Information, _version));
+		public void Information(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Information, _version));
 
-		public void Warning(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Warning, _version));
+		public void Warning(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Warning, _version));
 
-		public void Error(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, EventLogEntryType.Error, _version));
+		public void Error(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Error, _version));
+
+		public void Fatal(Guid guid, string message) => writeEvent(new CustomLogEvent(guid, message, LogEventLevel.Fatal, _version));
 
 		private void writeEvent(CustomLogEvent customLogEvent)
 		{
-			using (EventLog eventLog = new EventLog(_logName))
-			{
-				eventLog.Source = _source;
-				var jsonSerilize = JsonSerializer.Serialize(customLogEvent);
-				eventLog.WriteEntry(jsonSerilize, customLogEvent.Level);
-			}
+			Log.Write(customLogEvent.Level, JsonSerializer.Serialize(customLogEvent));
 		}
 
 		public List<CustomLogEvent> ReadEventLogs()
 		{
 			var events = new List<CustomLogEvent>();
-			var queryText = @"*[System[Provider[@Name='ShutdownPC']]]";
-			// Vytvořte EventLogQuery pro získání událostí
-			var query = new EventLogQuery(_logName, PathType.LogName, queryText);
+			string logFilePath = $"logs/{_assemblyName}{DateTime.Now.ToString("yyyyMMdd")}.log";
 
-			// Použití EventLogReader pro čtení událostí
-			var reader = new EventLogReader(query);
 
-			// Čtení událostí a zobrazení jejich obsahu
-			EventRecord eventRecord;
-			while ((eventRecord = reader.ReadEvent()) != null)
+			using (FileStream fs = new FileStream(logFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+			using (StreamReader sr = new StreamReader(fs))
 			{
-				var message = eventRecord.FormatDescription();
-				var eventData = JsonSerializer.Deserialize<CustomLogEvent>(message);
-
-				events.Add(eventData);
+				string line;
+				while ((line = sr.ReadLine()) != null)
+				{
+					var message = ParseLogEntry(line);
+					if (message != null && message != "")
+						events.Add(JsonSerializer.Deserialize<CustomLogEvent>(message));
+				}
 			}
 
 			return events;
+		}
+
+		static string ParseLogEntry(string logLine)
+		{
+			// Předpoklad: Logovací formát je "Timestamp [Level] Message"
+			var parts = logLine.Split(';', 3);  // Rozdělíme na 3 části: Timestamp, Level, a Message
+			if (parts.Length < 3) return "";
+
+			string timestamp = parts[0];  // Spojíme datum a čas
+			string level = parts[1].Trim('[', ']');  // Vyčistíme log level
+			string message = parts[2];  // Zbytek je zpráva
+
+			//Console.WriteLine($"Timestamp: {timestamp}, Level: {level}, Message: {message}");
+
+			return message;
 		}
 	}
 }

@@ -3,8 +3,6 @@ using Prism.Events;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
 using ShutdownPC.ViewModels.Windows;
-using System.IO;
-using System.Reflection;
 using System.Windows;
 
 namespace ShutdownPC
@@ -22,7 +20,6 @@ namespace ShutdownPC
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			configureContainer();
-			registerEventSourceToWindowsLogers();
 
 			InitializeComponent();
 			base.OnStartup(e);
@@ -70,14 +67,6 @@ namespace ShutdownPC
 				.WithConstructorArgument("container", _container);
 
 			_container.Bind<WindowStore>().To<WindowStore>().InSingletonScope();
-		}
-
-		private void registerEventSourceToWindowsLogers()
-		{
-			var powerShellService = _container.Get<PowerShellService>();
-			var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			var path = Path.Combine(directory, "Scripts", "NewEventLog.ps1");
-			var result = powerShellService.RunFromPathWithResult(path);
 		}
 
 		public void Dispose()
