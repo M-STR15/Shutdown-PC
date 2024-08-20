@@ -1,6 +1,9 @@
 ﻿namespace ShutdownPC.ViewModels
 {
-	public partial class BaseViewModel
+	/// <summary>
+	/// Základní třída pro ViewModel.
+	/// </summary>
+	public abstract partial class BaseViewModel
 	{
 	}
 }

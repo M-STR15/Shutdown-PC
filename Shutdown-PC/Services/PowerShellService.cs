@@ -3,6 +3,9 @@ using System.IO;
 
 namespace ShutdownPC.Services
 {
+	/// <summary>
+	/// Služba spouštěcí PowerShell scripty.
+	/// </summary>
 	public class PowerShellService
 	{
 		public void Run(string script)

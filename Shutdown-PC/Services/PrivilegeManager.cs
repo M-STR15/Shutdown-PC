@@ -2,6 +2,9 @@
 
 namespace ShutdownPC.Services
 {
+	/// <summary>
+	/// Služba nastavující privilegií v počitači, aby šel počítač vypnout a restartovat.
+	/// </summary>
 	public class PrivilegeManager
 	{
 		[DllImport("advapi32.dll", SetLastError = true)]

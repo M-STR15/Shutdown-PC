@@ -3,6 +3,9 @@ using ShutdownPC.ViewModels.Windows;
 
 namespace ShutdownPC.Stores
 {
+	/// <summary>
+	/// Store umožnující načítáí tříd z konteineru aplikace.
+	/// </summary>
 	public class ClasesStore
 	{
 		public ClasesStore(IKernel container)

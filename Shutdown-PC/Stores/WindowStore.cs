@@ -6,6 +6,9 @@ using System.Windows.Media.Effects;
 
 namespace ShutdownPC.Stores
 {
+	/// <summary>
+	/// Store pro spouštění a nastavování oken aplikace.
+	/// </summary>
 	public partial class WindowStore : ObservableObject
 	{
 		private readonly ClasesStore _clasesStore;
@@ -19,8 +22,11 @@ namespace ShutdownPC.Stores
 			_clasesStore = clasesStore;
 			_mainWindow = mainWindow;
 		}
-
-		public bool? ShowSettigWindow()
+		/// <summary>
+		/// Zobrazení okna s nastavením aplikace.
+		/// </summary>
+		/// <returns>Funkce napíše, zda se podařilo okno otevřít či nikoliv.</returns>
+		public bool? ShowSettigWindow()// TODO ještě není doděláno vnitřek
 		{
 			try
 			{
@@ -34,7 +40,10 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
+		/// <summary>
+		/// Zobrazení okna s nastavením aplikace.
+		/// </summary>
+		/// <returns>Funkce napíše, zda se podařilo okno otevřít či nikoliv.</returns>
 		public bool? ShowInfoWindow()
 		{
 			try
@@ -48,8 +57,13 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
-		public bool? ShowCountdownPopupWindow()
+		/// <summary>
+		/// Zobrazení okna s informací, že se blíží konec času.
+		/// Uživatel může rozhodnout, zda chce prodloužit čas či nikoliv.
+		/// Okno se zobrazí po nastavení aplikace.
+		/// </summary>
+		/// <returns>Funkce napíše, zda se podařilo okno otevřít či nikoliv.</returns>
+		public bool? ShowCountdownPopupWindow() // TODO ještě není doděláno vnitřek
 		{
 			try
 			{
@@ -62,7 +76,12 @@ namespace ShutdownPC.Stores
 				return false;
 			}
 		}
-
+		/// <summary>
+		/// Zavře okno.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="viewModel"> Je potřeba zadat ViewModel pro okno co se má zavřít</param>
+		/// <returns>Funkce napíše, zda se podařilo okno zavřít či nikoliv.</returns>
 		public bool CloseWindow<T>(T viewModel)
 			 where T : BaseWindowViewModel
 		{

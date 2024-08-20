@@ -2,6 +2,10 @@
 
 namespace ShutdownPC.Services
 {
+	/// <summary>
+	/// Služka vyvolává jednotlivé akce s počítačem. 
+	/// Přes službu se dá: vypnout, restartovat a odhlásit PC.
+	/// </summary>
 	public class PcActionService
 	{
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
@@ -12,7 +16,6 @@ namespace ShutdownPC.Services
 			string lpMachineName, string lpMessage, uint dwTimeout,
 			bool bForceAppsClosed, bool bRebootAfterShutdown, uint dwReason);
 
-		// Flags for ExitWindowsEx
 		private const uint EWX_LOGOFF = 0x00000000;
 
 		private const uint EWX_SHUTDOWN = 0x00000001;
@@ -20,33 +23,36 @@ namespace ShutdownPC.Services
 		private const uint EWX_FORCE = 0x00000004;
 		private const uint EWX_FORCEIFHUNG = 0x00000010;
 
-		// Function to log off the user
+		/// <summary>
+		/// Odhlásí aktuálního uživatele.
+		/// </summary>
 		public static void LogOff()
 		{
 			if (!ExitWindowsEx(EWX_LOGOFF, 0))
 				ThrowLastWin32Error();
 		}
-
-		// Function to shutdown the computer
+		/// <summary>
+		/// Vypne počítač.
+		/// </summary>
 		public static void Shutdown()
 		{
 			if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, 0))
 				ThrowLastWin32Error();
 		}
-
-		// Function to restart the computer
+		/// <summary>
+		/// Restartuje počítač.
+		/// </summary>
 		public static void Restart()
 		{
 			if (!ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0))
 				ThrowLastWin32Error();
 		}
 
-		// Function to shutdown with custom parameters
-		public static void ShutdownEx(string message, uint timeout, bool forceAppsClosed, bool rebootAfterShutdown, uint reason)
-		{
-			if (!InitiateSystemShutdownEx(null, message, timeout, forceAppsClosed, rebootAfterShutdown, reason))
-				ThrowLastWin32Error();
-		}
+		//public static void ShutdownEx(string message, uint timeout, bool forceAppsClosed, bool rebootAfterShutdown, uint reason)
+		//{
+		//	if (!InitiateSystemShutdownEx(null, message, timeout, forceAppsClosed, rebootAfterShutdown, reason))
+		//		ThrowLastWin32Error();
+		//}
 
 		private static void ThrowLastWin32Error()
 		{

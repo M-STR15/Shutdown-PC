@@ -4,6 +4,9 @@ using ShutdownPC.Stores;
 
 namespace ShutdownPC.ViewModels.Windows
 {
+	/// <summary>
+	/// ViewModel pro okno s informacemi o aplikaci.
+	/// </summary>
 	public partial class InfoWindowViewModel : BaseWindowViewModel
 	{
 		[ObservableProperty]

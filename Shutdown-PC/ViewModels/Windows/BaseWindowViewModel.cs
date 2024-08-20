@@ -5,8 +5,11 @@ using System.Windows.Input;
 
 namespace ShutdownPC.ViewModels.Windows
 {
+	/// <summary>
+	/// Základní třída pro ViewModely vyskakovacích oken.
+	/// </summary>
 	[ObservableObject]
-	public partial class BaseWindowViewModel : BaseViewModel
+	public abstract partial class BaseWindowViewModel : BaseViewModel
 	{
 		protected WindowStore _windowStore;
 
