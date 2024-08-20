@@ -28,7 +28,10 @@
                                 Padding="4"
                                 Background="{StaticResource BorderWindow}"
                                 CornerRadius="30,30,30,30">
-                                <Grid>
+                                <Grid
+                                    MouseDown="Grid_MouseDown"
+                                    MouseMove="Grid_MouseMove"
+                                    MouseUp="Grid_MouseUp">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
@@ -43,7 +46,10 @@
                                             Margin="30,0,0,0"
                                             Content="{Binding Title, FallbackValue=TITULEK}"
                                             FontSize="12" />
-                                        <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                                        <StackPanel
+                                            Grid.Row="0"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">
                                             <Button
                                                 x:Name="MinimalizeApp"
                                                 Width="20"

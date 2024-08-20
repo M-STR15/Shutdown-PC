@@ -4,6 +4,7 @@ using ShutdownPC.Services;
 using ShutdownPC.Stores;
 using ShutdownPC.ViewModels.Windows;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ShutdownPC
 {
@@ -97,6 +98,42 @@ namespace ShutdownPC
 			else
 				_log.Error(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"Došlo k neošetřené výjimce, která není typu Exception.");
 
+		}
+
+
+
+
+		private bool _isDragging;
+		private Point _startPoint;
+
+		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.LeftButton == MouseButtonState.Pressed)
+			{
+				_isDragging = true;
+				_startPoint = e.GetPosition((IInputElement)sender);
+				(sender as UIElement)?.CaptureMouse();
+			}
+		}
+
+		private void Grid_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (_isDragging)
+			{
+				var window = Application.Current.MainWindow;
+				if (window != null)
+				{
+					var currentPosition = e.GetPosition(window);
+					window.Left += currentPosition.X - _startPoint.X;
+					window.Top += currentPosition.Y - _startPoint.Y;
+				}
+			}
+		}
+
+		private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+		{
+			_isDragging = false;
+			(sender as UIElement)?.ReleaseMouseCapture();
 		}
 	}
 }
