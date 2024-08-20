@@ -173,27 +173,34 @@ namespace ShutdownPC
 				PrivilegeManager.EnableShutdownPrivilege();
 				PcActionService.LogOff();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				MessageBox.Show($"Chyba při odhlášení: {ex.Message}");
+				_log.Error(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
 			}
 		}
 
 		private void onCountdown_Tick(object sender, EventArgs args)
 		{
-			if (SetTimeValue <= DateTime.Now)
+			try
 			{
-				t_CountdownTimer.Stop();
-				Status = eStatus.Completed;
-				startMethodAfterTheTimerExpires();
-			}
-			else
-			{
-				EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-				//setLabelTimer();
-			}
+				if (SetTimeValue <= DateTime.Now)
+				{
+					t_CountdownTimer.Stop();
+					Status = eStatus.Completed;
+					startMethodAfterTheTimerExpires();
+				}
+				else
+				{
+					EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+					//setLabelTimer();
+				}
 
-			EventRestartView.GetEvent<TickEvent>().Publish();
+				EventRestartView.GetEvent<TickEvent>().Publish();
+			}
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("793f468a-de37-40c9-aaeb-f17ea4dd365b"), "Chyba při odpočtu času.");
+			}
 		}
 
 		private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
@@ -205,31 +212,72 @@ namespace ShutdownPC
 				PrivilegeManager.EnableShutdownPrivilege();
 				PcActionService.Restart();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				MessageBox.Show($"Chyba při restartování: {ex.Message}");
+				_log.Error(Guid.Parse("788cc881-3cdc-492f-9f27-a05d3591b18f"), "Chyba při pokusu o restart PC.");
 			}
 		}
 
 		private async void setTimer()
 		{
-			if (Status == eStatus.Run)
+			try
 			{
-				var delay = TimeSpan.FromMicroseconds(1000 - ClockTime.Millisecond);
-				await delayStartTimerAsync(delay);
+				if (Status == eStatus.Run)
+				{
+					var delay = TimeSpan.FromMicroseconds(1000 - ClockTime.Millisecond);
+					await delayStartTimerAsync(delay);
+				}
+				else
+				{
+					t_CountdownTimer.Stop();
+				}
 			}
-			else
-				t_CountdownTimer.Stop();
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("1b3c07b7-63b4-484b-95d6-cc63684015d0"), "");
+			}
 		}
 
-		private void showCountdownPopup() => _windowStore.ShowCountdownPopupWindow();
+		private void showCountdownPopup()
+		{
+			try
+			{
+				var isOpen = _windowStore.ShowCountdownPopupWindow();
+				if (isOpen != null && !(bool)isOpen)
+					_log.Warning(Guid.Parse("1530568d-5d2b-4e55-b4c4-a34959dfea62"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+			}
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("fde3b586-93d2-4071-a402-571dec09d194"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+			}
+		}
 
-		private void showInfo() => _windowStore.ShowInfoWindow();
+		private void showInfo()
+		{
+			try
+			{
+				var isOpen = _windowStore.ShowInfoWindow();
+				if (isOpen != null && !(bool)isOpen)
+					_log.Warning(Guid.Parse("7a680274-f07c-4034-9b65-2d1790728ec2"), "Nepodařilo se zobrazit okno s informaci.");
+			}
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("d5d93a0a-d436-44e4-8be8-f5625053310e"), "Nepodařilo se zobrazit okno s informaci.");
+			}
+		}
 
 		private void showSetting()
 		{
-			_windowStore.ShowSettigWindow();
-			//pcAction.SleepMode();
+			try
+			{
+				var isOpen = _windowStore.ShowSettigWindow();
+				if (isOpen != null && !(bool)isOpen)
+					_log.Warning(Guid.Parse("3eceb500-2818-42b3-b6fb-9591e69873c7"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+			}
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("5ce86b03-d99f-44e1-8307-37310ec5d0b5"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+			}
 		}
 
 		private void shutdown()
@@ -239,9 +287,9 @@ namespace ShutdownPC
 				PrivilegeManager.EnableShutdownPrivilege();
 				PcActionService.Shutdown();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				MessageBox.Show($"Chyba při vypnutí: {ex.Message}");
+				_log.Error(Guid.Parse("097abbf9-cd1e-4341-8a25-754aa966c919"), "Chyba při vypnutí aplikace.");
 			}
 		}
 
@@ -252,34 +300,41 @@ namespace ShutdownPC
 
 		private void startMethodAfterTheTimerExpires()
 		{
-			switch (Status)
+			try
 			{
-				case eStatus.Completed:
-					Status = eStatus.Stop;
+				switch (Status)
+				{
+					case eStatus.Completed:
+						Status = eStatus.Stop;
 
-					switch (TypeAction)
-					{
-						case eTypeAction.Shutdown:
-							PrivilegeManager.EnableShutdownPrivilege();
-							PcActionService.Shutdown();
-							break;
+						switch (TypeAction)
+						{
+							case eTypeAction.Shutdown:
+								PrivilegeManager.EnableShutdownPrivilege();
+								PcActionService.Shutdown();
+								break;
 
-						case eTypeAction.Restart:
-							PrivilegeManager.EnableShutdownPrivilege();
-							PcActionService.Restart();
-							break;
+							case eTypeAction.Restart:
+								PrivilegeManager.EnableShutdownPrivilege();
+								PcActionService.Restart();
+								break;
 
-						case eTypeAction.LogTheUserOut:
-							PrivilegeManager.EnableShutdownPrivilege();
-							PcActionService.LogOff();
-							break;
+							case eTypeAction.LogTheUserOut:
+								PrivilegeManager.EnableShutdownPrivilege();
+								PcActionService.LogOff();
+								break;
 
-						case eTypeAction.SleepMode:
+							case eTypeAction.SleepMode:
 
-							break;
-					}
+								break;
+						}
 
-					break;
+						break;
+				}
+			}
+			catch (Exception)
+			{
+				_log.Error(Guid.Parse("0e07a829-b019-4890-b02b-2456d419c114"), "Chyba při spuštění methody po odpočtu času.");
 			}
 		}
 	}

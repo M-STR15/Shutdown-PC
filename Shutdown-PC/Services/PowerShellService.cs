@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using ShutdownPC.Services.Models.PowerShell;
+using System.Diagnostics;
 using System.IO;
 
 namespace ShutdownPC.Services
@@ -24,7 +25,12 @@ namespace ShutdownPC.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Chyba při spuštění PowerShell skriptu: {ex.Message}");
+				var message = "Chyba při spuštění PowerShell skriptu.";
+#if DEBUG
+				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+#endif
+
+				throw new Exception(message);
 			}
 		}
 
@@ -44,11 +50,16 @@ namespace ShutdownPC.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Chyba při spuštění PowerShell skriptu: {ex.Message}");
+				var message = "Chyba při spuštění PowerShell skriptu.";
+#if DEBUG
+				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+#endif
+
+				throw new Exception(message);
 			}
 		}
 
-		public string RunFromPathWithResult(string scriptPath)
+		public Tuple<eResultOutputStatus, string> RunFromPathWithResult(string scriptPath)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
 			processInfo.FileName = "powershell.exe";
@@ -73,22 +84,27 @@ namespace ShutdownPC.Services
 
 						if (process.ExitCode == 0)
 						{
-							return output; // Vrať úspěšný výstup skriptu
+							return new Tuple<eResultOutputStatus, string>(eResultOutputStatus.Success, output);
 						}
 						else
 						{
-							return $"Chyba: {error}"; // Vrať chybovou hlášku
+							return new Tuple<eResultOutputStatus, string>(eResultOutputStatus.Success, $"Chyba: {error}");
 						}
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				return $"Chyba při spuštění PowerShell skriptu: {ex.Message}";
+				var message = "Chyba při spuštění PowerShell skriptu.";
+#if DEBUG
+				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+#endif
+
+				throw new Exception(message);
 			}
 		}
 
-		public string RunWithResult(string script)
+		public Tuple<eResultOutputStatus, string> RunWithResult(string script)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
 			processInfo.FileName = "powershell.exe";
@@ -113,18 +129,23 @@ namespace ShutdownPC.Services
 
 						if (process.ExitCode == 0)
 						{
-							return output; // Vrať úspěšný výstup skriptu
+							return new Tuple<eResultOutputStatus, string>(eResultOutputStatus.Success, output);
 						}
 						else
 						{
-							return $"Chyba: {error}"; // Vrať chybovou hlášku
+							return new Tuple<eResultOutputStatus, string>(eResultOutputStatus.Success, $"Chyba: {error}");
 						}
 					}
 				}
 			}
 			catch (Exception ex)
 			{
-				return $"Chyba při spuštění PowerShell skriptu: {ex.Message}";
+				var message = "Chyba při spuštění PowerShell skriptu.";
+#if DEBUG
+				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+#endif
+
+				throw new Exception(message);
 			}
 		}
 	}

@@ -3,10 +3,11 @@ using System.Globalization;
 using System.Windows.Data;
 
 namespace ShutdownPC.Helpers.Convertores
-{/// <summary>
-/// Konvertní funkce, která přidá ke vstupní hodnotě 0 pokud je hodnota menší než 10. 
-/// Převede číslo na text.
-/// </summary>
+{
+	/// <summary>
+	/// Konvertní funkce, která přidá ke vstupní hodnotě 0 pokud je hodnota menší než 10. 
+	/// Převede číslo na text.
+	/// </summary>
 	public class TimeStyleConventor : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

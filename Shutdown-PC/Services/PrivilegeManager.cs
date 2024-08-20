@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.ComponentModel;
 
 namespace ShutdownPC.Services
 {
@@ -52,13 +53,13 @@ namespace ShutdownPC.Services
 			IntPtr tokenHandle;
 			if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY | TOKEN_ADJUST_PRIVILEGES, out tokenHandle))
 			{
-				throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
 			LUID luid;
 			if (!LookupPrivilegeValue(null, SE_SHUTDOWN_NAME, out luid))
 			{
-				throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 
 			TOKEN_PRIVILEGES tp;
@@ -68,7 +69,7 @@ namespace ShutdownPC.Services
 
 			if (!AdjustTokenPrivileges(tokenHandle, false, ref tp, 0, IntPtr.Zero, IntPtr.Zero))
 			{
-				throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error());
+				throw new Win32Exception(Marshal.GetLastWin32Error());
 			}
 		}
 	}

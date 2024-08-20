@@ -9,7 +9,10 @@ $csharpCode = @"
 using System;
 namespace ShutdownPC.Models
 {
-
+	/// <summary>
+	/// Generovaná třída, i datem vytovřeného buildu.
+	/// Tato informace slouží pro zobrazení v číla verze. 
+	/// </summary>
     public static class BuildInfo
     {
         public static string VersionStr {get;set;}
