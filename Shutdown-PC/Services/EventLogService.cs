@@ -8,6 +8,10 @@ using System.Text.Json;
 
 namespace ShutdownPC.Services
 {
+	/// <summary>
+	/// Event logger pro aktulní aplikaci.Za použití služby serilogu.
+	/// Informace se ukládají do složky, v kořenu aplikace do složky "logs" s koncovnou ".log".
+	/// </summary>
 	public class EventLogService : IDisposable
 	{
 		private readonly string _version;

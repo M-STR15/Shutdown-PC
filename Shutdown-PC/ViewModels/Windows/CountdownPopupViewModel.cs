@@ -3,6 +3,9 @@ using ShutdownPC.Stores;
 
 namespace ShutdownPC.ViewModels.Windows
 {
+	/// <summary>
+	/// ViewModel pro vyskakovací okno před koncem odpočtu.
+	/// </summary>
 	public partial class CountdownPopupViewModel : BaseWindowViewModel
 	{
 		private readonly DateTime _setTimeValue;
