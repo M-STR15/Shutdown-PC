@@ -72,12 +72,13 @@ namespace ShutdownPC
 
 			Status = eStatus.Stop;
 
-			SetTimeValue = DateTime.Now;
 			Version = BuildInfo.VersionStr;
 
 			Title = "Shutdown-PC";
 
 			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
+
+			SetTimeValue = DateTime.Now;
 		}
 
 		public ICommand CloseCommand { get; private set; }
@@ -96,6 +97,12 @@ namespace ShutdownPC
 				if (_setTimeValue != value)
 				{
 					_setTimeValue = value;
+					onSetTimeValueChange();
+					OnPropertyChanged();
+				}
+				else if (_setTimeValue < DateTime.Now)
+				{
+					_setTimeValue = DateTime.Now;
 					onSetTimeValueChange();
 					OnPropertyChanged();
 				}
