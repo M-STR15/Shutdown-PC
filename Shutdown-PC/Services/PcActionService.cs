@@ -28,7 +28,7 @@ namespace ShutdownPC.Services
 		/// </summary>
 		public static void LogOff()
 		{
-			if (!ExitWindowsEx(EWX_LOGOFF, 0))
+			if (!ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0))
 				ThrowLastWin32Error();
 		}
 		/// <summary>
