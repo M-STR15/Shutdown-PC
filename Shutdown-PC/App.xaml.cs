@@ -15,25 +15,40 @@ namespace ShutdownPC
 	{
 		private IKernel _container;
 		private EventLogService _log;
+		private static Mutex s_mutex;
+
 		public App()
 		{ }
 
+		[STAThread]
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			_log = new EventLogService();
-			// Zachycení neošetřených výjimek na úrovni aplikačního vlákna
-			AppDomain.CurrentDomain.UnhandledException += currentDomain_UnhandledException;
-			// Zachycení neošetřených výjimek na úrovni dispatcheru (UI vlákno)
-			DispatcherUnhandledException += app_DispatcherUnhandledException;
+			bool createdNew;
+			s_mutex = new Mutex(true, "ShutdownPC", out createdNew);
 
-			configureContainer();
+			if (createdNew)
+			{
+				_log = new EventLogService();
+				// Zachycení neošetřených výjimek na úrovni aplikačního vlákna
+				AppDomain.CurrentDomain.UnhandledException += currentDomain_UnhandledException;
+				// Zachycení neošetřených výjimek na úrovni dispatcheru (UI vlákno)
+				DispatcherUnhandledException += app_DispatcherUnhandledException;
 
-			InitializeComponent();
-			base.OnStartup(e);
+				configureContainer();
 
-			Current.MainWindow = _container.Get<MainWindow>();
-			Current.MainWindow.DataContext = _container.Get<MainViewModel>();
-			Current.MainWindow.Show();
+				InitializeComponent();
+				base.OnStartup(e);
+
+				Current.MainWindow = _container.Get<MainWindow>();
+				Current.MainWindow.DataContext = _container.Get<MainViewModel>();
+				Current.MainWindow.Show();
+			}
+			else
+			{
+				// Pokud již aplikace běží, informujeme uživatele nebo zavřeme tuto instanci.
+				MessageBox.Show("Aplikace je již spuštěna.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+				Environment.Exit(0); // Ukončíme tuto instanci aplikace.
+			}
 		}
 
 		private void configureContainer()
