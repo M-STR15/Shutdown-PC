@@ -1,5 +1,4 @@
 ﻿using Serilog.Events;
-using System.Diagnostics;
 using System.Text;
 
 namespace ShutdownPC.Services.Models.EventLogService
