@@ -17,10 +17,12 @@
 
 	<PropertyGroup>
 		<GenerateBuildInfoScript>$(MSBuildProjectDirectory)\Scripts\BuildDateGenerateClass.ps1</GenerateBuildInfoScript>
+		<RemoveLogsFolderScript>$(MSBuildProjectDirectory)\Scripts\RemoveEventLogsFolder.ps1</RemoveLogsFolderScript>
 	</PropertyGroup>
 
 	<Target Name="RunPowerShellScript" BeforeTargets="Build">
 		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(GenerateBuildInfoScript)&quot;" />
+		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(RemoveLogsFolderScript)&quot;" />
 	</Target>
 
   <ItemGroup>
