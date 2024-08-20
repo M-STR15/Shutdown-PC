@@ -27,6 +27,8 @@ namespace ShutdownPC
 		[ObservableProperty]
 		private IEventAggregator _eventRestartView;
 
+		private EventLogService _log;
+
 		[ObservableProperty]
 		private string _message;
 
@@ -47,8 +49,6 @@ namespace ShutdownPC
 		private string _version;
 
 		private DispatcherTimer t_CountdownTimer;
-		private EventLogService _log;
-
 		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, EventLogService log)
 		{
 			EventRestartView = eventRestartView;
@@ -67,6 +67,7 @@ namespace ShutdownPC
 			ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
 			ShowInfoCommand = new Helpers.RelayCommand(cmd_ShowInfo);
 			CloseCommand = new Helpers.RelayCommand(cmd_Close);
+			MinimalizationCommand = new Helpers.RelayCommand(cmd_minimalize);
 
 			_windowStore = windowsStore;
 
@@ -82,11 +83,9 @@ namespace ShutdownPC
 		}
 
 		public ICommand CloseCommand { get; private set; }
-
 		public ICommand ChangeStatusCommnad { get; private set; }
-
 		public ICommand LogTheUserOutCommnad { get; set; }
-
+		public ICommand MinimalizationCommand { get; private set; }
 		public ICommand RestartCommand { get; private set; }
 
 		public DateTime SetTimeValue
@@ -142,6 +141,8 @@ namespace ShutdownPC
 
 		private void cmd_LogTheUserOut(object parameter) => logOff();
 
+		private void cmd_minimalize(object parameter) => minimalize();
+
 		private void cmd_Restart(object parameter) => restart();
 
 		private void cmd_ShowInfo(object parameter) => showInfo();
@@ -186,6 +187,7 @@ namespace ShutdownPC
 			}
 		}
 
+		private void minimalize() => App.Current.MainWindow.WindowState = WindowState.Minimized;
 		private void onCountdown_Tick(object sender, EventArgs args)
 		{
 			try

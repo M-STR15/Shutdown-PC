@@ -54,6 +54,7 @@
     <None Remove="Resources\Icons\SVG\power.svg" />
     <None Remove="Resources\Icons\SVG\restart.svg" />
     <None Remove="Resources\Icons\SVG\setting.svg" />
+    <None Remove="Resources\Icons\SVG\square-arrow.svg" />
     <None Remove="Resources\Icons\SVG\stop-circle.svg" />
   </ItemGroup>
 
@@ -111,6 +112,7 @@
     <Resource Include="Resources\Icons\SVG\power.svg" />
     <Resource Include="Resources\Icons\SVG\restart.svg" />
     <Resource Include="Resources\Icons\SVG\setting.svg" />
+    <Resource Include="Resources\Icons\SVG\square-arrow.svg" />
     <Resource Include="Resources\Icons\SVG\stop-circle.svg" />
   </ItemGroup>
 

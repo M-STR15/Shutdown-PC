@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace ShutdownPC
 {
@@ -10,10 +11,6 @@ namespace ShutdownPC
 		public MainWindow()
 		{
 			InitializeComponent();
-		}
-
-		private void RadioButton_Checked(object sender, RoutedEventArgs e)
-		{
 		}
 	}
 }
