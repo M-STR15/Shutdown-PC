@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
 
 namespace ShutdownPC.Helpers
@@ -26,7 +25,7 @@ namespace ShutdownPC.Helpers
 				throw new ArgumentNullException("execute");
 
 			_execute = execute;
-			_canExecute = canExecute == null ? new Func<bool>(() => false) : canExecute;
+			_canExecute = canExecute;
 		}
 
 		#endregion Constructors
