@@ -5,7 +5,6 @@ using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
