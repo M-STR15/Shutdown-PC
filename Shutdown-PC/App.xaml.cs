@@ -95,7 +95,7 @@ namespace ShutdownPC
 			if (e.ExceptionObject is Exception ex)
 				_log.Error(Guid.Parse("4fb577ad-9eba-4afa-9a89-368268989360"), $"Neočekávaná chyba (jiné vlákno): {ex.Message}");
 			else
-				_log.Error(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"\"Došlo k neošetřené výjimce, která není typu Exception.");
+				_log.Error(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"Došlo k neošetřené výjimce, která není typu Exception.");
 
 		}
 	}
