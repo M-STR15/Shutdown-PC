@@ -28,47 +28,49 @@
                                 Padding="4"
                                 Background="{StaticResource BorderWindow}"
                                 CornerRadius="30,30,30,30">
-                                <Grid
-                                    MouseDown="Grid_MouseDown"
-                                    MouseMove="Grid_MouseMove"
-                                    MouseUp="Grid_MouseUp">
+                                <Grid>
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto" />
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
-                                        <Image
-                                            Width="30"
-                                            Height="30"
-                                            HorizontalAlignment="Center"
-                                            Source="Resources/Icons/PNG/power_256x256_red.png" />
-                                        <Label
-                                            Margin="30,0,0,0"
-                                            Content="{Binding Title, FallbackValue=TITULEK}"
-                                            FontSize="12" />
-                                        <StackPanel
-                                            Grid.Row="0"
-                                            HorizontalAlignment="Right"
-                                            Orientation="Horizontal">
-                                            <Button
-                                                x:Name="MinimalizeApp"
-                                                Width="20"
-                                                Height="20"
-                                                Margin="0,0,5,10"
-                                                BorderBrush="Transparent"
-                                                Command="{Binding MinimalizationCommand}">
-                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/square-arrow.svg" />
-                                            </Button>
-                                            <Button
-                                                x:Name="CloseApp"
-                                                Width="20"
-                                                Height="20"
-                                                Margin="0,0,15,10"
-                                                BorderBrush="Transparent"
-                                                Command="{Binding CloseCommand}">
-                                                <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg" />
-                                            </Button>
-                                        </StackPanel>
+                                        <Grid
+                                            MouseDown="Grid_MouseDown"
+                                            MouseMove="Grid_MouseMove"
+                                            MouseUp="Grid_MouseUp">
+                                            <Image
+                                                Width="30"
+                                                Height="30"
+                                                HorizontalAlignment="Center"
+                                                Source="Resources/Icons/PNG/power_256x256_red.png" />
+                                            <Label
+                                                Margin="30,0,0,0"
+                                                Content="{Binding Title, FallbackValue=TITULEK}"
+                                                FontSize="12" />
+                                            <StackPanel
+                                                Grid.Row="0"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+                                                <Button
+                                                    x:Name="MinimalizeApp"
+                                                    Width="20"
+                                                    Height="20"
+                                                    Margin="0,0,5,10"
+                                                    BorderBrush="Transparent"
+                                                    Command="{Binding MinimalizationCommand}">
+                                                    <svgc:SvgViewbox Source="Resources/Icons/SVG/square-arrow.svg" />
+                                                </Button>
+                                                <Button
+                                                    x:Name="CloseApp"
+                                                    Width="20"
+                                                    Height="20"
+                                                    Margin="0,0,15,10"
+                                                    BorderBrush="Transparent"
+                                                    Command="{Binding CloseCommand}">
+                                                    <svgc:SvgViewbox Source="Resources/Icons/SVG/close-square.svg" />
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
                                         <!--  Zde můžete definovat obsah vašeho okna  -->
                                         <Grid Grid.Row="1" Margin="0">
                                             <ContentPresenter Content="{TemplateBinding Content}" />
