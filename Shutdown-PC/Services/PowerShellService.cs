@@ -7,7 +7,7 @@ namespace ShutdownPC.Services
 	/// <summary>
 	/// Služba spouštěcí PowerShell scripty.
 	/// </summary>
-	public class PowerShellService
+	public class PowerShellService : IPowerShellService
 	{
 		public void Run(string script)
 		{

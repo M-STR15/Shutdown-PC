@@ -9,15 +9,16 @@ namespace ShutdownPC.Stores
 	/// <summary>
 	/// Store pro spouštění a nastavování oken aplikace.
 	/// </summary>
-	public partial class WindowStore : ObservableObject
+	[ObservableObject]
+	public partial class WindowStore
 	{
-		private readonly ClasesStore _clasesStore;
+		private readonly IClasesStore _clasesStore;
 		private readonly MainWindow _mainWindow;
 
 		[ObservableProperty]
 		private TimeSpan _setTimeValueProperty;
 
-		public WindowStore(ClasesStore clasesStore, MainWindow mainWindow)
+		public WindowStore(IClasesStore clasesStore, MainWindow mainWindow)
 		{
 			_clasesStore = clasesStore;
 			_mainWindow = mainWindow;

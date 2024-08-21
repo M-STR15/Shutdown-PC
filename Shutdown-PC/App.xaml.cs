@@ -14,7 +14,7 @@ namespace ShutdownPC
 	public partial class App : Application, IDisposable
 	{
 		private IKernel _container;
-		private EventLogService _log;
+		private IEventLogService _log;
 		private static Mutex s_mutex;
 
 		public App()
@@ -66,8 +66,8 @@ namespace ShutdownPC
 
 		private void configServices()
 		{
-			_container.Bind<EventLogService>().To<EventLogService>().InSingletonScope();
-			_container.Bind<PowerShellService>().To<PowerShellService>().InSingletonScope();
+			_container.Bind<IEventLogService>().To<EventLogService>().InSingletonScope();
+			_container.Bind<IPowerShellService>().To<PowerShellService>().InSingletonScope();
 		}
 
 		private void configWindows()
@@ -85,7 +85,7 @@ namespace ShutdownPC
 
 		private void congfigStores()
 		{
-			_container.Bind<ClasesStore>().To<ClasesStore>().InSingletonScope()
+			_container.Bind<IClasesStore>().To<ClasesStore>().InSingletonScope()
 				.WithConstructorArgument("container", _container);
 
 			_container.Bind<WindowStore>().To<WindowStore>().InSingletonScope();
@@ -93,7 +93,7 @@ namespace ShutdownPC
 
 		public void Dispose()
 		{
-			var logger = _container.Get<EventLogService>();
+			var logger = _container.Get<IEventLogService>();
 			if (logger != null)
 				logger.Dispose();
 		}
@@ -114,9 +114,6 @@ namespace ShutdownPC
 				_log.Error(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"Došlo k neošetřené výjimce, která není typu Exception.");
 
 		}
-
-
-
 
 		private bool _isDragging;
 		private Point _startPoint;

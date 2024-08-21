@@ -27,7 +27,7 @@ namespace ShutdownPC
 		[ObservableProperty]
 		private IEventAggregator _eventRestartView;
 
-		private EventLogService _log;
+		private IEventLogService _log;
 
 		[ObservableProperty]
 		private string _message;
@@ -49,7 +49,7 @@ namespace ShutdownPC
 		private string _version;
 
 		private DispatcherTimer t_CountdownTimer;
-		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, EventLogService log)
+		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, IEventLogService log)
 		{
 			EventRestartView = eventRestartView;
 			_log = log;

@@ -12,7 +12,7 @@ namespace ShutdownPC.Services
 	/// Event logger pro aktulní aplikaci.Za použití služby serilogu.
 	/// Informace se ukládají do složky, v kořenu aplikace do složky "logs" s koncovnou ".log".
 	/// </summary>
-	public class EventLogService : IDisposable
+	public class EventLogService : IDisposable, IEventLogService
 	{
 		private readonly string _version;
 		private readonly string _assemblyName;
@@ -78,7 +78,7 @@ namespace ShutdownPC.Services
 			return events;
 		}
 
-		static string ParseLogEntry(string logLine)
+		public string ParseLogEntry(string logLine)
 		{
 			// Předpoklad: Logovací formát je "Timestamp [Level] Message"
 			var parts = logLine.Split(';', 3);  // Rozdělíme na 3 části: Timestamp, Level, a Message

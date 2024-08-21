@@ -6,7 +6,7 @@ namespace ShutdownPC.Stores
 	/// <summary>
 	/// Store umožnující načítáí tříd z konteineru aplikace.
 	/// </summary>
-	public class ClasesStore
+	public class ClasesStore : IClasesStore
 	{
 		public ClasesStore(IKernel container)
 		{
