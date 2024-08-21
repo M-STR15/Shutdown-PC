@@ -24,7 +24,7 @@
                     <Run Text="M-Str" />
                     <LineBreak />
                     <Run FontWeight="Bold" Text="Licence:" />
-                    <Run Text="freeware" />
+                    <Run Text="MIT" />
                     <LineBreak />
                     <LineBreak />
                     <Run FontWeight="Bold" Text="Popis:" />
