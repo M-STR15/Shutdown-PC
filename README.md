@@ -36,14 +36,14 @@ Instalovat aplikaci lze pomoci instaleru "setup.exe", kterou naleznete v "Releas
     
 ## Release
 
-1.0.1   (2024-08-20)
+### 1.0.1   (2024-08-20)
 
 Oprava:
 ```bash
     -posun hlavního okna
 ```
 
-1.0.0   (2024-08-19)
+### 1.0.0   (2024-08-19)
 
 Uvolněné základní funkcionality
 ## 🔗 Links
