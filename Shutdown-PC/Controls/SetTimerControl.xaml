@@ -21,9 +21,9 @@
             Content="00.00.0000"
             FontFamily="{StaticResource LCD}"
             FontSize="20"
-            Visibility="Hidden"
-            Foreground="#1C274C" />
-        <Grid  Grid.Row="1">
+            Foreground="#1C274C"
+            Visibility="Hidden" />
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="40" />
                 <ColumnDefinition Width="*" />
@@ -34,27 +34,27 @@
                 <ColumnDefinition Width="40" />
             </Grid.ColumnDefinitions>
             <Label
-                    x:Name="lblNegativTime"
-                    Grid.Column="0"
-                    VerticalAlignment="Top"
-                    Content="-"
-                    Style="{StaticResource labelTimerStyle}"
-                    Visibility="Hidden" />
+                x:Name="lblNegativTime"
+                Grid.Column="0"
+                VerticalAlignment="Top"
+                Content="-"
+                Style="{StaticResource labelTimerStyle}"
+                Visibility="Hidden" />
             <local:NumericControl
-                    x:Name="HoursUC"
-                    Grid.Column="1"
-                    MaxTimeValue="99" />
+                x:Name="HoursUC"
+                Grid.Column="1"
+                MaxTimeValue="99" />
             <Label
-                    Grid.Column="2"
-                    VerticalAlignment="Top"
-                    Content=":"
-                    Style="{StaticResource labelTimerStyle}" />
+                Grid.Column="2"
+                VerticalAlignment="Top"
+                Content=":"
+                Style="{StaticResource labelTimerStyle}" />
             <local:NumericControl x:Name="MinutesUC" Grid.Column="3" />
             <Label
-                    Grid.Column="4"
-                    VerticalAlignment="Top"
-                    Content=":"
-                    Style="{StaticResource labelTimerStyle}" />
+                Grid.Column="4"
+                VerticalAlignment="Top"
+                Content=":"
+                Style="{StaticResource labelTimerStyle}" />
             <local:NumericControl x:Name="SecondsUC" Grid.Column="5" />
         </Grid>
     </Grid>

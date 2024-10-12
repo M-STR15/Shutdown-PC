@@ -22,7 +22,10 @@
             <RadioButton Content="vypnout" IsChecked="{Binding TypeAction, Converter={StaticResource EnumToBooleanCon}, ConverterParameter={x:Static enum:eTypeAction.Shutdown}, FallbackValue=true, Mode=TwoWay}" />
             <RadioButton Content="restartovat" IsChecked="{Binding TypeAction, Converter={StaticResource EnumToBooleanCon}, ConverterParameter={x:Static enum:eTypeAction.Restart}, Mode=TwoWay}" />
             <RadioButton Content="odhlásit uživatele" IsChecked="{Binding TypeAction, Converter={StaticResource EnumToBooleanCon}, ConverterParameter={x:Static enum:eTypeAction.LogTheUserOut}, Mode=TwoWay}" />
-            <RadioButton Content="režim spánku" IsChecked="{Binding TypeAction, Converter={StaticResource EnumToBooleanCon}, ConverterParameter={x:Static enum:eTypeAction.SleepMode}, Mode=TwoWay}" Visibility="Hidden" />
+            <RadioButton
+                Content="režim spánku"
+                IsChecked="{Binding TypeAction, Converter={StaticResource EnumToBooleanCon}, ConverterParameter={x:Static enum:eTypeAction.SleepMode}, Mode=TwoWay}"
+                Visibility="Hidden" />
         </StackPanel>
     </Border>
 </UserControl>

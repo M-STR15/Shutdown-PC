@@ -93,15 +93,16 @@ namespace ShutdownPC
 			get => _setTimeValue;
 			set
 			{
+				var currentDatetime = DateTime.Now;
 				if (_setTimeValue != value)
 				{
 					_setTimeValue = value;
 					onSetTimeValueChange();
 					OnPropertyChanged();
 				}
-				else if (_setTimeValue < DateTime.Now)
+				else if (_setTimeValue < currentDatetime)
 				{
-					_setTimeValue = DateTime.Now;
+					_setTimeValue = currentDatetime;
 					onSetTimeValueChange();
 					OnPropertyChanged();
 				}
@@ -192,7 +193,9 @@ namespace ShutdownPC
 		{
 			try
 			{
-				if (SetTimeValue <= DateTime.Now)
+				var curentDatetime=DateTime.Now;
+
+				if (SetTimeValue <= curentDatetime)
 				{
 					t_CountdownTimer.Stop();
 					Status = eStatus.Completed;
@@ -200,8 +203,7 @@ namespace ShutdownPC
 				}
 				else
 				{
-					EndAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-					//setLabelTimer();
+					EndAfterSeconds = (int)(SetTimeValue - curentDatetime).TotalSeconds;
 				}
 
 				EventRestartView.GetEvent<TickEvent>().Publish();

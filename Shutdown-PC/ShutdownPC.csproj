@@ -9,7 +9,7 @@
     <UseWPF>true</UseWPF>
     <PackageIcon>power_128x128.png</PackageIcon>
     <ApplicationIcon>Resources\Icons\ICO\power_256x256_red.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Company>M-Str</Company>
     <Authors>M-Str</Authors>
@@ -18,7 +18,7 @@
 	<PropertyGroup>
 		<GenerateBuildInfoScript>$(MSBuildProjectDirectory)\Scripts\BuildDateGenerateClass.ps1</GenerateBuildInfoScript>
 		<RemoveLogsFolderScript>$(MSBuildProjectDirectory)\Scripts\RemoveEventLogsFolder.ps1</RemoveLogsFolderScript>
-		<FileVersion>1.0.1</FileVersion>
+		<FileVersion>1.0.2</FileVersion>
 		<Version>1.0.1</Version>
 	</PropertyGroup>
 

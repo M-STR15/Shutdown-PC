@@ -21,7 +21,7 @@ namespace ShutdownPC.Controls
 			new FrameworkPropertyMetadata(new PropertyChangedCallback(onEventRestartViewPropertyChanged)));
 
 		public static readonly DependencyProperty SetTimeValueProperty =
-				   DependencyProperty.Register
+			DependencyProperty.Register
 		   (nameof(SetTimeValue),
 			typeof(DateTime),
 			typeof(SetTimerControl),
