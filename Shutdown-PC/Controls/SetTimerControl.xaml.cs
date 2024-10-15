@@ -47,6 +47,7 @@ namespace ShutdownPC.Controls
 
 		public SetTimerControl()
 		{
+			_endDateTime = DateTime.Now;
 			InitializeComponent();
 
 			HoursUC.btnPlus.Click += hoursPlus_Change;
@@ -57,8 +58,6 @@ namespace ShutdownPC.Controls
 
 			SecondsUC.btnPlus.Click += secondsPlus_Change;
 			SecondsUC.btnMinus.Click += secondsMinus_Change;
-
-			_endDateTime = DateTime.Now;
 		}
 
 		public IEventAggregator EventRestartView
@@ -95,12 +94,6 @@ namespace ShutdownPC.Controls
 
 			SecondsUC.btnPlus.Click -= secondsPlus_Change;
 			SecondsUC.btnMinus.Click -= secondsMinus_Change;
-		}
-
-		public void refresh_Tick()
-		{
-			_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
-			setLabelTimer();
 		}
 
 		public void RefreshLabel()
@@ -212,6 +205,11 @@ namespace ShutdownPC.Controls
 			setAllButtons();
 		}
 
+		private void refresh_Tick()
+		{
+			_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+			setLabelTimer();
+		}
 		private void secondsMinus_Change(object sender, EventArgs args)
 		{
 			_endAfterSeconds += -1;

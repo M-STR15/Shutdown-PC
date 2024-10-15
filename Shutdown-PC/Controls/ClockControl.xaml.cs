@@ -36,12 +36,13 @@ namespace ShutdownPC.Controls
 		{
 			try
 			{
-				ClockTime = DateTime.Now;
+				var currentTime = DateTime.Now;
+				ClockTime = currentTime;
 				lblHours.Content = ClockTime.ToString("HH");
 				lblMinutes.Content = ClockTime.ToString("mm");
 				lblSeconds.Content = ClockTime.ToString("ss");
 
-				lblDate.Content = DateTime.Now.ToShortDateString();
+				lblDate.Content = currentTime.ToShortDateString();
 			}
 			catch (Exception)
 			{
