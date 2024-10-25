@@ -47,7 +47,7 @@ namespace ShutdownPC.Controls
 
 		public SetTimerControl()
 		{
-			_endDateTime = DateTime.Now;
+			_endDateTime = SetTimeValue;
 			InitializeComponent();
 
 			HoursUC.btnPlus.Click += hoursPlus_Change;
