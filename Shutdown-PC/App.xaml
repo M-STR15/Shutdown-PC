@@ -35,9 +35,9 @@
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid
-                                            MouseDown="Grid_MouseDown"
-                                            MouseMove="Grid_MouseMove"
-                                            MouseUp="Grid_MouseUp">
+                                            MouseDown="grid_MouseDown"
+                                            MouseMove="grid_MouseMove"
+                                            MouseUp="grid_MouseUp">
                                             <Image
                                                 Width="30"
                                                 Height="30"

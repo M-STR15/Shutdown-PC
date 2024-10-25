@@ -118,7 +118,7 @@ namespace ShutdownPC
 		private bool _isDragging;
 		private Point _startPoint;
 
-		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+		private void grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
@@ -128,7 +128,7 @@ namespace ShutdownPC
 			}
 		}
 
-		private void Grid_MouseMove(object sender, MouseEventArgs e)
+		private void grid_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (_isDragging)
 			{
@@ -142,7 +142,7 @@ namespace ShutdownPC
 			}
 		}
 
-		private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+		private void grid_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			_isDragging = false;
 			(sender as UIElement)?.ReleaseMouseCapture();
