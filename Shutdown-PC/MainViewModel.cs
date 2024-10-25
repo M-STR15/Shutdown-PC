@@ -5,14 +5,14 @@ using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
+using ShutdownPC.ViewModels.Windows;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace ShutdownPC
 {
-	[ObservableObject]
-	public partial class MainViewModel
+	public partial class MainViewModel : BaseWindowViewModel
 	{
 		public EventHandler SetTimeValueChange;
 		public EventHandler StatusChange;
@@ -49,7 +49,7 @@ namespace ShutdownPC
 		private string _version;
 
 		private DispatcherTimer t_CountdownTimer;
-		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, IEventLogService log)
+		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, IEventLogService log) : base(windowsStore)
 		{
 			EventRestartView = eventRestartView;
 			_log = log;
@@ -66,8 +66,6 @@ namespace ShutdownPC
 			ChangeStatusCommnad = new Helpers.RelayCommand(cmd_ChangeStatus);
 			ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
 			ShowInfoCommand = new Helpers.RelayCommand(cmd_ShowInfo);
-			CloseCommand = new Helpers.RelayCommand(cmd_Close);
-			MinimalizationCommand = new Helpers.RelayCommand(cmd_minimalize);
 
 			_windowStore = windowsStore;
 
@@ -82,10 +80,8 @@ namespace ShutdownPC
 			SetTimeValue = DateTime.Now;
 		}
 
-		public ICommand CloseCommand { get; private set; }
 		public ICommand ChangeStatusCommnad { get; private set; }
 		public ICommand LogTheUserOutCommnad { get; set; }
-		public ICommand MinimalizationCommand { get; private set; }
 		public ICommand RestartCommand { get; private set; }
 
 		public DateTime SetTimeValue
@@ -131,18 +127,9 @@ namespace ShutdownPC
 			}
 		}
 
-		private void close()
-		{
-			App.Current.Shutdown();
-		}
-
-		private void cmd_Close(object parameter) => close();
-
 		private void cmd_ChangeStatus(object parameter) => changeStatus();
 
 		private void cmd_LogTheUserOut(object parameter) => logOff();
-
-		private void cmd_minimalize(object parameter) => minimalize();
 
 		private void cmd_Restart(object parameter) => restart();
 
@@ -187,13 +174,11 @@ namespace ShutdownPC
 				_log.Error(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
 			}
 		}
-
-		private void minimalize() => App.Current.MainWindow.WindowState = WindowState.Minimized;
 		private void onCountdown_Tick(object sender, EventArgs args)
 		{
 			try
 			{
-				var curentDatetime=DateTime.Now;
+				var curentDatetime = DateTime.Now;
 
 				if (SetTimeValue <= curentDatetime)
 				{
