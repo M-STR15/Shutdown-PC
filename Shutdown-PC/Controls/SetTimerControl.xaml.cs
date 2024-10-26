@@ -207,7 +207,7 @@ namespace ShutdownPC.Controls
 
 		private void refresh_Tick()
 		{
-			_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+			_endAfterSeconds = (int)(SetTimeValue - _endDateTime).TotalSeconds;
 			setLabelTimer();
 		}
 		private void secondsMinus_Change(object sender, EventArgs args)
