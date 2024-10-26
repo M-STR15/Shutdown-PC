@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace ShutdownPC.Helpers
 {
+	/// <summary>
+	/// Třída sloužící k nastavení command. Ovladačů ve Views.
+	/// </summary>
 	public class RelayCommand : ICommand
 	{
 		#region Fields

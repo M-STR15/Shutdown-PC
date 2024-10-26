@@ -75,7 +75,7 @@ namespace ShutdownPC
 
 			Title = "Shutdown-PC";
 
-			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
+			_log.WriteInformation(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
 
 			SetTimeValue = DateTime.Now;
 		}
@@ -171,7 +171,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
+				_log.WriteError(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
 			}
 		}
 		private void onCountdown_Tick(object sender, EventArgs args)
@@ -195,7 +195,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("793f468a-de37-40c9-aaeb-f17ea4dd365b"), "Chyba při odpočtu času.");
+				_log.WriteError(Guid.Parse("793f468a-de37-40c9-aaeb-f17ea4dd365b"), "Chyba při odpočtu času.");
 			}
 		}
 
@@ -210,7 +210,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("788cc881-3cdc-492f-9f27-a05d3591b18f"), "Chyba při pokusu o restart PC.");
+				_log.WriteError(Guid.Parse("788cc881-3cdc-492f-9f27-a05d3591b18f"), "Chyba při pokusu o restart PC.");
 			}
 		}
 
@@ -230,7 +230,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("1b3c07b7-63b4-484b-95d6-cc63684015d0"), "");
+				_log.WriteError(Guid.Parse("1b3c07b7-63b4-484b-95d6-cc63684015d0"), "");
 			}
 		}
 
@@ -240,11 +240,11 @@ namespace ShutdownPC
 			{
 				var isOpen = _windowStore.ShowCountdownPopupWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("1530568d-5d2b-4e55-b4c4-a34959dfea62"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+					_log.WriteWarning(Guid.Parse("1530568d-5d2b-4e55-b4c4-a34959dfea62"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("fde3b586-93d2-4071-a402-571dec09d194"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+				_log.WriteError(Guid.Parse("fde3b586-93d2-4071-a402-571dec09d194"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
 			}
 		}
 
@@ -254,11 +254,11 @@ namespace ShutdownPC
 			{
 				var isOpen = _windowStore.ShowInfoWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("7a680274-f07c-4034-9b65-2d1790728ec2"), "Nepodařilo se zobrazit okno s informaci.");
+					_log.WriteWarning(Guid.Parse("7a680274-f07c-4034-9b65-2d1790728ec2"), "Nepodařilo se zobrazit okno s informaci.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("d5d93a0a-d436-44e4-8be8-f5625053310e"), "Nepodařilo se zobrazit okno s informaci.");
+				_log.WriteError(Guid.Parse("d5d93a0a-d436-44e4-8be8-f5625053310e"), "Nepodařilo se zobrazit okno s informaci.");
 			}
 		}
 
@@ -268,11 +268,11 @@ namespace ShutdownPC
 			{
 				var isOpen = _windowStore.ShowSettigWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("3eceb500-2818-42b3-b6fb-9591e69873c7"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+					_log.WriteWarning(Guid.Parse("3eceb500-2818-42b3-b6fb-9591e69873c7"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("5ce86b03-d99f-44e1-8307-37310ec5d0b5"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+				_log.WriteError(Guid.Parse("5ce86b03-d99f-44e1-8307-37310ec5d0b5"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
 			}
 		}
 
@@ -285,7 +285,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("097abbf9-cd1e-4341-8a25-754aa966c919"), "Chyba při vypnutí aplikace.");
+				_log.WriteError(Guid.Parse("097abbf9-cd1e-4341-8a25-754aa966c919"), "Chyba při vypnutí aplikace.");
 			}
 		}
 
@@ -330,7 +330,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("0e07a829-b019-4890-b02b-2456d419c114"), "Chyba při spuštění methody po odpočtu času.");
+				_log.WriteError(Guid.Parse("0e07a829-b019-4890-b02b-2456d419c114"), "Chyba při spuštění methody po odpočtu času.");
 			}
 		}
 	}

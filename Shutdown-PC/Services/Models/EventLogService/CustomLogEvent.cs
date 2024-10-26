@@ -8,16 +8,16 @@ namespace ShutdownPC.Services.Models.EventLogService
 	/// </summary>
 	public class CustomLogEvent
 	{
-		public string Message { get; set; }
+		public string Message { get; set; } = "";
 		public LogEventLevel Level { get; set; }
 		public DateTime Timestamp { get; set; }
 		public Guid GuidID { get; set; }
-		public string Version { get; set; }
+		public string Version { get; set; } = "";
 
 		public CustomLogEvent()
 		{ }
 
-		public CustomLogEvent(Guid guidID, string message, LogEventLevel level, string version)
+		public CustomLogEvent(Guid guidID, string message, LogEventLevel level, string version) : this()
 		{
 			Timestamp = DateTime.Now;
 			Message = message;

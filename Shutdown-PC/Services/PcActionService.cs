@@ -29,7 +29,7 @@ namespace ShutdownPC.Services
 		public static void LogOff()
 		{
 			if (!ExitWindowsEx(EWX_LOGOFF | EWX_FORCE, 0))
-				ThrowLastWin32Error();
+				throwLastWin32Error();
 		}
 		/// <summary>
 		/// Vypne počítač.
@@ -37,7 +37,7 @@ namespace ShutdownPC.Services
 		public static void Shutdown()
 		{
 			if (!ExitWindowsEx(EWX_SHUTDOWN | EWX_FORCE, 0))
-				ThrowLastWin32Error();
+				throwLastWin32Error();
 		}
 		/// <summary>
 		/// Restartuje počítač.
@@ -45,7 +45,7 @@ namespace ShutdownPC.Services
 		public static void Restart()
 		{
 			if (!ExitWindowsEx(EWX_REBOOT | EWX_FORCE, 0))
-				ThrowLastWin32Error();
+				throwLastWin32Error();
 		}
 
 		//public static void ShutdownEx(string message, uint timeout, bool forceAppsClosed, bool rebootAfterShutdown, uint reason)
@@ -54,7 +54,7 @@ namespace ShutdownPC.Services
 		//		ThrowLastWin32Error();
 		//}
 
-		private static void ThrowLastWin32Error()
+		private static void throwLastWin32Error()
 		{
 			int errorCode = Marshal.GetLastWin32Error();
 			throw new System.ComponentModel.Win32Exception(errorCode);
