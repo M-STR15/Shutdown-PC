@@ -129,6 +129,8 @@ namespace ShutdownPC.Controls
 				uc.onTypeModificationPropertyChanged(e);
 		}
 
+		private int getDiffTime() => (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+
 		private void hoursMinus_Change(object sender, EventArgs args)
 		{
 			_endAfterSeconds += -3600;
@@ -175,11 +177,10 @@ namespace ShutdownPC.Controls
 		{
 			if (Status == eStatus.Run)
 			{
-				_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+				_endAfterSeconds = getDiffTime();
 				setLabelTimer();
 			}
 		}
-
 		private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			var vis = Visibility.Visible;
@@ -207,7 +208,7 @@ namespace ShutdownPC.Controls
 
 		private void refresh_Tick()
 		{
-			_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+			_endAfterSeconds = getDiffTime();
 			setLabelTimer();
 		}
 		private void secondsMinus_Change(object sender, EventArgs args)
@@ -235,7 +236,7 @@ namespace ShutdownPC.Controls
 			switch (TypeModification)
 			{
 				case eTypeModification.InTime:
-					var endAdterSeconds = DateTime.Now.AddSeconds((SetTimeValue - DateTime.Now).TotalSeconds);
+					var endAdterSeconds = DateTime.Now.AddSeconds(getDiffTime());
 					HoursUC.TimeValue = endAdterSeconds.Hour;
 					MinutesUC.TimeValue = endAdterSeconds.Minute;
 					SecondsUC.TimeValue = endAdterSeconds.Second;
