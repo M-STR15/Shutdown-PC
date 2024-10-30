@@ -50,14 +50,14 @@ namespace ShutdownPC.Controls
 			_endDateTime = SetTimeValue;
 			InitializeComponent();
 
-			HoursUC.btnPlus.Click += hoursPlus_Change;
-			HoursUC.btnMinus.Click += hoursMinus_Change;
+			HoursUC.btnPlus.Click += onHoursPlus_Change;
+			HoursUC.btnMinus.Click += onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click += minutesPlus_Change;
-			MinutesUC.btnMinus.Click += minutesMinus_Change;
+			MinutesUC.btnPlus.Click += onCinutesPlus_Change;
+			MinutesUC.btnMinus.Click += onMinutesMinus_Change;
 
-			SecondsUC.btnPlus.Click += secondsPlus_Change;
-			SecondsUC.btnMinus.Click += secondsMinus_Change;
+			SecondsUC.btnPlus.Click += onSecondsPlus_Change;
+			SecondsUC.btnMinus.Click += onSecondsMinus_Change;
 		}
 
 		public IEventAggregator EventRestartView
@@ -86,14 +86,14 @@ namespace ShutdownPC.Controls
 
 		public void Dispose()
 		{
-			HoursUC.btnPlus.Click -= hoursPlus_Change;
-			HoursUC.btnMinus.Click -= hoursMinus_Change;
+			HoursUC.btnPlus.Click -= onHoursPlus_Change;
+			HoursUC.btnMinus.Click -= onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click -= minutesPlus_Change;
-			MinutesUC.btnMinus.Click -= minutesMinus_Change;
+			MinutesUC.btnPlus.Click -= onCinutesPlus_Change;
+			MinutesUC.btnMinus.Click -= onMinutesMinus_Change;
 
-			SecondsUC.btnPlus.Click -= secondsPlus_Change;
-			SecondsUC.btnMinus.Click -= secondsMinus_Change;
+			SecondsUC.btnPlus.Click -= onSecondsPlus_Change;
+			SecondsUC.btnMinus.Click -= onSecondsMinus_Change;
 		}
 
 		public void RefreshLabel()
@@ -129,17 +129,7 @@ namespace ShutdownPC.Controls
 				uc.onTypeModificationPropertyChanged(e);
 		}
 
-		private void hoursMinus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += -3600;
-			methodForModificationControler();
-		}
-
-		private void hoursPlus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += 3600;
-			methodForModificationControler();
-		}
+		private int getDiffTime() => (int)(SetTimeValue - DateTime.Now).TotalSeconds;
 
 		private void changeStatus()
 		{
@@ -154,13 +144,7 @@ namespace ShutdownPC.Controls
 			setLabelTimer();
 		}
 
-		private void minutesMinus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += -60;
-			methodForModificationControler();
-		}
-
-		private void minutesPlus_Change(object sender, EventArgs args)
+		private void onCinutesPlus_Change(object sender, EventArgs args)
 		{
 			_endAfterSeconds += 60;
 			methodForModificationControler();
@@ -171,15 +155,42 @@ namespace ShutdownPC.Controls
 			EventRestartView.GetEvent<TickEvent>().Subscribe(refresh_Tick);
 		}
 
+		private void onHoursMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -3600;
+			methodForModificationControler();
+		}
+
+		private void onHoursPlus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += 3600;
+			methodForModificationControler();
+		}
+		private void onMinutesMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -60;
+			methodForModificationControler();
+		}
+		private void onSecondsMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -1;
+			methodForModificationControler();
+		}
+
+		private void onSecondsPlus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += +1;
+			methodForModificationControler();
+		}
+
 		private void onSetTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (Status == eStatus.Run)
 			{
-				_endAfterSeconds = (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+				_endAfterSeconds = getDiffTime();
 				setLabelTimer();
 			}
 		}
-
 		private void onStatusPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			var vis = Visibility.Visible;
@@ -210,18 +221,6 @@ namespace ShutdownPC.Controls
 			_endAfterSeconds = (int)(SetTimeValue - _endDateTime).TotalSeconds;
 			setLabelTimer();
 		}
-		private void secondsMinus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += -1;
-			methodForModificationControler();
-		}
-
-		private void secondsPlus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += +1;
-			methodForModificationControler();
-		}
-
 		private void setAllButtons()
 		{
 			var time = TimeSpan.FromSeconds(_endAfterSeconds);
@@ -235,7 +234,7 @@ namespace ShutdownPC.Controls
 			switch (TypeModification)
 			{
 				case eTypeModification.InTime:
-					var endAdterSeconds = DateTime.Now.AddSeconds((SetTimeValue - DateTime.Now).TotalSeconds);
+					var endAdterSeconds = DateTime.Now.AddSeconds(getDiffTime());
 					HoursUC.TimeValue = endAdterSeconds.Hour;
 					MinutesUC.TimeValue = endAdterSeconds.Minute;
 					SecondsUC.TimeValue = endAdterSeconds.Second;
