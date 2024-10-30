@@ -216,7 +216,7 @@ namespace ShutdownPC.Controls
 
 		private void refresh_Tick()
 		{
-			_endAfterSeconds = (int)(SetTimeValue - _endDateTime).TotalSeconds;
+			_endAfterSeconds = getDiffTime();
 			setLabelTimer();
 		}
 		private void setAllButtons()
