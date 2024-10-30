@@ -58,6 +58,9 @@ namespace ShutdownPC.Controls
 
 			SecondsUC.btnPlus.Click += onSecondsPlus_Change;
 			SecondsUC.btnMinus.Click += onSecondsMinus_Change;
+
+			//z důvodu, aby se nenastavovala záportná hodntoa při startu aplikace
+			setTimeValue();
 		}
 
 		public IEventAggregator EventRestartView
@@ -94,11 +97,6 @@ namespace ShutdownPC.Controls
 
 			SecondsUC.btnPlus.Click -= onSecondsPlus_Change;
 			SecondsUC.btnMinus.Click -= onSecondsMinus_Change;
-		}
-
-		public void RefreshLabel()
-		{
-			setLabelTimer();
 		}
 
 		private static void onEventRestartViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
