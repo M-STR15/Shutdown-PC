@@ -127,7 +127,7 @@ namespace ShutdownPC.Controls
 				uc.onTypeModificationPropertyChanged(e);
 		}
 
-		private int getDiffTime() => (int)(SetTimeValue - DateTime.Now).TotalSeconds;
+		private int getDiffTime() => Math.Max(0, (int)(SetTimeValue - DateTime.Now).TotalSeconds);
 
 		private void changeStatus()
 		{
