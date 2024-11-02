@@ -23,32 +23,46 @@ namespace ShutdownPC
 		[STAThread]
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			var splashScreen = new SplashScreen.StartWindow("Shutdown-PC");
+			splashScreen.CloseWindowHandler += openMainWindow;
+
 			bool createdNew;
 			s_mutex = new Mutex(true, "ShutdownPC", out createdNew);
 
 			if (createdNew)
 			{
+				var inicializationText = "Inicializace aplikace.";
+				splashScreen.Set(30, inicializationText);
 				_log = new EventLogService();
 				// Zachycení neošetřených výjimek na úrovni aplikačního vlákna
 				AppDomain.CurrentDomain.UnhandledException += currentDomain_UnhandledException;
 				// Zachycení neošetřených výjimek na úrovni dispatcheru (UI vlákno)
 				DispatcherUnhandledException += app_DispatcherUnhandledException;
-
+				splashScreen.Set(45, inicializationText);
 				configureContainer();
-
+				splashScreen.Set(60, inicializationText);
 				InitializeComponent();
 				base.OnStartup(e);
-
+				splashScreen.Set(70, inicializationText);
 				Current.MainWindow = _container.Get<MainWindow>();
 				Current.MainWindow.DataContext = _container.Get<MainViewModel>();
-				Current.MainWindow.Show();
+
+				splashScreen.Set(100, "Inicializace is complete.");
+				splashScreen.Close();
 			}
 			else
 			{
 				// Pokud již aplikace běží, informujeme uživatele nebo zavřeme tuto instanci.
 				MessageBox.Show("Aplikace je již spuštěna.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 				Environment.Exit(0); // Ukončíme tuto instanci aplikace.
+				splashScreen.Set(100, "Inicializace is complete.");
+				splashScreen.Close();
 			}
+		}
+
+		private void openMainWindow(object sender, EventArgs args)
+		{
+			Current.MainWindow.Show();
 		}
 
 		private void configureContainer()

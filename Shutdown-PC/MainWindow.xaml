@@ -3,18 +3,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:control="clr-namespace:ShutdownPC.Controls"
-    xmlns:views="clr-namespace:ShutdownPC.Views"
     xmlns:convert="clr-namespace:ShutdownPC.Helpers.Convertores"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="clr-namespace:ShutdownPC.Models.Enums"
     xmlns:local="clr-namespace:ShutdownPC"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+    xmlns:views="clr-namespace:ShutdownPC.Views"
     Name="MainWin"
     Title="Shutdown-PC"
     Width="500"
     Height="540"
     Style="{StaticResource MainWindow}"
+    WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
         <convert:TypeModificationEnumToBooleanConverter x:Key="EnumToBooleanCon" />
@@ -26,7 +27,10 @@
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Menu x:Name="LeftMenu" Margin="20,0,20,0">
-            <MenuItem Command="{Binding ShowSettingCommand}" Header="Nastavení" Visibility="Collapsed">
+            <MenuItem
+                Command="{Binding ShowSettingCommand}"
+                Header="Nastavení"
+                Visibility="Collapsed">
                 <MenuItem.Icon>
                     <Image
                         Width="12"
@@ -35,7 +39,10 @@
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
-        <Menu x:Name="RightMenu" HorizontalAlignment="Right" Margin="20,0,20,0">
+        <Menu
+            x:Name="RightMenu"
+            Margin="20,0,20,0"
+            HorizontalAlignment="Right">
             <MenuItem Command="{Binding ShowInfoCommand}" Header="Info">
                 <MenuItem.Icon>
                     <Image
@@ -45,7 +52,10 @@
                 </MenuItem.Icon>
             </MenuItem>
         </Menu>
-        <Grid Grid.Row="1" Margin="20,0,20,0" Background="{StaticResource Background}">
+        <Grid
+            Grid.Row="1"
+            Margin="20,0,20,0"
+            Background="{StaticResource Background}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -90,17 +100,14 @@
                 </TextBlock>
 
                 <control:SetTimerControl
-                    EventRestartView="{Binding EventRestartView}"
                     x:Name="timerControl"
-                    SetTimeValue="{Binding SetTimeValue, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"
+                    EventRestartView="{Binding EventRestartView}"
+                    SetTimeValue="{Binding SetTimeValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Status="{Binding Status, Mode=TwoWay}"
-                    TypeModification="{Binding TypeModification}">
-                </control:SetTimerControl>
+                    TypeModification="{Binding TypeModification}" />
             </StackPanel>
 
-            <views:ButtonsControl
-                Grid.Row="3"
-                VerticalAlignment="Bottom" />
+            <views:ButtonsControl Grid.Row="3" VerticalAlignment="Bottom" />
         </Grid>
         <Grid Grid.Row="2">
             <TextBlock

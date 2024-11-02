@@ -76,6 +76,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ShutdownPC.SplashScreen\ShutdownPC.SplashScreen.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Fonts\LCDMonoWinTT\LCDM2B.TTF">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
