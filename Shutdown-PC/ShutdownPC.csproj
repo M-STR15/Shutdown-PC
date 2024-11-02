@@ -9,17 +9,17 @@
     <UseWPF>true</UseWPF>
     <PackageIcon>power_128x128.png</PackageIcon>
     <ApplicationIcon>Resources\Icons\ICO\power_256x256_red.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Company>M-Str</Company>
-    <Authors>M-Str</Authors>
+    <Company>M-STR</Company>
+    <Authors>M-STR</Authors>
   </PropertyGroup>
 
 	<PropertyGroup>
 		<GenerateBuildInfoScript>$(MSBuildProjectDirectory)\Scripts\BuildDateGenerateClass.ps1</GenerateBuildInfoScript>
 		<RemoveLogsFolderScript>$(MSBuildProjectDirectory)\Scripts\RemoveEventLogsFolder.ps1</RemoveLogsFolderScript>
-		<FileVersion>1.0.3</FileVersion>
-		<Version>1.0.3</Version>
+		<FileVersion>1.1.0</FileVersion>
+		<Version>1.1.0</Version>
 	</PropertyGroup>
 
 	<Target Name="RunPowerShellScript" BeforeTargets="Build">
