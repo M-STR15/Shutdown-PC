@@ -35,6 +35,12 @@ Instalovat aplikaci lze pomoci instaleru "setup.exe", kterou naleznete v "Releas
 ```
     
 ## Release
+### 1.0.3   (2024-11-02)
+
+Oprava:
+```bash
+oprava, aby při startu nedocházelo k zobrazování mínusových hodnot v timeru
+```
 ### 1.0.2   (2024-10-15)
 
 Oprava:
