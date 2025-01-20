@@ -15,28 +15,32 @@ namespace ShutdownPC.SplashScreen
 		public StartWindow(string title, int minStartTime = 7)
 		{
 			InitializeComponent();
+			Thread.Sleep(800);	
+			this.Show();
 
 			Title = title;
 			_minStartTime = minStartTime;
 			_dateTimeStart = DateTime.Now;
 			_timer = new DispatcherTimer();
 			_timer.Interval = new TimeSpan(0, 0, 1);
-			_timer.Tick += _controlTime_Tick;
+			_timer.Tick += onControlTime_Tick;
 
-			this.Show();
 			this.Set(0, "Start aplication...");
 		}
 
 		public EventHandler CloseWindowHandler { get; set; }
 
 		/// <summary>
-		/// Vypre uvoldní obrazovku, ale až po uplinutí minimálního času
+		/// Spustí časovač pro zavření okna.Ten následně zavře okno.
 		/// </summary>
-		public async new void Close()
+		public new void Close()
 		{
 			_timer.Start();
 		}
 
+		/// <summary>
+		/// Nastaví hodnotu progresu a text poslední aktivity.
+		/// </summary>
 		public void Set(int progress, string textLastActivit = "")
 		{
 			if (progress < 10)
@@ -49,7 +53,7 @@ namespace ShutdownPC.SplashScreen
 			txtInfo.Text = textLastActivit;
 		}
 
-		private void _controlTime_Tick(object? sender, EventArgs e)
+		private void onControlTime_Tick(object? sender, EventArgs e)
 		{
 			var duration = Convert.ToInt32((DateTime.Now - _dateTimeStart).TotalSeconds);
 			if (duration > _minStartTime)

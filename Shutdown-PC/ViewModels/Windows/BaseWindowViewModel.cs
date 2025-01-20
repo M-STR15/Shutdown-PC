@@ -30,17 +30,22 @@ namespace ShutdownPC.ViewModels.Windows
 		public ICommand MinimalizationCommand { get; private set; }
 		public Window Window { get; set; }
 
-		protected virtual void cmd_Close(object parameter) => close();
-
-		protected virtual void cmd_minimalize(object parameter) => minimalize();
-
-		protected virtual void minimalize() => App.Current.MainWindow.WindowState = WindowState.Minimized;
-
-		private void close()
+		/// <summary>
+		/// Metoda pro zavření aplikace.
+		/// </summary>
+		protected virtual void cmd_Close(object parameter)
 		{
 			App.Current.Shutdown();
 		}
 
+		/// <summary>
+		/// Metoda pro minimalizaci hlavního okna aplikace.
+		/// </summary>
+		protected virtual void cmd_minimalize(object parameter) => App.Current.MainWindow.WindowState = WindowState.Minimized;
+
+		/// <summary>
+		/// Zavře okno.
+		/// </summary>
 		private void cmd_CloseWindow(object parameter)
 		{
 			_windowStore.CloseWindow<BaseWindowViewModel>(this);

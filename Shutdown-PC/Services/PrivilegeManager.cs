@@ -48,6 +48,9 @@ namespace ShutdownPC.Services
 
 		private const uint SE_PRIVILEGE_ENABLED = 0x00000002;
 
+		/// <summary>
+		/// Tato metoda povoluje privilegium vypnutí počítače.
+		/// </summary>
 		public static void EnableShutdownPrivilege()
 		{
 			IntPtr tokenHandle;

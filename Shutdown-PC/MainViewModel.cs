@@ -84,6 +84,11 @@ namespace ShutdownPC
 		public ICommand LogTheUserOutCommnad { get; set; }
 		public ICommand RestartCommand { get; private set; }
 
+		/// <summary>
+		/// Nastaví nebo vrátí hodnotu času.
+		/// Pokud je nastavena nová hodnota, vyvolá událost změny času a oznámí změnu vlastnosti.
+		/// Pokud je nastavena hodnota menší než aktuální čas, nastaví aktuální čas a vyvolá událost změny času a oznámí změnu vlastnosti.
+		/// </summary>
 		public DateTime SetTimeValue
 		{
 			get => _setTimeValue;
