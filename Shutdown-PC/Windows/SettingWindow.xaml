@@ -6,11 +6,11 @@
     xmlns:local="clr-namespace:ShutdownPC.Windows"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Setting"
-    Height="150"
     Width="300"
-    WindowStyle="None"
+    Height="150"
     Background="#fff"
     Style="{StaticResource CustWindow}"
+    WindowStyle="None"
     mc:Ignorable="d">
 
     <Grid>

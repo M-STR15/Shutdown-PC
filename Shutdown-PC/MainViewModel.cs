@@ -5,14 +5,14 @@ using ShutdownPC.Models;
 using ShutdownPC.Models.Enums;
 using ShutdownPC.Services;
 using ShutdownPC.Stores;
+using ShutdownPC.ViewModels.Windows;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace ShutdownPC
 {
-	[ObservableObject]
-	public partial class MainViewModel
+	public partial class MainViewModel : BaseWindowViewModel
 	{
 		public EventHandler SetTimeValueChange;
 		public EventHandler StatusChange;
@@ -49,7 +49,7 @@ namespace ShutdownPC
 		private string _version;
 
 		private DispatcherTimer t_CountdownTimer;
-		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, IEventLogService log)
+		public MainViewModel(WindowStore windowsStore, IEventAggregator eventRestartView, IEventLogService log) : base(windowsStore)
 		{
 			EventRestartView = eventRestartView;
 			_log = log;
@@ -66,8 +66,6 @@ namespace ShutdownPC
 			ChangeStatusCommnad = new Helpers.RelayCommand(cmd_ChangeStatus);
 			ShowSettingCommand = new Helpers.RelayCommand(cmd_ShowSetting);
 			ShowInfoCommand = new Helpers.RelayCommand(cmd_ShowInfo);
-			CloseCommand = new Helpers.RelayCommand(cmd_Close);
-			MinimalizationCommand = new Helpers.RelayCommand(cmd_minimalize);
 
 			_windowStore = windowsStore;
 
@@ -77,17 +75,20 @@ namespace ShutdownPC
 
 			Title = "Shutdown-PC";
 
-			_log.Information(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
+			_log.WriteInformation(new Guid("ce1a0a77-8074-4e33-b761-4dd8411eb252"), "Start");
 
 			SetTimeValue = DateTime.Now;
 		}
 
-		public ICommand CloseCommand { get; private set; }
 		public ICommand ChangeStatusCommnad { get; private set; }
 		public ICommand LogTheUserOutCommnad { get; set; }
-		public ICommand MinimalizationCommand { get; private set; }
 		public ICommand RestartCommand { get; private set; }
 
+		/// <summary>
+		/// Nastaví nebo vrátí hodnotu času.
+		/// Pokud je nastavena nová hodnota, vyvolá událost změny času a oznámí změnu vlastnosti.
+		/// Pokud je nastavena hodnota menší než aktuální čas, nastaví aktuální čas a vyvolá událost změny času a oznámí změnu vlastnosti.
+		/// </summary>
 		public DateTime SetTimeValue
 		{
 			get => _setTimeValue;
@@ -131,18 +132,9 @@ namespace ShutdownPC
 			}
 		}
 
-		private void close()
-		{
-			App.Current.Shutdown();
-		}
-
-		private void cmd_Close(object parameter) => close();
-
 		private void cmd_ChangeStatus(object parameter) => changeStatus();
 
 		private void cmd_LogTheUserOut(object parameter) => logOff();
-
-		private void cmd_minimalize(object parameter) => minimalize();
 
 		private void cmd_Restart(object parameter) => restart();
 
@@ -175,6 +167,11 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro odhlášení uživatele.
+		/// Získá oprávnění pro vypnutí systému a poté provede odhlášení uživatele.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void logOff()
 		{
 			try
@@ -184,16 +181,20 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
+				_log.WriteError(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
 			}
 		}
-
-		private void minimalize() => App.Current.MainWindow.WindowState = WindowState.Minimized;
+		/// <summary>
+		/// Metoda, která se spustí při každém tiknutí odpočítávacího časovače.
+		/// Zkontroluje, zda nastavený čas vypršel, a pokud ano, zastaví časovač a spustí metodu po vypršení časovače.
+		/// Pokud čas nevypršel, aktualizuje zbývající čas v sekundách.
+		/// Publikuje událost TickEvent.
+		/// </summary>
 		private void onCountdown_Tick(object sender, EventArgs args)
 		{
 			try
 			{
-				var curentDatetime=DateTime.Now;
+				var curentDatetime = DateTime.Now;
 
 				if (SetTimeValue <= curentDatetime)
 				{
@@ -210,12 +211,20 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("793f468a-de37-40c9-aaeb-f17ea4dd365b"), "Chyba při odpočtu času.");
+				_log.WriteError(Guid.Parse("793f468a-de37-40c9-aaeb-f17ea4dd365b"), "Chyba při odpočtu času.");
 			}
 		}
 
+		/// <summary>
+		/// Metoda vyvolá událost změny hodnoty času.
+		/// </summary>
 		private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
 
+		/// <summary>
+		/// Metoda pro restartování počítače.
+		/// Získá oprávnění pro vypnutí systému a poté provede restart.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void restart()
 		{
 			try
@@ -225,10 +234,16 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("788cc881-3cdc-492f-9f27-a05d3591b18f"), "Chyba při pokusu o restart PC.");
+				_log.WriteError(Guid.Parse("788cc881-3cdc-492f-9f27-a05d3591b18f"), "Chyba při pokusu o restart PC.");
 			}
 		}
 
+		/// <summary>
+		/// Nastaví časovač na základě aktuálního stavu.
+		/// Pokud je stav 'Run', spustí časovač po zpoždění.
+		/// Pokud je stav jiný, zastaví časovač.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private async void setTimer()
 		{
 			try
@@ -245,7 +260,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("1b3c07b7-63b4-484b-95d6-cc63684015d0"), "");
+				_log.WriteError(Guid.Parse("1b3c07b7-63b4-484b-95d6-cc63684015d0"), "");
 			}
 		}
 
@@ -255,42 +270,57 @@ namespace ShutdownPC
 			{
 				var isOpen = _windowStore.ShowCountdownPopupWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("1530568d-5d2b-4e55-b4c4-a34959dfea62"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+					_log.WriteWarning(Guid.Parse("1530568d-5d2b-4e55-b4c4-a34959dfea62"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("fde3b586-93d2-4071-a402-571dec09d194"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
+				_log.WriteError(Guid.Parse("fde3b586-93d2-4071-a402-571dec09d194"), "Nepodařilo se zobrazit okno s odpočtem času před dokončení cyklu.");
 			}
 		}
 
+		/// <summary>
+		/// Zobrazí okno s informacemi.
+		/// Pokud se okno nepodaří otevřít, zapíše varování do logu.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void showInfo()
 		{
 			try
 			{
 				var isOpen = _windowStore.ShowInfoWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("7a680274-f07c-4034-9b65-2d1790728ec2"), "Nepodařilo se zobrazit okno s informaci.");
+					_log.WriteWarning(Guid.Parse("7a680274-f07c-4034-9b65-2d1790728ec2"), "Nepodařilo se zobrazit okno s informaci.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("d5d93a0a-d436-44e4-8be8-f5625053310e"), "Nepodařilo se zobrazit okno s informaci.");
+				_log.WriteError(Guid.Parse("d5d93a0a-d436-44e4-8be8-f5625053310e"), "Nepodařilo se zobrazit okno s informaci.");
 			}
 		}
 
+		/// <summary>
+		/// Zobrazí okno s nastavením aplikace.
+		/// Pokud se okno nepodaří otevřít, zapíše varování do logu.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void showSetting()
 		{
 			try
 			{
 				var isOpen = _windowStore.ShowSettigWindow();
 				if (isOpen != null && !(bool)isOpen)
-					_log.Warning(Guid.Parse("3eceb500-2818-42b3-b6fb-9591e69873c7"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+					_log.WriteWarning(Guid.Parse("3eceb500-2818-42b3-b6fb-9591e69873c7"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("5ce86b03-d99f-44e1-8307-37310ec5d0b5"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
+				_log.WriteError(Guid.Parse("5ce86b03-d99f-44e1-8307-37310ec5d0b5"), "Nepodařilo se zobrazit okno s nastavením aplikace.");
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro vypnutí počítače.
+		/// Získá oprávnění pro vypnutí systému a poté provede vypnutí.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void shutdown()
 		{
 			try
@@ -300,15 +330,24 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("097abbf9-cd1e-4341-8a25-754aa966c919"), "Chyba při vypnutí aplikace.");
+				_log.WriteError(Guid.Parse("097abbf9-cd1e-4341-8a25-754aa966c919"), "Chyba při vypnutí aplikace.");
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro přepnutí počítače do režimu spánku.
+		/// !!!METHODA JE VE vývoji
+		/// </summary>
 		private void sleepMode()
 		{
 			//pcAction.SleepMode();
 		}
 
+		/// <summary>
+		/// Metoda, která se spustí po vypršení časovače.
+		/// Na základě aktuálního stavu provede příslušnou akci (vypnutí, restart, odhlášení uživatele nebo režim spánku).
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void startMethodAfterTheTimerExpires()
 		{
 			try
@@ -345,7 +384,7 @@ namespace ShutdownPC
 			}
 			catch (Exception)
 			{
-				_log.Error(Guid.Parse("0e07a829-b019-4890-b02b-2456d419c114"), "Chyba při spuštění methody po odpočtu času.");
+				_log.WriteError(Guid.Parse("0e07a829-b019-4890-b02b-2456d419c114"), "Chyba při spuštění methody po odpočtu času.");
 			}
 		}
 	}

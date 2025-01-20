@@ -23,32 +23,46 @@ namespace ShutdownPC
 		[STAThread]
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			var splashScreen = new SplashScreen.StartWindow("Shutdown-PC");
+			splashScreen.CloseWindowHandler += openMainWindow;
+
 			bool createdNew;
 			s_mutex = new Mutex(true, "ShutdownPC", out createdNew);
 
 			if (createdNew)
 			{
+				var inicializationText = "Inicializace aplikace.";
+				splashScreen.Set(30, inicializationText);
 				_log = new EventLogService();
 				// Zachycení neošetřených výjimek na úrovni aplikačního vlákna
 				AppDomain.CurrentDomain.UnhandledException += currentDomain_UnhandledException;
 				// Zachycení neošetřených výjimek na úrovni dispatcheru (UI vlákno)
 				DispatcherUnhandledException += app_DispatcherUnhandledException;
-
+				splashScreen.Set(45, inicializationText);
 				configureContainer();
-
+				splashScreen.Set(60, inicializationText);
 				InitializeComponent();
 				base.OnStartup(e);
-
+				splashScreen.Set(70, inicializationText);
 				Current.MainWindow = _container.Get<MainWindow>();
 				Current.MainWindow.DataContext = _container.Get<MainViewModel>();
-				Current.MainWindow.Show();
+
+				splashScreen.Set(100, "Inicializace is complete.");
+				splashScreen.Close();
 			}
 			else
 			{
 				// Pokud již aplikace běží, informujeme uživatele nebo zavřeme tuto instanci.
 				MessageBox.Show("Aplikace je již spuštěna.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
 				Environment.Exit(0); // Ukončíme tuto instanci aplikace.
+				splashScreen.Set(100, "Inicializace is complete.");
+				splashScreen.Close();
 			}
+		}
+
+		private void openMainWindow(object sender, EventArgs args)
+		{
+			Current.MainWindow.Show();
 		}
 
 		private void configureContainer()
@@ -100,7 +114,7 @@ namespace ShutdownPC
 
 		private void app_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
 		{
-			_log.Error(Guid.Parse("c9c951ff-f176-4bcc-be5e-a87a9920c3e1"), $"Neočekávaná chyba (UI vlákno): {e.Exception.Message}");
+			_log.WriteError(Guid.Parse("c9c951ff-f176-4bcc-be5e-a87a9920c3e1"), $"Neočekávaná chyba (UI vlákno): {e.Exception.Message}");
 
 			// Nastavení e.Handled na true zabrání aplikaci spadnout
 			e.Handled = false;
@@ -109,16 +123,16 @@ namespace ShutdownPC
 		private void currentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			if (e.ExceptionObject is Exception ex)
-				_log.Error(Guid.Parse("4fb577ad-9eba-4afa-9a89-368268989360"), $"Neočekávaná chyba (jiné vlákno): {ex.Message}");
+				_log.WriteError(Guid.Parse("4fb577ad-9eba-4afa-9a89-368268989360"), $"Neočekávaná chyba (jiné vlákno): {ex.Message}");
 			else
-				_log.Error(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"Došlo k neošetřené výjimce, která není typu Exception.");
+				_log.WriteError(Guid.Parse("fbc0e288-2f92-45e7-a8fc-2c5136c0dec0"), $"Došlo k neošetřené výjimce, která není typu Exception.");
 
 		}
 
 		private bool _isDragging;
 		private Point _startPoint;
 
-		private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+		private void grid_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
@@ -128,7 +142,7 @@ namespace ShutdownPC
 			}
 		}
 
-		private void Grid_MouseMove(object sender, MouseEventArgs e)
+		private void grid_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (_isDragging)
 			{
@@ -142,7 +156,7 @@ namespace ShutdownPC
 			}
 		}
 
-		private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+		private void grid_MouseUp(object sender, MouseButtonEventArgs e)
 		{
 			_isDragging = false;
 			(sender as UIElement)?.ReleaseMouseCapture();

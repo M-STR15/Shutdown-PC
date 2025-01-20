@@ -9,6 +9,9 @@ namespace ShutdownPC.Services
 	/// </summary>
 	public class PowerShellService : IPowerShellService
 	{
+		/// <summary>
+		/// Spustí PowerShell skript.
+		/// </summary>
 		public void Run(string script)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -27,13 +30,16 @@ namespace ShutdownPC.Services
 			{
 				var message = "Chyba při spuštění PowerShell skriptu.";
 #if DEBUG
-				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+                message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
 #endif
 
 				throw new Exception(message);
 			}
 		}
 
+		/// <summary>
+		/// Spustí PowerShell skript z dané cesty.
+		/// </summary>
 		public void RunForPath(string scriptPath)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -52,13 +58,16 @@ namespace ShutdownPC.Services
 			{
 				var message = "Chyba při spuštění PowerShell skriptu.";
 #if DEBUG
-				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+        message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
 #endif
 
 				throw new Exception(message);
 			}
 		}
 
+		/// <summary>
+		/// Spustí PowerShell skript z dané cesty a vrátí výsledek.
+		/// </summary>
 		public Tuple<eResultOutputStatus, string> RunFromPathWithResult(string scriptPath)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -97,13 +106,16 @@ namespace ShutdownPC.Services
 			{
 				var message = "Chyba při spuštění PowerShell skriptu.";
 #if DEBUG
-				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+                message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
 #endif
 
 				throw new Exception(message);
 			}
 		}
 
+		/// <summary>
+		/// Spustí PowerShell skript a vrátí výsledek.
+		/// </summary>
 		public Tuple<eResultOutputStatus, string> RunWithResult(string script)
 		{
 			ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -142,7 +154,7 @@ namespace ShutdownPC.Services
 			{
 				var message = "Chyba při spuštění PowerShell skriptu.";
 #if DEBUG
-				message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
+                message = $"Chyba při spuštění PowerShell skriptu:{ex.Message}";
 #endif
 
 				throw new Exception(message);

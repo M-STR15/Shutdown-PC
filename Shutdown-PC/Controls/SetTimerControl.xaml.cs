@@ -47,17 +47,20 @@ namespace ShutdownPC.Controls
 
 		public SetTimerControl()
 		{
-			_endDateTime = DateTime.Now;
+			_endDateTime = SetTimeValue;
 			InitializeComponent();
 
-			HoursUC.btnPlus.Click += hoursPlus_Change;
-			HoursUC.btnMinus.Click += hoursMinus_Change;
+			HoursUC.btnPlus.Click += onHoursPlus_Change;
+			HoursUC.btnMinus.Click += onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click += minutesPlus_Change;
-			MinutesUC.btnMinus.Click += minutesMinus_Change;
+			MinutesUC.btnPlus.Click += onMinutesPlus_Change;
+			MinutesUC.btnMinus.Click += onMinutesMinus_Change;
 
-			SecondsUC.btnPlus.Click += secondsPlus_Change;
-			SecondsUC.btnMinus.Click += secondsMinus_Change;
+			SecondsUC.btnPlus.Click += onSecondsPlus_Change;
+			SecondsUC.btnMinus.Click += onSecondsMinus_Change;
+
+			//z důvodu, aby se nenastavovala záportná hodntoa při startu aplikace
+			setTimeValue();
 		}
 
 		public IEventAggregator EventRestartView
@@ -84,21 +87,19 @@ namespace ShutdownPC.Controls
 			set => SetValue(TypeModificationProperty, value);
 		}
 
+		/// <summary>
+		/// Uvolní zdroje a odhlásí události pro tlačítka.
+		/// </summary>
 		public void Dispose()
 		{
-			HoursUC.btnPlus.Click -= hoursPlus_Change;
-			HoursUC.btnMinus.Click -= hoursMinus_Change;
+			HoursUC.btnPlus.Click -= onHoursPlus_Change;
+			HoursUC.btnMinus.Click -= onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click -= minutesPlus_Change;
-			MinutesUC.btnMinus.Click -= minutesMinus_Change;
+			MinutesUC.btnPlus.Click -= onMinutesPlus_Change;
+			MinutesUC.btnMinus.Click -= onMinutesMinus_Change;
 
-			SecondsUC.btnPlus.Click -= secondsPlus_Change;
-			SecondsUC.btnMinus.Click -= secondsMinus_Change;
-		}
-
-		public void RefreshLabel()
-		{
-			setLabelTimer();
+			SecondsUC.btnPlus.Click -= onSecondsPlus_Change;
+			SecondsUC.btnMinus.Click -= onSecondsMinus_Change;
 		}
 
 		private static void onEventRestartViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -156,13 +157,7 @@ namespace ShutdownPC.Controls
 			setLabelTimer();
 		}
 
-		private void minutesMinus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += -60;
-			methodForModificationControler();
-		}
-
-		private void minutesPlus_Change(object sender, EventArgs args)
+		private void onMinutesPlus_Change(object sender, EventArgs args)
 		{
 			_endAfterSeconds += 60;
 			methodForModificationControler();
@@ -171,6 +166,34 @@ namespace ShutdownPC.Controls
 		private void onEventRestartViewPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			EventRestartView.GetEvent<TickEvent>().Subscribe(refresh_Tick);
+		}
+
+		private void onHoursMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -3600;
+			methodForModificationControler();
+		}
+
+		private void onHoursPlus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += 3600;
+			methodForModificationControler();
+		}
+		private void onMinutesMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -60;
+			methodForModificationControler();
+		}
+		private void onSecondsMinus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += -1;
+			methodForModificationControler();
+		}
+
+		private void onSecondsPlus_Change(object sender, EventArgs args)
+		{
+			_endAfterSeconds += +1;
+			methodForModificationControler();
 		}
 
 		private void onSetTimeValuePropertyChanged(DependencyPropertyChangedEventArgs e)
@@ -211,18 +234,6 @@ namespace ShutdownPC.Controls
 			_endAfterSeconds = getDiffTime();
 			setLabelTimer();
 		}
-		private void secondsMinus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += -1;
-			methodForModificationControler();
-		}
-
-		private void secondsPlus_Change(object sender, EventArgs args)
-		{
-			_endAfterSeconds += +1;
-			methodForModificationControler();
-		}
-
 		private void setAllButtons()
 		{
 			var time = TimeSpan.FromSeconds(_endAfterSeconds);

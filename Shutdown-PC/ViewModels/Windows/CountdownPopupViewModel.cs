@@ -25,8 +25,16 @@ namespace ShutdownPC.ViewModels.Windows
 			mainViewModel.SetTimeValueChange += new EventHandler(updateTime_SetTimeValue);
 		}
 
+		/// <summary>
+		/// Převede číselnou hodnotu na řetězec s předponou nuly, pokud je hodnota menší než 10.
+		/// </summary>
+		/// <param name="value">Číselná hodnota k převodu.</param>
+		/// <returns>Řetězec reprezentující číselnou hodnotu s předponou nuly, pokud je hodnota menší než 10.</returns>
 		private string convert(int value) => (value < 10 ? "0" : "") + value.ToString();
 
+		/// <summary>
+		/// Aktualizuje zbývající čas do konce odpočtu.
+		/// </summary>
 		private void updateTime_SetTimeValue(object sender, EventArgs args)
 		{
 			TimeSpan timeToEnd = _setTimeValue - DateTime.Now;

@@ -32,6 +32,10 @@ namespace ShutdownPC.Controls
 			set => SetValue(ClockTimeProperty, value);
 		}
 
+		/// <summary>
+		/// Metoda, která se spustí při každém tiknutí časovače.
+		/// Aktualizuje čas a datum na uživatelském rozhraní.
+		/// </summary>
 		private void timer_Click(object sender, EventArgs e)
 		{
 			try

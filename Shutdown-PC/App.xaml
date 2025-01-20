@@ -35,9 +35,9 @@
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
                                         <Grid
-                                            MouseDown="Grid_MouseDown"
-                                            MouseMove="Grid_MouseMove"
-                                            MouseUp="Grid_MouseUp">
+                                            MouseDown="grid_MouseDown"
+                                            MouseMove="grid_MouseMove"
+                                            MouseUp="grid_MouseUp">
                                             <Image
                                                 Width="30"
                                                 Height="30"
@@ -77,6 +77,30 @@
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SplasScreenWindow" TargetType="Window">
+                <Setter Property="Focusable" Value="True" />
+                <Setter Property="SizeToContent" Value="WidthAndHeight" />
+                <Setter Property="WindowStyle" Value="None" />
+                <Setter Property="ResizeMode" Value="CanResizeWithGrip" />
+                <Setter Property="AllowsTransparency" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Height" Value="250" />
+                <Setter Property="Width" Value="400" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Window">
+                            <Border
+                                Padding="4"
+                                Background="{StaticResource BorderWindow}"
+                                CornerRadius="30,30,30,30">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
                             </Border>
                         </ControlTemplate>
                     </Setter.Value>

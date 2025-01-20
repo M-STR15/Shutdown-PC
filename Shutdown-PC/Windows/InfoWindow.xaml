@@ -17,7 +17,7 @@
         <Grid>
             <ScrollViewer>
                 <TextBlock TextWrapping="Wrap">
-                     <Run FontWeight="Bold" Text="Název SW:" />
+                    <Run FontWeight="Bold" Text="Název SW:" />
                     <Run Text="Shutdown-PC" />
                     <LineBreak />
                     <Run FontWeight="Bold" Text="Autor:" />
