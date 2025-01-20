@@ -22,7 +22,7 @@
 		<Version>1.1.0</Version>
 	</PropertyGroup>
 
-	<Target Name="RunPowerShellScript" BeforeTargets="Build">
+	<Target Name="RunPowerShellScript" BeforeTargets="BeforeBuild">
 		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(GenerateBuildInfoScript)&quot;" />
 		<Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(RemoveLogsFolderScript)&quot;" />
 	</Target>
