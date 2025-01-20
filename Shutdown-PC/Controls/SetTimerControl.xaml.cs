@@ -53,7 +53,7 @@ namespace ShutdownPC.Controls
 			HoursUC.btnPlus.Click += onHoursPlus_Change;
 			HoursUC.btnMinus.Click += onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click += onCinutesPlus_Change;
+			MinutesUC.btnPlus.Click += onMinutesPlus_Change;
 			MinutesUC.btnMinus.Click += onMinutesMinus_Change;
 
 			SecondsUC.btnPlus.Click += onSecondsPlus_Change;
@@ -87,12 +87,15 @@ namespace ShutdownPC.Controls
 			set => SetValue(TypeModificationProperty, value);
 		}
 
+		/// <summary>
+		/// Uvolní zdroje a odhlásí události pro tlačítka.
+		/// </summary>
 		public void Dispose()
 		{
 			HoursUC.btnPlus.Click -= onHoursPlus_Change;
 			HoursUC.btnMinus.Click -= onHoursMinus_Change;
 
-			MinutesUC.btnPlus.Click -= onCinutesPlus_Change;
+			MinutesUC.btnPlus.Click -= onMinutesPlus_Change;
 			MinutesUC.btnMinus.Click -= onMinutesMinus_Change;
 
 			SecondsUC.btnPlus.Click -= onSecondsPlus_Change;
@@ -142,7 +145,7 @@ namespace ShutdownPC.Controls
 			setLabelTimer();
 		}
 
-		private void onCinutesPlus_Change(object sender, EventArgs args)
+		private void onMinutesPlus_Change(object sender, EventArgs args)
 		{
 			_endAfterSeconds += 60;
 			methodForModificationControler();

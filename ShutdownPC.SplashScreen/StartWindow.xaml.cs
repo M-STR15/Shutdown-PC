@@ -53,6 +53,11 @@ namespace ShutdownPC.SplashScreen
 			txtInfo.Text = textLastActivit;
 		}
 
+		/// <summary>
+		/// Metoda, která se spustí při každém tiknutí časovače.
+		/// Zkontroluje, zda uplynul minimální čas pro zobrazení okna.
+		/// Pokud ano, zastaví časovač, zavře okno a vyvolá obslužnou rutinu zavření okna.
+		/// </summary>
 		private void onControlTime_Tick(object? sender, EventArgs e)
 		{
 			var duration = Convert.ToInt32((DateTime.Now - _dateTimeStart).TotalSeconds);
@@ -64,6 +69,9 @@ namespace ShutdownPC.SplashScreen
 			}
 		}
 
+		/// <summary>
+		/// Vyvolá obslužnou rutinu zavření okna.
+		/// </summary>
 		private void onCloseWindowHandler()
 		{
 			CloseWindowHandler.Invoke(_timer, EventArgs.Empty);

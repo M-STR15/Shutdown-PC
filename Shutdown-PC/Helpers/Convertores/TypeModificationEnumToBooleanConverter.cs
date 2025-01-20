@@ -10,6 +10,10 @@ namespace ShutdownPC.Helpers.Convertores
 	/// </summary>
 	public class TypeModificationEnumToBooleanConverter : IValueConverter
 	{
+		/// <summary>
+		/// Metoda Convert porovnává hodnotu typu eTypeModification s parametrem.
+		/// Pokud jsou stejné, vrátí True, jinak False.
+		/// </summary>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			return (eTypeModification)value == (eTypeModification)parameter;

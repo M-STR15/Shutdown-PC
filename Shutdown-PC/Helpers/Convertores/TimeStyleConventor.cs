@@ -10,6 +10,9 @@ namespace ShutdownPC.Helpers.Convertores
 	/// </summary>
 	public class TimeStyleConventor : IValueConverter
 	{
+		/// <summary>
+		/// Metoda převádí číselnou hodnotu na textový řetězec, přidává nulu před jednociferné číslo.
+		/// </summary>
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
 			if (value is int)

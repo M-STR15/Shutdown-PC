@@ -63,9 +63,9 @@ namespace ShutdownPC.Controls
 			set => SetValue(VisibilityButtonsProperty, value);
 		}
 
-		public bool canMinus() => TimeValue > 0;
+		private bool canMinus() => TimeValue > 0;
 
-		public bool canPlus() => TimeValue < MaxTimeValue;
+		private bool canPlus() => TimeValue < MaxTimeValue;
 
 		private static void onTimeValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{

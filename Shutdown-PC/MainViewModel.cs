@@ -167,6 +167,11 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro odhlášení uživatele.
+		/// Získá oprávnění pro vypnutí systému a poté provede odhlášení uživatele.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void logOff()
 		{
 			try
@@ -179,6 +184,12 @@ namespace ShutdownPC
 				_log.WriteError(Guid.Parse("35c8a818-4254-4147-aa5d-24ca720284d1"), "Chyba při odhlášení uživatele.");
 			}
 		}
+		/// <summary>
+		/// Metoda, která se spustí při každém tiknutí odpočítávacího časovače.
+		/// Zkontroluje, zda nastavený čas vypršel, a pokud ano, zastaví časovač a spustí metodu po vypršení časovače.
+		/// Pokud čas nevypršel, aktualizuje zbývající čas v sekundách.
+		/// Publikuje událost TickEvent.
+		/// </summary>
 		private void onCountdown_Tick(object sender, EventArgs args)
 		{
 			try
@@ -204,8 +215,16 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Metoda vyvolá událost změny hodnoty času.
+		/// </summary>
 		private void onSetTimeValueChange() => SetTimeValueChange?.Invoke(this, new EventArgs());
 
+		/// <summary>
+		/// Metoda pro restartování počítače.
+		/// Získá oprávnění pro vypnutí systému a poté provede restart.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void restart()
 		{
 			try
@@ -219,6 +238,12 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Nastaví časovač na základě aktuálního stavu.
+		/// Pokud je stav 'Run', spustí časovač po zpoždění.
+		/// Pokud je stav jiný, zastaví časovač.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private async void setTimer()
 		{
 			try
@@ -253,6 +278,11 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Zobrazí okno s informacemi.
+		/// Pokud se okno nepodaří otevřít, zapíše varování do logu.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void showInfo()
 		{
 			try
@@ -267,6 +297,11 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Zobrazí okno s nastavením aplikace.
+		/// Pokud se okno nepodaří otevřít, zapíše varování do logu.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void showSetting()
 		{
 			try
@@ -281,6 +316,11 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro vypnutí počítače.
+		/// Získá oprávnění pro vypnutí systému a poté provede vypnutí.
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void shutdown()
 		{
 			try
@@ -294,11 +334,20 @@ namespace ShutdownPC
 			}
 		}
 
+		/// <summary>
+		/// Metoda pro přepnutí počítače do režimu spánku.
+		/// !!!METHODA JE VE vývoji
+		/// </summary>
 		private void sleepMode()
 		{
 			//pcAction.SleepMode();
 		}
 
+		/// <summary>
+		/// Metoda, která se spustí po vypršení časovače.
+		/// Na základě aktuálního stavu provede příslušnou akci (vypnutí, restart, odhlášení uživatele nebo režim spánku).
+		/// V případě chyby zapíše chybovou zprávu do logu.
+		/// </summary>
 		private void startMethodAfterTheTimerExpires()
 		{
 			try
